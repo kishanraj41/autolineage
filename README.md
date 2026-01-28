@@ -90,4 +90,4 @@ MIT License
 
 ## 🙋 Author
 
-Built by [Your Name] as part of PhD research on ML reproducibility.
+Built by Kishan Raj VG as part of PhD research on ML reproducibility.
