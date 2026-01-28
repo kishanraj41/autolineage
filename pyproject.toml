@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autolineage"
+version = "0.1.0"
+description = "Automatic ML data lineage tracking"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Kishan Raj", email = "kishanraj41@gmail.com"}
+]
+keywords = ["machine-learning", "mlops", "data-lineage", "reproducibility"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "pandas>=1.3.0",
+    "numpy>=1.20.0",
+    "networkx>=2.6.0",
+    "matplotlib>=3.4.0",
+    "click>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+]
+ui = [
+    "streamlit>=1.20.0",
+    "plotly>=5.10.0",
+]
+
+[project.scripts]
+lineage = "autolineage.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/kishanraj41/autolineage"
+Documentation = "https://github.com/kishanraj41/autolineage#readme"
+Repository = "https://github.com/kishanraj41/autolineage"
