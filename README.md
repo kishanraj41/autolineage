@@ -42,6 +42,44 @@ tracker.start_run()
 
 tracker.end_run()
 ```
+## 📓 Jupyter Notebook Support
+
+AutoLineage works seamlessly in Jupyter notebooks with magic commands:
+```python
+# Load the extension
+%load_ext autolineage
+
+# Start tracking
+%lineage_start
+
+# Your normal data science code
+import pandas as pd
+df = pd.read_csv('data.csv')
+df_clean = df.dropna()
+df_clean.to_csv('clean.csv')
+
+# View lineage
+%lineage_summary
+%lineage_show  # Interactive graph in notebook!
+
+# Generate compliance report
+%lineage_report
+
+# Stop tracking
+%lineage_stop
+```
+
+### Cell Magic
+
+Track specific cells:
+```python
+%%lineage_track
+# Everything in this cell is tracked
+df = pd.read_csv('input.csv')
+df.to_csv('output.csv')
+```
+
+See `examples/jupyter_demo.ipynb` for a complete demo!
 
 ## 📊 Visualizations
 
