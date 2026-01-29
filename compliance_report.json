@@ -1,0 +1,64 @@
+{
+  "report_type": "eu_ai_act_compliance",
+  "generated_at": "2026-01-28T23:27:29.074201",
+  "regulation": "EU AI Act (Regulation 2024/1689)",
+  "article": "Article 10 - Data and Data Governance",
+  "compliance_status": "compliant",
+  "summary": {
+    "total_datasets": 3,
+    "total_operations": 2,
+    "total_lineage_edges": 2
+  },
+  "datasets": [
+    {
+      "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\training_data_raw.csv",
+      "filename": "training_data_raw.csv",
+      "hash": "7ae9e029a73ac10a1ed1f05b6af746bdca5bf0ad78d8ac85ee0c80b18271aa0f",
+      "size": 68,
+      "format": "csv",
+      "created_at": "2026-01-29 05:25:58"
+    },
+    {
+      "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\training_data_clean.csv",
+      "filename": "training_data_clean.csv",
+      "hash": "7ae9e029a73ac10a1ed1f05b6af746bdca5bf0ad78d8ac85ee0c80b18271aa0f",
+      "size": 68,
+      "format": "csv",
+      "created_at": "2026-01-29 05:25:58"
+    },
+    {
+      "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\training_data_final.csv",
+      "filename": "training_data_final.csv",
+      "hash": "7b12236b5de6f5dfa7ccdc3c1d6943325e8dfb0006338455e25b76c365cc87c0",
+      "size": 95,
+      "format": "csv",
+      "created_at": "2026-01-29 05:25:58"
+    }
+  ],
+  "operations": [
+    {
+      "type": "transform",
+      "function": "<module>",
+      "code": "df_clean.to_csv('training_data_clean.csv', index=False)",
+      "executed_at": "2026-01-29 05:25:58"
+    },
+    {
+      "type": "transform",
+      "function": "<module>",
+      "code": "df_train.to_csv('training_data_final.csv', index=False)",
+      "executed_at": "2026-01-29 05:25:58"
+    }
+  ],
+  "lineage": [
+    {
+      "source": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\training_data_raw.csv",
+      "target": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\training_data_clean.csv",
+      "operation": "<module>"
+    },
+    {
+      "source": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\training_data_clean.csv",
+      "target": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\training_data_final.csv",
+      "operation": "<module>"
+    }
+  ]
+}

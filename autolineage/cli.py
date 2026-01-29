@@ -200,7 +200,50 @@ def summary(db):
     
     database.close()
 
-
+@cli.command()
+@click.option('--db', default='lineage.db', help='Database path')
+@click.option('--format', type=click.Choice(['markdown', 'json', 'both']), default='markdown', help='Report format')
+@click.option('--output', '-o', default=None, help='Output file path')
+def report(db, format, output):
+    """
+    Generate EU AI Act compliance report.
+    
+    Example:
+        lineage report --format markdown
+        lineage report --format json --output compliance.json
+        lineage report --format both
+    """
+    if not os.path.exists(db):
+        click.echo(f"❌ Database not found: {db}", err=True)
+        sys.exit(1)
+    
+    from .database import LineageDatabase
+    from .reporter import ComplianceReporter
+    
+    database = LineageDatabase(db)
+    reporter = ComplianceReporter(database)
+    
+    click.echo(f"\n{'='*60}")
+    click.echo("GENERATING COMPLIANCE REPORT")
+    click.echo(f"{'='*60}\n")
+    
+    if format in ['markdown', 'both']:
+        md_path = output or 'compliance_report.md'
+        reporter.save_markdown(md_path)
+        click.echo(f"✓ Markdown report: {md_path}")
+    
+    if format in ['json', 'both']:
+        json_path = output or 'compliance_report.json'
+        if format == 'both' and not output:
+            json_path = 'compliance_report.json'
+        reporter.save_json(json_path)
+        click.echo(f"✓ JSON report: {json_path}")
+    
+    click.echo(f"\n{'='*60}")
+    click.echo("✅ Compliance report generated")
+    click.echo(f"{'='*60}\n")
+    
+    database.close()
 @cli.command()
 @click.option('--db', default='lineage.db', help='Database path')
 def clear(db):
