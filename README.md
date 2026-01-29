@@ -5,6 +5,64 @@
 Track your data lineage automatically - from raw data to trained models - without manual logging.
 
 ## 🚀 Quick Start
+
+## 🎯 Three Ways to Use AutoLineage
+
+### 1. Automatic Tracking (Easiest)
+
+Just import and everything is tracked automatically:
+```python
+import autolineage.auto
+import pandas as pd
+
+df = pd.read_csv('data.csv')  # Tracked!
+df_clean = df.dropna()
+df_clean.to_csv('clean.csv')  # Tracked!
+```
+
+### 2. CLI Tracking
+
+Track any Python script:
+```bash
+lineage track my_pipeline.py
+lineage show --output graph.png
+lineage summary
+```
+
+### 3. Manual API
+
+Fine-grained control:
+```python
+from autolineage import DatasetTracker
+
+tracker = DatasetTracker()
+tracker.start_run()
+
+# Your code here...
+
+tracker.end_run()
+```
+
+## 📊 Visualizations
+
+AutoLineage generates beautiful lineage graphs:
+
+- **Static PNG** - High-resolution images for papers/reports
+- **Interactive HTML** - Explore your data flow in the browser
+```bash
+lineage show --format html --output graph.html
+```
+
+## 🚀 What's Tracked
+
+- ✅ pandas (read_csv, to_csv, read_parquet, etc.)
+- ✅ numpy (load, save, loadtxt, savetxt)
+- ✅ pickle (dump, load)
+- ✅ joblib (dump, load)
+- ✅ Automatic lineage relationships
+- ✅ File hashes for integrity
+- ✅ Timestamps and metadata
+
 ```bash
 pip install autolineage
 ```
