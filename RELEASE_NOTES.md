@@ -1,4 +1,4 @@
-# AutoLineage v0.1.0 🎉
+# AutoLineage v0.1.0 
 
 ## Automatic ML Data Lineage Tracking
 
@@ -10,14 +10,14 @@ AutoLineage automatically tracks your ML data lineage - from raw data to trained
 
 Just add `import autolineage.auto` to your code and everything is tracked automatically!
 
-### Key Features ✨
+### Key Features  
 
-- **🔄 Zero Manual Logging** - Automatic tracking via function hooking
-- **📊 Beautiful Visualizations** - Interactive HTML and static PNG graphs
-- **📋 EU AI Act Compliance** - One-command compliance report generation
-- **🪄 Jupyter Support** - Magic commands for notebooks
-- **⚡ CLI Interface** - Complete command-line tool
-- **🔐 Cryptographic Verification** - SHA-256 hashes for data integrity
+- **Zero Manual Logging** - Automatic tracking via function hooking
+- **Beautiful Visualizations** - Interactive HTML and static PNG graphs
+- **EU AI Act Compliance** - One-command compliance report generation
+- **Jupyter Support** - Magic commands for notebooks
+- **CLI Interface** - Complete command-line tool
+- **Cryptographic Verification** - SHA-256 hashes for data integrity
 
 ### Installation
 ```bash
@@ -33,7 +33,7 @@ df = pd.read_csv('data.csv')
 df_clean = df.dropna()
 df_clean.to_csv('clean.csv')
 
-# Lineage tracked automatically! 🎉
+# Lineage tracked automatically!
 ```
 
 ### What's Included
@@ -79,6 +79,6 @@ Found a bug? Have a feature request?
 
 ---
 
-**Thank you for trying AutoLineage!** ⭐
+**Thank you for trying AutoLineage!** 
 
 If you find it useful, please star the repository!

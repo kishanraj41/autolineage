@@ -76,7 +76,7 @@ def get_summary():
 
 
 # Auto-start tracking when module is imported
-print("🚀 AutoLineage: Starting automatic tracking...")
+print("AutoLineage: Starting automatic tracking...")
 start_tracking()
 
 # Register cleanup on exit

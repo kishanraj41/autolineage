@@ -1,4 +1,4 @@
-# AutoLineage 🔍
+# AutoLineage 
 
 **Automatic ML Data Lineage Tracking**
 
@@ -7,7 +7,7 @@ Track your data lineage automatically - from raw data to trained models - withou
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🚀 Quick Start
+## Quick Start
 ```bash
 pip install autolineage
 ```
@@ -20,20 +20,20 @@ df = pd.read_csv('data.csv')
 df_clean = df.dropna()
 df_clean.to_csv('clean.csv')
 
-# That's it! Lineage tracked automatically 🎉
+# That's it! Lineage tracked automatically 
 ```
 
-## ✨ Features
+## Features
 
-- **🔄 Zero Manual Logging** - Track lineage automatically with zero code changes
-- **📊 Visual Graphs** - Beautiful interactive and static lineage visualizations
-- **📋 EU AI Act Compliant** - Generate compliance reports instantly
-- **🪄 Jupyter Support** - Magic commands for notebooks
-- **⚡ Multi-Environment** - Works in Jupyter, Python scripts, CLI
-- **💾 Lightweight** - SQLite backend, no complex setup
-- **🔐 Cryptographic Verification** - SHA-256 hashes for data integrity
+- **Zero Manual Logging** - Track lineage automatically with zero code changes
+- **Visual Graphs** - Beautiful interactive and static lineage visualizations
+- **EU AI Act Compliant** - Generate compliance reports instantly
+- **Jupyter Support** - Magic commands for notebooks
+- **Multi-Environment** - Works in Jupyter, Python scripts, CLI
+- **Lightweight** - SQLite backend, no complex setup
+- **Cryptographic Verification** - SHA-256 hashes for data integrity
 
-## 🎯 Three Ways to Use
+## Three Ways to Use
 
 ### 1️⃣ Automatic (Recommended)
 ```python
@@ -61,7 +61,7 @@ lineage report
 %lineage_report
 ```
 
-## 📊 What Gets Tracked
+## What Gets Tracked
 
 AutoLineage automatically hooks into:
 
@@ -74,7 +74,7 @@ AutoLineage automatically hooks into:
 
 **Plus:** Automatic lineage relationships between files!
 
-## 🎨 Visualizations
+## Visualizations
 
 Generate beautiful lineage graphs:
 ```bash
@@ -91,7 +91,7 @@ Features:
 - Click to explore
 - Export for presentations
 
-## 📋 EU AI Act Compliance
+## EU AI Act Compliance
 
 Generate compliance reports with one command:
 ```bash
@@ -99,11 +99,11 @@ lineage report --format markdown
 ```
 
 Includes:
-- ✅ Complete data inventory with SHA-256 hashes
-- ✅ All transformation operations documented
-- ✅ Full lineage graph with verification
-- ✅ Reproducibility instructions
-- ✅ Regulatory compliance statement
+- Complete data inventory with SHA-256 hashes
+- All transformation operations documented
+- Full lineage graph with verification
+- Reproducibility instructions
+- Regulatory compliance statement
 
 Perfect for:
 - EU AI Act Article 10 requirements
@@ -111,7 +111,7 @@ Perfect for:
 - Research reproducibility
 - Team collaboration
 
-## 🔧 CLI Reference
+## CLI Reference
 ```bash
 lineage track SCRIPT      # Track a Python script
 lineage show              # Visualize lineage graph
@@ -122,7 +122,7 @@ lineage clear             # Delete database
 
 See [docs/cli.md](docs/cli.md) for complete reference.
 
-## 📓 Jupyter Notebook
+## Jupyter Notebook
 ```python
 %load_ext autolineage
 %lineage_start
@@ -138,14 +138,14 @@ df.to_csv('output.csv')
 
 See [examples/jupyter_demo.ipynb](examples/jupyter_demo.ipynb) for complete demo.
 
-## 📚 Documentation
+## Documentation
 
 - [QuickStart Guide](docs/quickstart.md) - Get started in 5 minutes
 - [CLI Reference](docs/cli.md) - Complete command-line guide
 - [Compliance Guide](docs/compliance.md) - EU AI Act reporting
 - [Examples](examples/) - Working code samples
 
-## 🎯 Use Cases
+## Use Cases
 
 ### Research Reproducibility
 Track every step from raw data to published results. Never wonder "which dataset did I use?" again.
@@ -159,7 +159,7 @@ Share complete data provenance with your team. Everyone knows exactly what trans
 ### Debugging
 Trace model issues back to data sources instantly. Full audit trail included.
 
-## 🏗️ Architecture
+## Architecture
 ```
 Raw Data → [Transformation 1] → Intermediate → [Transformation 2] → Model
    ↓              ↓                  ↓                ↓              ↓
@@ -171,7 +171,7 @@ Tracked    Logged & Hashed    Tracked     Logged & Hashed    Tracked
 - **Cryptographic Hashing** - SHA-256 for data integrity
 - **Graph Generation** - NetworkX for lineage DAG
 
-## 🤝 Contributing
+## Contributing
 
 This is a research project being developed for a PhD in AI.
 
@@ -181,34 +181,34 @@ Contributions welcome! Please:
 3. Add tests for new features
 4. Submit a pull request
 
-## 📄 License
+## License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
-## 🙋 Author
+## Author
 
 Built by Kishan as part of PhD research on ML reproducibility and data governance.
 
 - GitHub: [@yourusername](https://github.com/yourusername)
 - Email: your.email@example.com
 
-## 🌟 Star History
+## Star History
 
 If you find AutoLineage useful, please star the repository!
 
-## 📝 Citation
+## Citation
 
 If you use AutoLineage in your research, please cite:
 ```bibtex
 @software{autolineage2025,
-  author = {Your Name},
+  author = Kishan Raj Vandhavasi Goutham Kumar,
   title = {AutoLineage: Automatic ML Data Lineage Tracking},
   year = {2025},
   url = {https://github.com/yourusername/autolineage}
 }
 ```
 
-## 🔮 Roadmap
+## Roadmap
 
 - [x] Automatic pandas/numpy tracking
 - [x] Visual lineage graphs
@@ -222,7 +222,7 @@ If you use AutoLineage in your research, please cite:
 - [ ] Team collaboration features
 - [ ] Cloud storage support
 
-## ❓ FAQ
+## FAQ
 
 **Q: Does this slow down my code?**
 A: Minimal overhead - just file I/O tracking. Typically <1% performance impact.
