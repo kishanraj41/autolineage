@@ -1,6 +1,6 @@
 {
   "report_type": "eu_ai_act_compliance",
-  "generated_at": "2026-02-02T00:10:49.661634",
+  "generated_at": "2026-02-02T00:42:30.287949",
   "regulation": "EU AI Act (Regulation 2024/1689)",
   "article": "Article 10 - Data and Data Governance",
   "compliance_status": "compliant",
@@ -13,50 +13,50 @@
     {
       "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\final_raw_data.csv",
       "filename": "final_raw_data.csv",
-      "hash": "30fb62b9d1be33451672562720125d351b56e6b34ae38e0b859a8d20b8324883",
-      "size": 1976,
+      "hash": "aef2c79c4b038717f26b56f9a23871b3c02013e0100be0ef07904ce15ce5d801",
+      "size": 1974,
       "format": "csv",
-      "created_at": "2026-02-02 06:10:48"
+      "created_at": "2026-02-02 06:42:29"
     },
     {
       "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\final_clean_data.csv",
       "filename": "final_clean_data.csv",
-      "hash": "30fb62b9d1be33451672562720125d351b56e6b34ae38e0b859a8d20b8324883",
-      "size": 1976,
+      "hash": "aef2c79c4b038717f26b56f9a23871b3c02013e0100be0ef07904ce15ce5d801",
+      "size": 1974,
       "format": "csv",
-      "created_at": "2026-02-02 06:10:48"
+      "created_at": "2026-02-02 06:42:29"
     },
     {
       "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\final_features.csv",
       "filename": "final_features.csv",
-      "hash": "ea0e1e0e1135bf7a6027c6a0a044b8f253828b1ccb60469012ead89aa8c4b919",
-      "size": 5532,
+      "hash": "570a3aae084d97a86a5c5a9d36fd8e32ba89701bd2a9be86c2c319eef12169df",
+      "size": 5585,
       "format": "csv",
-      "created_at": "2026-02-02 06:10:48"
+      "created_at": "2026-02-02 06:42:29"
     },
     {
       "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\final_train.csv",
       "filename": "final_train.csv",
-      "hash": "5a1426e75ead307168983020a3571934277dee063ec79e31b76c80f8ebe180bb",
-      "size": 4394,
+      "hash": "49cf6077d518f371a7556e61daa79c675c98823841bd81543bc485d87c587be8",
+      "size": 4442,
       "format": "csv",
-      "created_at": "2026-02-02 06:10:48"
+      "created_at": "2026-02-02 06:42:29"
     },
     {
       "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\final_test.csv",
       "filename": "final_test.csv",
-      "hash": "0bd54c19c1bf5be3f0ef8377bc62235336e7a9ab00cd9d1177c8dce52dc9ac6b",
-      "size": 1137,
+      "hash": "fccac623e8d0e94f2089ee657341ed4c48db3083aadbe7b226857d1a943f274f",
+      "size": 1160,
       "format": "csv",
-      "created_at": "2026-02-02 06:10:48"
+      "created_at": "2026-02-02 06:42:29"
     },
     {
       "filepath": "C:\\Users\\kisha\\OneDrive\\Documents\\AI\\autolineage\\final_statistics.csv",
       "filename": "final_statistics.csv",
-      "hash": "3d6491e573890e0900d44798a4e25a42d0ee6af0e8ea99b09294c916f5f21b66",
-      "size": 680,
+      "hash": "d0076877153f448f78270e4bee76d75c66dacfc73be1d9c64e672e784b650e2b",
+      "size": 682,
       "format": "csv",
-      "created_at": "2026-02-02 06:10:48"
+      "created_at": "2026-02-02 06:42:29"
     }
   ],
   "operations": [
@@ -64,19 +64,19 @@
       "type": "transform",
       "function": "<module>",
       "code": "df_clean.to_csv('final_clean_data.csv', index=False)",
-      "executed_at": "2026-02-02 06:10:48"
+      "executed_at": "2026-02-02 06:42:29"
     },
     {
       "type": "transform",
       "function": "<module>",
       "code": "df_features.to_csv('final_features.csv', index=False)",
-      "executed_at": "2026-02-02 06:10:48"
+      "executed_at": "2026-02-02 06:42:29"
     },
     {
       "type": "transform",
       "function": "<module>",
       "code": "df_train.to_csv('final_train.csv', index=False)",
-      "executed_at": "2026-02-02 06:10:48"
+      "executed_at": "2026-02-02 06:42:29"
     }
   ],
   "lineage": [

@@ -1,7 +1,7 @@
 # ML Model Data Lineage Report
 
 **Report Type:** EU AI Act Article 10 Compliance  
-**Generated:** 2026-02-02 00:10:49 UTC  
+**Generated:** 2026-02-02 00:42:30 UTC  
 **Standard:** EU Artificial Intelligence Act (Regulation 2024/1689)  
 **Article:** Article 10 - Data and Data Governance
 
@@ -39,8 +39,8 @@ for integrity verification.
 - **File Path:** `C:\Users\kisha\OneDrive\Documents\AI\autolineage\final_raw_data.csv`
 - **Format:** CSV
 - **Size:** 1.93 KB
-- **SHA-256 Hash:** `30fb62b9d1be33451672562720125d351b56e6b34ae38e0b859a8d20b8324883`
-- **Created:** 2026-02-02 06:10:48
+- **SHA-256 Hash:** `aef2c79c4b038717f26b56f9a23871b3c02013e0100be0ef07904ce15ce5d801`
+- **Created:** 2026-02-02 06:42:29
 - **Verification Status:** ✅ Verified
 
 **Data Quality Assurance:**
@@ -53,8 +53,8 @@ for integrity verification.
 - **File Path:** `C:\Users\kisha\OneDrive\Documents\AI\autolineage\final_clean_data.csv`
 - **Format:** CSV
 - **Size:** 1.93 KB
-- **SHA-256 Hash:** `30fb62b9d1be33451672562720125d351b56e6b34ae38e0b859a8d20b8324883`
-- **Created:** 2026-02-02 06:10:48
+- **SHA-256 Hash:** `aef2c79c4b038717f26b56f9a23871b3c02013e0100be0ef07904ce15ce5d801`
+- **Created:** 2026-02-02 06:42:29
 - **Verification Status:** ✅ Verified
 
 **Data Quality Assurance:**
@@ -66,9 +66,9 @@ for integrity verification.
 
 - **File Path:** `C:\Users\kisha\OneDrive\Documents\AI\autolineage\final_features.csv`
 - **Format:** CSV
-- **Size:** 5.40 KB
-- **SHA-256 Hash:** `ea0e1e0e1135bf7a6027c6a0a044b8f253828b1ccb60469012ead89aa8c4b919`
-- **Created:** 2026-02-02 06:10:48
+- **Size:** 5.45 KB
+- **SHA-256 Hash:** `570a3aae084d97a86a5c5a9d36fd8e32ba89701bd2a9be86c2c319eef12169df`
+- **Created:** 2026-02-02 06:42:29
 - **Verification Status:** ✅ Verified
 
 **Data Quality Assurance:**
@@ -80,9 +80,9 @@ for integrity verification.
 
 - **File Path:** `C:\Users\kisha\OneDrive\Documents\AI\autolineage\final_train.csv`
 - **Format:** CSV
-- **Size:** 4.29 KB
-- **SHA-256 Hash:** `5a1426e75ead307168983020a3571934277dee063ec79e31b76c80f8ebe180bb`
-- **Created:** 2026-02-02 06:10:48
+- **Size:** 4.34 KB
+- **SHA-256 Hash:** `49cf6077d518f371a7556e61daa79c675c98823841bd81543bc485d87c587be8`
+- **Created:** 2026-02-02 06:42:29
 - **Verification Status:** ✅ Verified
 
 **Data Quality Assurance:**
@@ -94,9 +94,9 @@ for integrity verification.
 
 - **File Path:** `C:\Users\kisha\OneDrive\Documents\AI\autolineage\final_test.csv`
 - **Format:** CSV
-- **Size:** 1.11 KB
-- **SHA-256 Hash:** `0bd54c19c1bf5be3f0ef8377bc62235336e7a9ab00cd9d1177c8dce52dc9ac6b`
-- **Created:** 2026-02-02 06:10:48
+- **Size:** 1.13 KB
+- **SHA-256 Hash:** `fccac623e8d0e94f2089ee657341ed4c48db3083aadbe7b226857d1a943f274f`
+- **Created:** 2026-02-02 06:42:29
 - **Verification Status:** ✅ Verified
 
 **Data Quality Assurance:**
@@ -108,9 +108,9 @@ for integrity verification.
 
 - **File Path:** `C:\Users\kisha\OneDrive\Documents\AI\autolineage\final_statistics.csv`
 - **Format:** CSV
-- **Size:** 680.00 B
-- **SHA-256 Hash:** `3d6491e573890e0900d44798a4e25a42d0ee6af0e8ea99b09294c916f5f21b66`
-- **Created:** 2026-02-02 06:10:48
+- **Size:** 682.00 B
+- **SHA-256 Hash:** `d0076877153f448f78270e4bee76d75c66dacfc73be1d9c64e672e784b650e2b`
+- **Created:** 2026-02-02 06:42:29
 - **Verification Status:** ✅ Verified
 
 **Data Quality Assurance:**
@@ -129,7 +129,7 @@ All data transformations are logged with complete audit trail.
 #### Transformation 1: <module>
 
 - **Type:** transform
-- **Executed:** 2026-02-02 06:10:48
+- **Executed:** 2026-02-02 06:42:29
 - **Code Reference:**
 ```python
   df_clean.to_csv('final_clean_data.csv', index=False)
@@ -144,7 +144,7 @@ All data transformations are logged with complete audit trail.
 #### Transformation 2: <module>
 
 - **Type:** transform
-- **Executed:** 2026-02-02 06:10:48
+- **Executed:** 2026-02-02 06:42:29
 - **Code Reference:**
 ```python
   df_features.to_csv('final_features.csv', index=False)
@@ -159,7 +159,7 @@ All data transformations are logged with complete audit trail.
 #### Transformation 3: <module>
 
 - **Type:** transform
-- **Executed:** 2026-02-02 06:10:48
+- **Executed:** 2026-02-02 06:42:29
 - **Code Reference:**
 ```python
   df_train.to_csv('final_train.csv', index=False)
