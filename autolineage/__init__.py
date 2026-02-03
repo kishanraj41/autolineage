@@ -6,8 +6,8 @@ without manual logging.
 """
 
 __version__ = "0.1.0"
-__author__ = "Your Name"
-__email__ = "your.email@example.com"
+__author__ = "Kishan Raj"
+__email__ = "kishanraj41@gmail.com"
 
 # Import main classes for easy access
 from .database import LineageDatabase
