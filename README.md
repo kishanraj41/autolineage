@@ -189,8 +189,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 Built by Kishan as part of PhD research on ML reproducibility and data governance.
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@kishanraj41](https://github.com/yourusername)
+- Email: kishanraj41@gmail.com
 
 ## Star History
 
@@ -204,7 +204,7 @@ If you use AutoLineage in your research, please cite:
   author = Kishan Raj Vandhavasi Goutham Kumar,
   title = {AutoLineage: Automatic ML Data Lineage Tracking},
   year = {2025},
-  url = {https://github.com/yourusername/autolineage}
+  url = {https://github.com/kishanraj41/autolineage}
 }
 ```
 
