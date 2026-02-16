@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Kishan", email = "your.email@example.com"}
+    {name = "Kishan Raj", email = "kishanraj41@gmail.com"}
 ]
 keywords = [
     "machine-learning",
@@ -72,11 +72,11 @@ all = [
 lineage = "autolineage.cli:cli"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/autolineage"
-Documentation = "https://github.com/yourusername/autolineage#readme"
-Repository = "https://github.com/yourusername/autolineage"
-Issues = "https://github.com/yourusername/autolineage/issues"
-Changelog = "https://github.com/yourusername/autolineage/releases"
+Homepage = "https://github.com/kishanraj41/autolineage"
+Documentation = "https://github.com/kishanraj41/autolineage#readme"
+Repository = "https://github.com/kishanraj41/autolineage"
+Issues = "https://github.com/kishanraj41/autolineage/issues"
+Changelog = "https://github.com/kishanraj41/autolineage/releases"
 
 [tool.setuptools.packages.find]
 where = ["."]

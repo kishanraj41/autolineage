@@ -16,34 +16,62 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # Virtual environment
 venv/
 env/
 ENV/
+.venv/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
-# Database
+# Database (generated at runtime)
 *.db
 *.sqlite
 *.sqlite3
 
 # OS
 .DS_Store
+.DS_Store?
 Thumbs.db
+ehthumbs.db
+._*
 
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
+.nox/
 
-# Documentation
+# Documentation build
 docs/_build/
+site/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated output files (never commit these)
+final_*.csv
+final_*.json
+final_*.md
+final_*.html
+final_*.png
+compliance_report.*
+*.log
+
+# PowerShell test scripts (dev-only)
+*.ps1
+
+# Cleanup script (don't ship)
+cleanup.sh
