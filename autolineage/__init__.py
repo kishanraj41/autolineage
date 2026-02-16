@@ -98,4 +98,3 @@ def unload_ipython_extension(ipython):
     """Unload Jupyter magic commands."""
     from .magic import unload_ipython_extension as unload_magic
     unload_magic(ipython)
->>>>>>> 53c16f9272f4568ceaaaf0de59e66618ffdc9ee4

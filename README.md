@@ -189,11 +189,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 Built by Kishan as part of PhD research on ML reproducibility and data governance.
 
-<<<<<<< HEAD
 - GitHub: [@kishanraj41](https://github.com/kishanraj41)
-=======
-- GitHub: [@kishanraj41](https://github.com/yourusername)
->>>>>>> 53c16f9272f4568ceaaaf0de59e66618ffdc9ee4
+
 - Email: kishanraj41@gmail.com
 
 ## Star History
