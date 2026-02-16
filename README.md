@@ -242,7 +242,7 @@ A: AutoLineage focuses on automatic data lineage (zero manual logging), while ML
 
 ---
 
-**Made with ❤️ for the ML community**
+**Made for the ML community**
 ```
 
 **Save:** `Ctrl+S`
