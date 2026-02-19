@@ -75,6 +75,10 @@ def hook_pandas():
         if _tracker and isinstance(filepath_or_buffer, str):
             if os.path.exists(filepath_or_buffer):
                 _tracker.track_file(filepath_or_buffer, 'read')
+                # Register with DataFrame-level tracker
+                from .df_tracker import get_df_tracker
+                abs_path = os.path.abspath(filepath_or_buffer)
+                get_df_tracker().register_df(result, source="read_csv", filepath=abs_path)
         
         return result
     
@@ -86,6 +90,8 @@ def hook_pandas():
         if _tracker and isinstance(path, str):
             if os.path.exists(path):
                 _tracker.track_file(path, 'read')
+                from .df_tracker import get_df_tracker
+                get_df_tracker().register_df(result, source="read_parquet", filepath=os.path.abspath(path))
         
         return result
     
@@ -97,6 +103,8 @@ def hook_pandas():
         if _tracker and isinstance(path_or_buf, str):
             if os.path.exists(path_or_buf):
                 _tracker.track_file(path_or_buf, 'read')
+                from .df_tracker import get_df_tracker
+                get_df_tracker().register_df(result, source="read_json", filepath=os.path.abspath(path_or_buf))
         
         return result
     
@@ -108,6 +116,8 @@ def hook_pandas():
         if _tracker and isinstance(io, str):
             if os.path.exists(io):
                 _tracker.track_file(io, 'read')
+                from .df_tracker import get_df_tracker
+                get_df_tracker().register_df(result, source="read_excel", filepath=os.path.abspath(io))
         
         return result
     
@@ -119,6 +129,9 @@ def hook_pandas():
         if _tracker and isinstance(filepath_or_buffer, str):
             if os.path.exists(filepath_or_buffer):
                 _tracker.track_file(filepath_or_buffer, 'read')
+                from .df_tracker import get_df_tracker
+                if isinstance(result, pd.DataFrame):
+                    get_df_tracker().register_df(result, source="read_pickle", filepath=os.path.abspath(filepath_or_buffer))
         
         return result
     
@@ -133,6 +146,12 @@ def hook_pandas():
         # Track if tracker is available and path is a string
         if _tracker and path_or_buf and isinstance(path_or_buf, str):
             _tracker.track_file(path_or_buf, 'write')
+            # Link DataFrame lineage to file output
+            from .df_tracker import get_df_tracker
+            dt = get_df_tracker()
+            lid = dt.get_lineage_id(self)
+            if lid:
+                dt._file_to_node[os.path.abspath(path_or_buf)] = lid
         
         return result
     
@@ -369,6 +388,11 @@ def enable_hooks(tracker=None):
     hook_sklearn()
     hook_pickle()
     
+    # Install in-memory transformation hooks
+    from .transform_hooks import install_transform_hooks
+    n_hooks = install_transform_hooks()
+    print(f"✓ DataFrame transform hooks installed ({n_hooks} methods)")
+    
     print("="*60)
     print("✅ All hooks enabled! Tracking is now automatic.")
     print("="*60 + "\n")
@@ -424,6 +448,14 @@ def disable_hooks():
         pickle.dump = _original_functions['pickle.dump']
         pickle.load = _original_functions['pickle.load']
         print("✓ Pickle hooks removed")
+    
+    # Restore transform hooks
+    try:
+        from .transform_hooks import uninstall_transform_hooks
+        uninstall_transform_hooks()
+        print("✓ Transform hooks removed")
+    except Exception:
+        pass
     
     print("="*60)
     print("✅ All hooks disabled")
