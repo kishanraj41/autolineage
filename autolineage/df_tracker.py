@@ -80,8 +80,8 @@ class DataFrameLineageTracker:
             'filepath': filepath,
             'shape': tuple(df.shape),
             'columns': list(df.columns) if hasattr(df, 'columns') else [],
-            'dtypes': {str(k): str(v) for k, v in df.dtypes.items()} if hasattr(df, 'dtypes') else {},
-            'memory_bytes': df.memory_usage(deep=True).sum() if hasattr(df, 'memory_usage') else 0,
+            'dtypes': None,  # Populated lazily on demand to avoid overhead
+            'memory_bytes': df.memory_usage(index=True).sum() if hasattr(df, 'memory_usage') else 0,
             'content_hash': self._hash_df(df),
             'created_at': datetime.now().isoformat(),
         }
@@ -222,22 +222,18 @@ class DataFrameLineageTracker:
         }
 
     def _hash_df(self, df) -> str:
-        """Compute a fast content hash of a DataFrame."""
+        """Compute a fast fingerprint of a DataFrame (not cryptographic, just identity)."""
         try:
-            # Use pandas hash for speed on large DataFrames
-            import pandas as pd
-            h = hashlib.sha256()
-            # Hash shape
-            h.update(str(df.shape).encode())
-            # Hash column names
+            h = hashlib.md5(usedforsecurity=False)
+            # Hash shape + column names only — fast O(1) fingerprint
+            h.update(f"{df.shape}".encode())
             if hasattr(df, 'columns'):
-                h.update(str(list(df.columns)).encode())
-            # Hash a sample of values for speed
-            if len(df) > 1000:
-                sample = df.sample(n=1000, random_state=42)
-            else:
-                sample = df
-            h.update(pd.util.hash_pandas_object(sample).values.tobytes())
+                h.update(",".join(str(c) for c in df.columns).encode())
+            # Hash first and last row values for identity (constant time)
+            if len(df) > 0:
+                h.update(str(df.iloc[0].values.tobytes()).encode())
+                if len(df) > 1:
+                    h.update(str(df.iloc[-1].values.tobytes()).encode())
             return h.hexdigest()[:16]
         except Exception:
             return str(uuid.uuid4())[:16]
