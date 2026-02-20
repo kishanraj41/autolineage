@@ -1,365 +1,253 @@
-# AutoLineage 
+# AutoLineage
 
 **Automatic ML Data Lineage Tracking**
 
-Track your data lineage automatically - from raw data to trained models - without manual logging.
+Track every transformation in your ML pipeline — from raw data to trained model — without changing a single line of code.
 
+[![PyPI](https://img.shields.io/pypi/v/autolineage.svg)](https://pypi.org/project/autolineage/)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-34%20passing-brightgreen.svg)]()
 
-## Quick Start
-```bash
-pip install autolineage
-```
+## The Problem
+
+You run an ML pipeline. Months later, someone asks: *"What transformations were applied to this data? Which rows were dropped? What columns were engineered?"*
+
+Existing tools (MLflow, DVC) require you to manually log everything or restructure your code around their framework. Most practitioners don't bother — and lineage is lost.
+
+## The Solution
+
 ```python
-import autolineage.auto
+import autolineage.auto  # ← Add this one line. That's it.
+
 import pandas as pd
 
-# Your normal code - everything tracked automatically!
-df = pd.read_csv('data.csv')
-df_clean = df.dropna()
-df_clean.to_csv('clean.csv')
-
-# That's it! Lineage tracked automatically 
+df = pd.read_csv("housing.csv")           # Tracked: file read, schema captured
+df_clean = df.dropna()                      # Tracked: 207 rows removed
+df_feat = df_clean.assign(                  # Tracked: 3 columns added
+    rooms_per_house=lambda x: x["total_rooms"] / x["households"],
+    bedrooms_ratio=lambda x: x["total_bedrooms"] / x["total_rooms"],
+    log_income=lambda x: np.log1p(x["median_income"]),
+)
+df_feat.to_csv("features.csv")             # Tracked: file write, linked to lineage
 ```
 
-## Features
+Every operation is recorded automatically: what changed, how many rows/columns were affected, and the full parent-child chain from source to output.
 
-- **Zero Manual Logging** - Track lineage automatically with zero code changes
-- **Visual Graphs** - Beautiful interactive and static lineage visualizations
-- **EU AI Act Compliant** - Generate compliance reports instantly
-- **Jupyter Support** - Magic commands for notebooks
-- **Multi-Environment** - Works in Jupyter, Python scripts, CLI
-- **Lightweight** - SQLite backend, no complex setup
-- **Cryptographic Verification** - SHA-256 hashes for data integrity
+## Sample Output
 
-## Three Ways to Use
+Running the [California Housing demo pipeline](examples/california_housing_pipeline.py) produces this lineage automatically:
 
-### 1️⃣ Automatic (Recommended)
-```python
-import autolineage.auto
+```
+  AUTOLINEAGE TRACKING SUMMARY
+  ============================================================
+  DataFrames tracked:    25+
+  Transformations:       15+
+  Rows filtered:         4,000+
+  Column changes:        20+
 
-# Just write normal pandas/numpy code
-# Everything is tracked automatically!
+  Operations breakdown:
+    assign                        4x
+    filter                        4x
+    select_columns                2x
+    dropna                        1x
+    query                         1x
+
+  COMPLETE DATA LINEAGE
+  ============================================================
+    1. dropna          [(20640, 10) → (20433, 10)]  rows:20640→20433
+    2. query           [(20433, 10) → (20433, 10)]
+    3. filter          [(20433, 10) → (16512, 10)]  rows:20433→16512
+    4. assign          [(16512, 10) → (16512, 13)]  +cols:['bedrooms_per_room', 'population_per_household', 'rooms_per_household']
+    5. assign          [(16512, 13) → (16512, 16)]  +cols:['log_income', 'log_population', 'log_total_rooms']
+    6. assign          [(16512, 16) → (16512, 17)]  +cols:['lat_bin']
+    7. assign          [(16512, 17) → (16512, 18)]  +cols:['age_category']
+    8. select_columns  [(16512, 18) → (16512, 14)]  -cols:['age_category', 'lat_bin', 'median_house_value', 'ocean_proximity']
+    9. select_columns  [(16512, 18) → (16512, 1)]
+   10. filter          [(16512, 14) → (13255, 14)]  rows:16512→13255  (train split)
+   11. filter          [(16512, 14) → (3257, 14)]   rows:16512→3257   (test split)
+   12. assign          [(3257, 14) → (3257, 18)]    +cols:['abs_error', 'actual', 'predicted', 'residual']
+
+  File → DataFrame mappings:
+    housing.csv              → source DataFrame
+    02_cleaned_data.csv      → after dropna + outlier removal
+    03_features.csv          → after feature engineering
+    04_X_train.csv           → training features
+    06_predictions.csv       → model predictions with residuals
 ```
 
-### 2️⃣ CLI
+Every step is captured: which rows were dropped, which columns were added or removed, and the shape changes at each transformation.
+
+## Installation
+
 ```bash
-lineage track my_pipeline.py
-lineage show --format html
-lineage report
-```
-
-### 3️⃣ Jupyter Magic
-```python
-%load_ext autolineage
-%lineage_start
-
-# Your code...
-
-%lineage_show
-%lineage_report
+pip install autolineage
 ```
 
 ## What Gets Tracked
 
-AutoLineage automatically hooks into:
+### File I/O (automatic)
 
-| Library | Functions |
-|---------|-----------|
-| **pandas** | read_csv, to_csv, read_parquet, to_parquet, read_json, to_json, read_excel, to_excel, read_pickle, to_pickle |
-| **numpy** | load, save, loadtxt, savetxt |
-| **pickle** | dump, load |
-| **joblib** | dump, load |
+| Library | Read | Write |
+|---------|------|-------|
+| **pandas** | `read_csv`, `read_parquet`, `read_json`, `read_excel`, `read_pickle` | `to_csv`, `to_parquet`, `to_json`, `to_excel`, `to_pickle` |
+| **numpy** | `load`, `loadtxt` | `save`, `savetxt` |
+| **pickle** | `load` | `dump` |
+| **joblib** | `load` | `dump` |
 
-**Plus:** Automatic lineage relationships between files!
+### In-Memory Transformations (automatic)
 
-## Visualizations
+| Category | Operations Tracked |
+|----------|--------------------|
+| **Cleaning** | `dropna`, `fillna`, `drop_duplicates`, `drop`, `replace`, `clip` |
+| **Selection** | `df[columns]`, `df[mask]`, `query`, `head`, `tail`, `nlargest`, `nsmallest`, `sample` |
+| **Reshaping** | `merge`, `concat`, `pivot_table`, `melt`, `explode`, `assign` |
+| **Transformation** | `rename`, `astype`, `sort_values`, `reset_index`, `set_index`, `apply` |
+| **Aggregation** | `groupby` + `sum`, `mean`, `median`, `std`, `count`, `min`, `max`, `agg`, `apply` |
 
-Generate beautiful lineage graphs:
-```bash
-# Interactive HTML
-lineage show --format html --output graph.html
+For each operation, AutoLineage records:
+- **Operation name and parameters**
+- **Shape before → after**
+- **Columns added / removed**
+- **Rows before → after**
+- **Content fingerprint**
+- **Parent-child relationships**
 
-# Static PNG
-lineage show --format png --output graph.png
+## Performance
+
+Benchmarked across 13 pandas operations at varying dataset sizes (10 runs each):
+
+| Dataset Size | Avg Overhead | Relative Overhead |
+|-------------|-------------|-------------------|
+| 1,000 rows | ~1.1 ms | Negligible for interactive work |
+| 10,000 rows | ~1.3 ms | Negligible for batch pipelines |
+| 100,000 rows | ~4.3 ms | ~50% relative |
+| 500,000 rows | ~12.8 ms | ~33% relative |
+
+Overhead is dominated by a constant ~1ms per operation for metadata recording. As dataset size grows, the relative cost shrinks because pandas operations themselves take longer.
+
+Full benchmark suite: [`benchmarks/benchmark_overhead.py`](benchmarks/benchmark_overhead.py)
+
+## How It Works
+
+AutoLineage uses **function hooking** (monkey-patching) to intercept pandas and numpy operations at runtime. When you call `df.dropna()`, AutoLineage's hook:
+
+1. Calls the original `dropna()`
+2. Records the input DataFrame's shape, columns, and lineage ID
+3. Records the output DataFrame's shape and columns
+4. Computes what changed (rows removed, columns added/dropped)
+5. Stores the transformation as an edge in the lineage graph
+
+No code changes. No decorators. No configuration files. Just `import autolineage.auto`.
+
+```
+housing.csv
+    │
+    ▼
+[read_csv] → DataFrame(20640, 10)
+    │
+    ▼
+[dropna] → DataFrame(20433, 10)     ← 207 rows removed
+    │
+    ▼
+[query] → DataFrame(20433, 10)      ← outlier filter
+    │
+    ▼
+[filter] → DataFrame(16512, 10)     ← capped values removed
+    │
+    ▼
+[assign ×4] → DataFrame(16512, 18)  ← 8 engineered features
+    │
+    ├──[select_columns]──→ X (16512, 14)
+    │                         │
+    │                    ┌────┴────┐
+    │                    ▼         ▼
+    │              X_train    X_test
+    │             (13255,14) (3257,14)
+    │
+    └──[select_columns]──→ y (16512, 1)
+                              │
+                         ┌────┴────┐
+                         ▼         ▼
+                   y_train    y_test
+                  (13255,1)  (3257,1)
 ```
 
-Features:
-- Color-coded by file type
-- Hover for details
-- Click to explore
-- Export for presentations
+## How AutoLineage Compares
 
-## EU AI Act Compliance
+| Capability | AutoLineage | MLflow | DVC |
+|-----------|------------|--------|-----|
+| Setup required | `import autolineage.auto` | `mlflow.start_run()` + manual logging | `dvc.yaml` pipeline definition |
+| In-memory transform tracking | ✅ Automatic | ❌ | ❌ |
+| Column-level change detection | ✅ Automatic | ❌ | ❌ |
+| Row-level change detection | ✅ Automatic | ❌ | ❌ |
+| File I/O tracking | ✅ Automatic | ⚠️ Manual `log_artifact` | ✅ Via pipeline deps |
+| Code changes required | None | Significant | Moderate |
+| Pipeline orchestration | ❌ | ❌ | ✅ |
+| Experiment tracking | ❌ | ✅ | ✅ |
+| Data versioning | ❌ | ✅ | ✅ |
 
-Generate compliance reports with one command:
+**AutoLineage is not a replacement for MLflow or DVC.** It solves a different problem: capturing what *actually happened* to your data at the operation level, automatically, without requiring you to restructure your workflow.
+
+## Real-World Demo
+
+See [`examples/california_housing_pipeline.py`](examples/california_housing_pipeline.py) for a complete ML pipeline:
+
 ```bash
-lineage report --format markdown
+# Download the dataset
+mkdir -p examples/data
+curl -o examples/data/housing.csv \
+  https://raw.githubusercontent.com/ageron/handson-ml2/master/datasets/housing/housing.csv
+
+# Run the pipeline
+pip install autolineage scikit-learn
+python examples/california_housing_pipeline.py
 ```
 
-Includes:
-- Complete data inventory with SHA-256 hashes
-- All transformation operations documented
-- Full lineage graph with verification
-- Reproducibility instructions
-- Regulatory compliance statement
+The pipeline runs a full workflow (load → clean → feature engineer → split → train → evaluate) and generates a complete lineage report in `demo_output/07_lineage.json`.
 
-Perfect for:
-- EU AI Act Article 10 requirements
-- Model governance and auditing
-- Research reproducibility
-- Team collaboration
+## CLI
 
-## CLI Reference
 ```bash
-lineage track SCRIPT      # Track a Python script
-lineage show              # Visualize lineage graph
-lineage summary           # Show statistics
-lineage report            # Generate compliance report
-lineage clear             # Delete database
+lineage summary     # Show tracked datasets and operations
+lineage report      # Generate compliance report
+lineage clear       # Reset database
 ```
 
-See [docs/cli.md](docs/cli.md) for complete reference.
+## Jupyter
 
-## Jupyter Notebook
 ```python
 %load_ext autolineage
 %lineage_start
 
-import pandas as pd
-df = pd.read_csv('data.csv')
-df.to_csv('output.csv')
+# Your code here...
 
-%lineage_summary          # Show stats
-%lineage_show             # Display graph
-%lineage_report           # Generate report
+%lineage_summary
+%lineage_show
 ```
-
-See [examples/jupyter_demo.ipynb](examples/jupyter_demo.ipynb) for complete demo.
-
-## Documentation
-
-- [QuickStart Guide](docs/quickstart.md) - Get started in 5 minutes
-- [CLI Reference](docs/cli.md) - Complete command-line guide
-- [Compliance Guide](docs/compliance.md) - EU AI Act reporting
-- [Examples](examples/) - Working code samples
-
-## Use Cases
-
-### Research Reproducibility
-Track every step from raw data to published results. Never wonder "which dataset did I use?" again.
-
-### ML Model Governance
-Automatic compliance documentation for regulated industries. EU AI Act ready.
-
-### Team Collaboration
-Share complete data provenance with your team. Everyone knows exactly what transformations were applied.
-
-### Debugging
-Trace model issues back to data sources instantly. Full audit trail included.
-
-## Architecture
-```
-Raw Data → [Transformation 1] → Intermediate → [Transformation 2] → Model
-   ↓              ↓                  ↓                ↓              ↓
-Tracked    Logged & Hashed    Tracked     Logged & Hashed    Tracked
-```
-
-- **SQLite Database** - Portable, zero-config storage
-- **Function Hooking** - Automatic tracking via monkey-patching
-- **Cryptographic Hashing** - SHA-256 for data integrity
-- **Graph Generation** - NetworkX for lineage DAG
 
 ## Contributing
 
-This is a research project being developed for a PhD in AI.
+Contributions welcome. Fork, branch, add tests, submit PR.
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new features
-4. Submit a pull request
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
-## Author
-
-Built by Kishan as part of PhD research on ML reproducibility and data governance.
-
-- GitHub: [@kishanraj41](https://github.com/kishanraj41)
-
-- Email: kishanraj41@gmail.com
-
-## Star History
-
-If you find AutoLineage useful, please star the repository!
+```bash
+git clone https://github.com/kishanraj41/autolineage.git
+cd autolineage
+pip install -e .
+pytest tests/ -v  # 34 tests passing
+```
 
 ## Citation
 
-If you use AutoLineage in your research, please cite:
 ```bibtex
 @software{autolineage2025,
-  author = Kishan Raj Vandhavasi Goutham Kumar,
-  title = {AutoLineage: Automatic ML Data Lineage Tracking},
+  author = {Vandhavasi Goutham Kumar, Kishan Raj},
+  title = {AutoLineage: Automatic In-Memory Data Lineage Tracking for ML Pipelines},
   year = {2025},
   url = {https://github.com/kishanraj41/autolineage}
 }
 ```
 
-## Roadmap
+## License
 
-- [x] Automatic pandas/numpy tracking
-- [x] Visual lineage graphs
-- [x] CLI interface
-- [x] EU AI Act compliance reports
-- [x] Jupyter magic commands
-- [ ] MLflow integration
-- [ ] Git integration
-- [ ] Column-level lineage
-- [ ] Data drift detection
-- [ ] Team collaboration features
-- [ ] Cloud storage support
-
-## FAQ
-
-**Q: Does this slow down my code?**
-A: Minimal overhead - just file I/O tracking. Typically <1% performance impact.
-
-**Q: Do I need to change my code?**
-A: No! Just `import autolineage.auto` at the top. Everything else is automatic.
-
-**Q: What Python versions are supported?**
-A: Python 3.8+
-
-**Q: Can I use this in production?**
-A: Yes! It's lightweight and has minimal dependencies.
-
-**Q: How is this different from MLflow?**
-A: AutoLineage focuses on automatic data lineage (zero manual logging), while MLflow is a complete MLOps platform. They complement each other!
-
----
-
-**Made for the ML community**
-```
-
-**Save:** `Ctrl+S`
-
----
-
-## **4.3: Create LICENSE File**
-
-**Create file: `LICENSE`**
-```
-MIT License
-
-Copyright (c) 2025 Kishan
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-**Save:** `Ctrl+S`
-
----
-
-## **4.4: Create .gitignore (if not exists)**
-
-**Update: `.gitignore`**
-```
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Virtual environment
-venv/
-env/
-ENV/
-.venv
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-
-# Documentation
-docs/_build/
-site/
-
-# Jupyter
-.ipynb_checkpoints/
-*.ipynb_checkpoints
-
-# Generated files
-*.csv
-*.parquet
-*.json
-*.png
-*.html
-*.md
-!README.md
-!docs/*.md
-!LICENSE
-
-# Logs
-*.log
+MIT — see [LICENSE](LICENSE).
