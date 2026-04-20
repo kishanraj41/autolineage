@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="Arial, sans-serif">
+  <style>
+    .layer-box { fill: #f8f9fa; stroke: #495057; stroke-width: 1.5; }
+    .lib-box { fill: #e7f5ff; stroke: #1971c2; stroke-width: 1.2; }
+    .core-box { fill: #fff3bf; stroke: #f59f00; stroke-width: 1.5; }
+    .output-box { fill: #d3f9d8; stroke: #2f9e44; stroke-width: 1.5; }
+    .title { font-size: 13px; font-weight: bold; fill: #212529; }
+    .label { font-size: 11px; fill: #212529; }
+    .small { font-size: 10px; fill: #495057; }
+    .arrow { stroke: #495057; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+  </style>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#495057"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#212529">AutoLineage System Architecture</text>
+
+  <!-- Layer 1: User Code -->
+  <rect x="50" y="60" width="700" height="70" rx="6" class="layer-box"/>
+  <text x="60" y="82" class="title">Layer 1: User Code (unchanged)</text>
+  <rect x="80" y="92" width="120" height="30" rx="4" fill="#ffffff" stroke="#868e96"/>
+  <text x="140" y="112" text-anchor="middle" class="label">pd.read_csv(...)</text>
+  <rect x="220" y="92" width="120" height="30" rx="4" fill="#ffffff" stroke="#868e96"/>
+  <text x="280" y="112" text-anchor="middle" class="label">df.dropna()</text>
+  <rect x="360" y="92" width="140" height="30" rx="4" fill="#ffffff" stroke="#868e96"/>
+  <text x="430" y="112" text-anchor="middle" class="label">train_test_split(X,y)</text>
+  <rect x="520" y="92" width="100" height="30" rx="4" fill="#ffffff" stroke="#868e96"/>
+  <text x="570" y="112" text-anchor="middle" class="label">model.fit(X,y)</text>
+  <rect x="640" y="92" width="100" height="30" rx="4" fill="#ffffff" stroke="#868e96"/>
+  <text x="690" y="112" text-anchor="middle" class="label">f1_score(...)</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="130" x2="400" y2="160" class="arrow"/>
+  <text x="415" y="150" class="small">import autolineage.auto</text>
+
+  <!-- Layer 2: Hook Providers -->
+  <rect x="50" y="165" width="700" height="95" rx="6" class="layer-box"/>
+  <text x="60" y="185" class="title">Layer 2: Hook Providers (plugins)</text>
+
+  <rect x="70" y="200" width="110" height="50" rx="4" class="lib-box"/>
+  <text x="125" y="220" text-anchor="middle" class="label" font-weight="bold">pandas-io</text>
+  <text x="125" y="237" text-anchor="middle" class="small">10 hooks</text>
+
+  <rect x="190" y="200" width="130" height="50" rx="4" class="lib-box"/>
+  <text x="255" y="220" text-anchor="middle" class="label" font-weight="bold">pandas-transforms</text>
+  <text x="255" y="237" text-anchor="middle" class="small">54 hooks</text>
+
+  <rect x="330" y="200" width="110" height="50" rx="4" class="lib-box"/>
+  <text x="385" y="220" text-anchor="middle" class="label" font-weight="bold">sklearn</text>
+  <text x="385" y="237" text-anchor="middle" class="small">175 hooks</text>
+
+  <rect x="450" y="200" width="110" height="50" rx="4" class="lib-box"/>
+  <text x="505" y="220" text-anchor="middle" class="label" font-weight="bold">pyspark</text>
+  <text x="505" y="237" text-anchor="middle" class="small">49 hooks</text>
+
+  <rect x="570" y="200" width="165" height="50" rx="4" fill="#e9ecef" stroke="#adb5bd" stroke-dasharray="4,2"/>
+  <text x="652" y="220" text-anchor="middle" class="label" font-style="italic">extensible</text>
+  <text x="652" y="237" text-anchor="middle" class="small">xgboost, polars, numpy...</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="260" x2="400" y2="290" class="arrow"/>
+
+  <!-- Layer 3: Core -->
+  <rect x="50" y="295" width="700" height="105" rx="6" class="layer-box"/>
+  <text x="60" y="315" class="title">Layer 3: Unified Core</text>
+
+  <rect x="80" y="330" width="180" height="55" rx="4" class="core-box"/>
+  <text x="170" y="350" text-anchor="middle" class="label" font-weight="bold">UnifiedTracker</text>
+  <text x="170" y="367" text-anchor="middle" class="small">lineage IDs, DAG,</text>
+  <text x="170" y="380" text-anchor="middle" class="small">SHA-256 hashes</text>
+
+  <rect x="290" y="330" width="200" height="55" rx="4" class="core-box"/>
+  <text x="390" y="350" text-anchor="middle" class="label" font-weight="bold">TransformationRecord</text>
+  <text x="390" y="367" text-anchor="middle" class="small">library, op, shapes,</text>
+  <text x="390" y="380" text-anchor="middle" class="small">cols, duration, hash</text>
+
+  <rect x="520" y="330" width="200" height="55" rx="4" class="core-box"/>
+  <text x="620" y="350" text-anchor="middle" class="label" font-weight="bold">LineageAnalyzer</text>
+  <text x="620" y="367" text-anchor="middle" class="small">anomaly detection,</text>
+  <text x="620" y="380" text-anchor="middle" class="small">root cause localization</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="400" x2="400" y2="430" class="arrow"/>
+
+  <!-- Layer 4: Outputs -->
+  <rect x="50" y="435" width="700" height="75" rx="6" class="layer-box"/>
+  <text x="60" y="455" class="title">Layer 4: Outputs</text>
+
+  <rect x="80" y="465" width="140" height="35" rx="4" class="output-box"/>
+  <text x="150" y="487" text-anchor="middle" class="label">Lineage Trace</text>
+
+  <rect x="240" y="465" width="140" height="35" rx="4" class="output-box"/>
+  <text x="310" y="487" text-anchor="middle" class="label">DAG (JSON)</text>
+
+  <rect x="400" y="465" width="160" height="35" rx="4" class="output-box"/>
+  <text x="480" y="487" text-anchor="middle" class="label">Anomaly Reports</text>
+
+  <rect x="580" y="465" width="150" height="35" rx="4" class="output-box"/>
+  <text x="655" y="487" text-anchor="middle" class="label">Root Causes</text>
+
+  <!-- Footer -->
+  <text x="400" y="535" text-anchor="middle" font-size="10" fill="#868e96" font-style="italic">
+    Zero-code activation: import autolineage.auto
+  </text>
+</svg>

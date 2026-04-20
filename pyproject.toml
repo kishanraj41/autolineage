@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autolineage"
+version = "0.3.0"
+description = "Automatic ML data lineage tracking with zero manual logging"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Kishan Raj", email = "kishanraj41@gmail.com"}
+]
+keywords = [
+    "machine-learning",
+    "mlops",
+    "data-lineage",
+    "reproducibility",
+    "data-governance",
+    "eu-ai-act",
+    "compliance",
+    "data-provenance"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "pandas>=1.3.0",
+    "numpy>=1.20.0",
+    "networkx>=2.6.0",
+    "matplotlib>=3.4.0",
+    "click>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "nbformat>=5.0.0",
+]
+ui = [
+    "streamlit>=1.20.0",
+    "plotly>=5.10.0",
+]
+jupyter = [
+    "ipython>=7.0.0",
+    "notebook>=6.0.0",
+]
+all = [
+    "streamlit>=1.20.0",
+    "plotly>=5.10.0",
+    "ipython>=7.0.0",
+    "notebook>=6.0.0",
+]
+
+[project.scripts]
+lineage = "autolineage.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/kishanraj41/autolineage"
+Documentation = "https://github.com/kishanraj41/autolineage#readme"
+Repository = "https://github.com/kishanraj41/autolineage"
+Issues = "https://github.com/kishanraj41/autolineage/issues"
+Changelog = "https://github.com/kishanraj41/autolineage/releases"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["autolineage*"]
+exclude = ["tests*", "examples*", "docs*"]
+
+[tool.setuptools.package-data]
+autolineage = ["py.typed"]
