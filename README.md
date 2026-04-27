@@ -65,15 +65,17 @@ The demo runs the same pipeline twice — once cleanly, once with a corrupted fi
 ## Installation
 
 ```bash
+# Base install (pandas tracking only)
 pip install autolineage
+
+# Recommended: include sklearn support (most common ML stack)
+pip install autolineage[sklearn]
+
+# Full install with sklearn + pyspark + Jupyter rich output
+pip install autolineage[all]
 ```
 
-Optional extras:
-
-```bash
-pip install autolineage[jupyter]   # rich notebook output
-pip install autolineage[dev]       # tests and benchmarks
-```
+> AutoLineage detects which frameworks you have installed and hooks them automatically. The `sklearn` and `pyspark` extras tell pip to install those frameworks alongside AutoLineage if you don't have them already.
 
 ---
 
