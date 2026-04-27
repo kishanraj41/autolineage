@@ -1,14 +1,17 @@
 """AutoLineage - Automatic ML Data Lineage Tracking."""
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 from .core import TransformationRecord
 from .core.tracker import UnifiedTracker
 from .core.analyzer import LineageAnalyzer
 from .hooks.registry import HookRegistry
 from .hooks import BaseHookProvider
+from .viz import visualize, to_dot, to_mermaid
 
 __all__ = [
     'TransformationRecord', 'UnifiedTracker', 'LineageAnalyzer',
-    'HookRegistry', 'BaseHookProvider', '__version__',
+    'HookRegistry', 'BaseHookProvider',
+    'visualize', 'to_dot', 'to_mermaid',
+    '__version__',
 ]

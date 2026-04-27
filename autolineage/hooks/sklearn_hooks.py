@@ -389,4 +389,69 @@ class SklearnHooks(BaseHookProvider):
 
             setattr(sklearn.metrics, func_name, make_hook(func_name, orig))
             count += 1
+
+        # Defensive check: warn if a sklearn metric has already been imported
+        # into a user namespace before hooks were installed. Such early-bound
+        # references will bypass our wrappers and silently produce no
+        # [evaluate] lineage records, which is one of the most common
+        # debugging traps for new users.
+        self._warn_about_early_metric_imports(sklearn.metrics)
         return count
+
+    @staticmethod
+    def _warn_about_early_metric_imports(metrics_module) -> None:
+        """Detect metrics imported into __main__ before install_all().
+
+        When a user writes `from sklearn.metrics import f1_score` at the
+        top of their script and calls install_all() afterwards, the local
+        `f1_score` name still points at the original (unhooked) function.
+        Calling that local name will compute the metric correctly but
+        will NOT produce a lineage record. We surface a one-line warning
+        so the user can either reorder imports or use the
+        `import autolineage.auto` shortcut, which guarantees hooks are
+        installed before any sklearn import in their own code.
+        """
+        import sys
+        import warnings
+
+        main = sys.modules.get('__main__')
+        if main is None:
+            return
+
+        # Build a lookup of original function id() -> name so we can
+        # detect references that point at the unwrapped function.
+        # The originals are stored as __wrapped__ on the new functions.
+        unwrapped_ids = {}
+        for fn_name in _METRIC_FUNCTIONS:
+            current = getattr(metrics_module, fn_name, None)
+            if current is None:
+                continue
+            unwrapped = getattr(current, '__wrapped__', None)
+            if unwrapped is not None:
+                unwrapped_ids[id(unwrapped)] = fn_name
+
+        if not unwrapped_ids:
+            return
+
+        leaked = []
+        for attr in dir(main):
+            if attr.startswith('_'):
+                continue
+            try:
+                val = getattr(main, attr)
+            except Exception:
+                continue
+            if callable(val) and id(val) in unwrapped_ids:
+                metric_name = unwrapped_ids[id(val)]
+                leaked.append((attr, metric_name))
+
+        if leaked:
+            names = ', '.join(f"{local} (= {orig})" for local, orig in leaked)
+            warnings.warn(
+                f"AutoLineage: the following sklearn metrics were imported "
+                f"BEFORE install_all() and will not be tracked: {names}. "
+                f"To fix: either move 'from sklearn.metrics import ...' to "
+                f"after the autolineage hook installation, or use "
+                f"'import autolineage.auto' at the very top of your script.",
+                stacklevel=3,
+            )

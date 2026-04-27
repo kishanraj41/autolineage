@@ -176,6 +176,131 @@ class UnifiedTracker:
         ]
 
     # ------------------------------------------------------------------
+    # Visualization (delegates to autolineage.viz)
+    # ------------------------------------------------------------------
+
+    def visualize(self, output: Optional[str] = None, *,
+                  inline: bool = False, open_browser: bool = True):
+        """Render the captured lineage as an interactive HTML page.
+
+        See :func:`autolineage.viz.visualize` for full parameter docs.
+        Quick usage::
+
+            tracker.visualize()                     # writes ./lineage.html
+            tracker.visualize("trace.html")         # custom path
+            tracker.visualize(inline=True)          # returns HTML string
+
+        In Jupyter notebooks, use ``IPython.display.HTML(tracker.visualize(inline=True))``
+        or the convenience helper ``autolineage.viz.to_jupyter(tracker)``.
+        """
+        from ..viz import visualize as _visualize
+        return _visualize(self, output=output, inline=inline,
+                          open_browser=open_browser)
+
+    def to_dot(self, *, rankdir: str = "TB") -> str:
+        """Return the lineage DAG in Graphviz DOT format."""
+        from ..viz import to_dot as _to_dot
+        return _to_dot(self, rankdir=rankdir)
+
+    def to_mermaid(self) -> str:
+        """Return the lineage DAG in Mermaid format (for Markdown/READMEs)."""
+        from ..viz import to_mermaid as _to_mermaid
+        return _to_mermaid(self)
+
+    # ------------------------------------------------------------------
+    # Jupyter rich output
+    # ------------------------------------------------------------------
+
+    def __repr__(self) -> str:
+        n = len(self.records)
+        if n == 0:
+            return "<UnifiedTracker: 0 operations>"
+        libs = sorted({r.library for r in self.records if r.library})
+        return f"<UnifiedTracker: {n} operations across {', '.join(libs) or '?'}>"
+
+    def _repr_html_(self) -> str:
+        """IPython rich-display hook. Renders a compact summary table,
+        followed by the interactive lineage graph, when this tracker is
+        the last expression in a Jupyter cell."""
+        if not self.records:
+            return ('<div style="font-family:sans-serif;color:#666;">'
+                    '<b>UnifiedTracker</b> &middot; no operations recorded yet.'
+                    '</div>')
+
+        from ..viz import _build_html
+        # Compact summary header
+        summary = self.get_summary()
+        rows = []
+        rows.append('<div style="font-family:-apple-system,BlinkMacSystemFont,'
+                    '\'Segoe UI\',Roboto,sans-serif;'
+                    'border:1px solid #e0e0e0;border-radius:8px;'
+                    'padding:14px 18px;margin:8px 0;background:#fafafa;">')
+        rows.append('<div style="display:flex;align-items:center;gap:18px;'
+                    'margin-bottom:10px;">')
+        rows.append('<b style="font-size:15px;color:#1a1a1a;">AutoLineage trace</b>')
+        rows.append(f'<span style="color:#666;font-size:13px;">'
+                    f'{summary["total_records"]} operations</span>')
+        if summary.get("libraries_tracked"):
+            rows.append(f'<span style="color:#666;font-size:13px;">'
+                        f'{" / ".join(summary["libraries_tracked"])}</span>')
+        if summary.get("total_rows_filtered"):
+            rows.append(f'<span style="color:#666;font-size:13px;">'
+                        f'<b>{summary["total_rows_filtered"]:,}</b> rows filtered</span>')
+        rows.append('</div>')
+
+        # Operations table (top 12)
+        rows.append('<table style="border-collapse:collapse;font-size:12px;'
+                    'margin-top:6px;width:100%;">')
+        rows.append('<thead><tr style="background:#f0f0f0;">'
+                    '<th style="padding:6px 10px;text-align:left;'
+                    'border-bottom:1px solid #ccc;">#</th>'
+                    '<th style="padding:6px 10px;text-align:left;'
+                    'border-bottom:1px solid #ccc;">category</th>'
+                    '<th style="padding:6px 10px;text-align:left;'
+                    'border-bottom:1px solid #ccc;">operation</th>'
+                    '<th style="padding:6px 10px;text-align:left;'
+                    'border-bottom:1px solid #ccc;">shape</th>'
+                    '<th style="padding:6px 10px;text-align:right;'
+                    'border-bottom:1px solid #ccc;">rows &Delta;</th>'
+                    '<th style="padding:6px 10px;text-align:right;'
+                    'border-bottom:1px solid #ccc;">ms</th>'
+                    '</tr></thead><tbody>')
+
+        max_rows = 12
+        for i, rec in enumerate(self.records[:max_rows]):
+            shape = ""
+            if rec.output_shape:
+                shape = str(tuple(rec.output_shape))
+            delta = ""
+            if (rec.rows_before is not None and rec.rows_after is not None
+                    and rec.rows_before != rec.rows_after):
+                d = rec.rows_after - rec.rows_before
+                delta = f"{d:+,d}"
+            dur = f"{rec.duration_ms:.0f}" if rec.duration_ms else ""
+            rows.append(
+                f'<tr><td style="padding:4px 10px;color:#888;">{i+1}</td>'
+                f'<td style="padding:4px 10px;color:#444;">{rec.category}</td>'
+                f'<td style="padding:4px 10px;font-family:monospace;">{rec.operation}</td>'
+                f'<td style="padding:4px 10px;font-family:monospace;color:#444;">{shape}</td>'
+                f'<td style="padding:4px 10px;text-align:right;font-family:monospace;color:#666;">{delta}</td>'
+                f'<td style="padding:4px 10px;text-align:right;font-family:monospace;color:#666;">{dur}</td>'
+                f'</tr>')
+
+        if len(self.records) > max_rows:
+            rows.append(f'<tr><td colspan="6" style="padding:6px 10px;'
+                        f'color:#888;font-style:italic;text-align:center;">'
+                        f'... and {len(self.records) - max_rows} more operations</td></tr>')
+
+        rows.append('</tbody></table>')
+        rows.append('<div style="margin-top:10px;font-size:12px;color:#666;">'
+                    'Call <code>.visualize()</code> for the interactive graph, '
+                    '<code>.to_dot()</code> for Graphviz, '
+                    'or <code>.to_mermaid()</code> for Markdown.'
+                    '</div>')
+        rows.append('</div>')
+        return '\n'.join(rows)
+
+    # ------------------------------------------------------------------
     # Internals
     # ------------------------------------------------------------------
 
