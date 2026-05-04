@@ -23,6 +23,42 @@ class UnifiedTracker:
         self._id_to_lid: Dict[int, str] = {}
         self._lid_to_obj: WeakValueDictionary = WeakValueDictionary()
         self._file_to_lid: Dict[str, str] = {}
+        self._assign_id_callbacks: list = []
+
+    # ------------------------------------------------------------------
+    # Callback registration (downstream consumers like RudriQ)
+    # ------------------------------------------------------------------
+
+    def register_assign_id_callback(self, callback) -> None:
+        """
+        Register a callback that fires after each ``assign_id`` call.
+
+        The callback receives ``(obj, lid)``: the Python object that was
+        just assigned a lineage ID, and the lineage ID string. This is
+        the ONLY hook point where both the live object reference and
+        its lineage ID are available together — TransformationRecord
+        only carries the lineage IDs, not the underlying Python objects.
+
+        Used by RudriQ (and other downstream consumers) to mirror the
+        id(obj) -> lid mapping into their own registries so that
+        cross-domain links (e.g. data-lineage <-> LLM input) can match
+        on object identity.
+
+        Callbacks should be cheap (no I/O, no network). Exceptions are
+        caught and logged but not propagated.
+        """
+        self._assign_id_callbacks.append(callback)
+
+    def _fire_assign_id_callbacks(self, obj, lid) -> None:
+        """Internal: invoke all registered assign_id callbacks."""
+        for cb in self._assign_id_callbacks:
+            try:
+                cb(obj, lid)
+            except Exception as exc:
+                import logging
+                logging.getLogger("autolineage").debug(
+                    "assign_id callback raised: %s", exc
+                )
 
     # ------------------------------------------------------------------
     # Lineage-ID management
@@ -67,6 +103,7 @@ class UnifiedTracker:
         if filepath:
             self._file_to_lid[filepath] = lid
 
+        self._fire_assign_id_callbacks(obj, lid)
         return lid
 
     def get_id(self, obj) -> Optional[str]:
