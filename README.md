@@ -2,7 +2,7 @@
 
 **Zero-code data lineage for Python ML pipelines.**
 
-AutoLineage automatically records every DataFrame operation, model training step, and metric evaluation across pandas, scikit-learn, and PySpark — and then detects anomalies and pinpoints root causes when something goes wrong. One `import` activates 288 hooks. No decorators, no wrapper classes, no configuration files.
+AutoLineage automatically records every DataFrame operation, model training step, and metric evaluation across pandas, scikit-learn, and PySpark, and then detects anomalies and pinpoints root causes when something goes wrong. One `import` activates 288 hooks. No decorators, no wrapper classes, no configuration files.
 
 ```python
 import autolineage.auto        # that's the whole setup
