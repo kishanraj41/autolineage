@@ -1,6 +1,6 @@
 """AutoLineage - Automatic ML Data Lineage Tracking."""
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 
 from .core import TransformationRecord
 from .core.tracker import UnifiedTracker
