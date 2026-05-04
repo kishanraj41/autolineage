@@ -1,6 +1,16 @@
 # Changelog
 
 All notable changes to AutoLineage will be documented in this file.
+
+## v0.5.0 (2026-05-04)
+
+### Added
+- `UnifiedTracker.register_assign_id_callback(callback)`: register a callback that fires after each `assign_id` call with `(obj, lid)`. This is the only hook point where both the live Python object reference and its lineage ID are available together — `TransformationRecord` only carries lineage IDs (strings), not the underlying objects. Used by downstream consumers (e.g. RudriQ) to mirror `id(obj) -> lid` mappings into their own registries for cross-domain linking. Callbacks run in the calling thread; exceptions are caught and logged at DEBUG, never propagated. Multiple callbacks fire in registration order; one buggy callback does not block others.
+- `tests/test_callbacks.py`: 6 tests covering the new callback API (single fire, multiple callbacks fire in order, exception caught, one buggy doesn't block others, zero-callback no-op, callback observes `obj -> lid` mapping already stored at fire time).
+
+### Notes
+- Additive non-breaking change. Existing code that does not call `register_assign_id_callback` is unaffected. MINOR version bump per semver.
+
 ## v0.4.1 (2026-04-26)
 
 ### Removed
