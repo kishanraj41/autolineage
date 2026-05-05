@@ -152,6 +152,16 @@ class UnifiedTracker:
         lid = self.get_id(obj)
         if lid is None:
             lid = self.assign_id(obj, **kwargs)
+        else:
+            # Object already has a lid (e.g., DataFrame whose
+            # ``attrs['_lineage_id']`` was preserved across a pandas
+            # operation that returned a new instance). Fire callbacks
+            # anyway so downstream consumers (RudriQ) can register
+            # ``id(obj) -> lid`` for THIS new instance — without this,
+            # they only ever see the first instance that got the lid,
+            # and identity-based correlation silently fails for chains
+            # like read_csv -> filter -> sort_values -> head.
+            self._fire_assign_id_callbacks(obj, lid)
         return lid
 
     # ------------------------------------------------------------------

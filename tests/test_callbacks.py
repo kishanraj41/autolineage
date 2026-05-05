@@ -190,3 +190,78 @@ class TestRegisterPostRecordCallback:
         tracker = UnifiedTracker()
         tracker.record(self._make_record())
         assert len(tracker.records) == 1
+
+
+class TestGetOrAssignFiresCallbackOnReuse:
+    """v0.6.1 regression: get_or_assign must fire the assign_id callback
+    even when an existing lid is returned (e.g., DataFrame whose
+    attrs['_lineage_id'] was preserved across a pandas operation).
+
+    Without this, downstream consumers like RudriQ only ever see the
+    first object instance that got the lid; subsequent instances with
+    the same lid (a NEW DataFrame from sort_values that pandas gave
+    the same attrs) are missed by id() lookups, breaking identity-
+    based cross-domain correlation."""
+
+    def test_get_or_assign_fires_callback_when_lid_already_assigned(self):
+        from autolineage.core.tracker import UnifiedTracker
+
+        tracker = UnifiedTracker()
+        fired: list = []
+        tracker.register_assign_id_callback(
+            lambda obj, lid: fired.append((id(obj), lid))
+        )
+
+        # First object: no existing lid; assign_id fires once.
+        obj_a = {"name": "a"}
+        lid_a = tracker.get_or_assign(obj_a, source="test")
+        assert len(fired) == 1
+        assert fired[0] == (id(obj_a), lid_a)
+
+        # Second call with the SAME object: already has a lid (via
+        # _id_to_lid since dict has no attrs). Callback should fire
+        # AGAIN with the same (id, lid) pair, signaling "downstream
+        # may want to refresh its mapping".
+        lid_a2 = tracker.get_or_assign(obj_a, source="test")
+        assert lid_a2 == lid_a
+        assert len(fired) == 2
+        assert fired[1] == (id(obj_a), lid_a)
+
+    def test_callback_fires_for_new_instance_with_preserved_lid(self):
+        """Simulates the pandas-attrs scenario: a new object instance
+        whose attrs already carry a previously-assigned lineage ID.
+        get_or_assign should NOT mint a new lid (returning the existing
+        one), but SHOULD fire the callback so consumers can mirror
+        ``id(new_instance) -> lid``."""
+        from autolineage.core.tracker import UnifiedTracker
+
+        class _Attrsy:
+            """Mimics a pandas DataFrame: has an attrs dict that
+            preserves the lineage_id across instances."""
+            def __init__(self, attrs):
+                self.attrs = attrs
+
+        shared_attrs = {}
+        first = _Attrsy(shared_attrs)
+        tracker = UnifiedTracker()
+
+        fired: list = []
+        tracker.register_assign_id_callback(
+            lambda obj, lid: fired.append((id(obj), lid))
+        )
+
+        lid = tracker.get_or_assign(first, source="seed")
+        assert len(fired) == 1
+        assert fired[0] == (id(first), lid)
+
+        # Second instance with the SAME attrs dict (so the same
+        # _lineage_id key) — simulates pandas returning a fresh
+        # DataFrame from sort_values that preserved attrs.
+        second = _Attrsy(shared_attrs)
+        assert id(second) != id(first)
+        lid2 = tracker.get_or_assign(second, source="reuse")
+        assert lid2 == lid
+        # Callback fired again, this time with the second instance's id.
+        assert len(fired) == 2
+        assert fired[1] == (id(second), lid)
+        assert fired[1][0] != fired[0][0]  # different ids, same lid

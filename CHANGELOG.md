@@ -2,6 +2,15 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
+## v0.6.1 (2026-05-05)
+
+### Fixed
+- `UnifiedTracker.get_or_assign(obj)` now fires `register_assign_id_callback` even when an existing lid is returned (previously only `assign_id` itself fired the callback). This matters for the common pandas pattern where attrs get preserved across operations: `read_csv` produces a DataFrame with an attrs dict; `sort_values` returns a NEW DataFrame instance whose attrs were copied (carrying the existing `_lineage_id`); `_get_or_assign` for that new instance returned the existing lid without firing callbacks. Downstream consumers (RudriQ) ended up with `id(first_df) -> lid` registered but `id(sort_values_result) -> lid` missing, breaking identity-based correlation in chains longer than two operations.
+- 2 new regression tests in `tests/test_callbacks.py::TestGetOrAssignFiresCallbackOnReuse`.
+
+### Notes
+- Backward-compatible. Code that registered a callback expecting "fire-once-per-lid" semantics will now fire on every reuse. Callbacks should be idempotent (RudriQ's was). If a consumer needs fire-once semantics, dedupe by `(id(obj), lid)` inside the callback.
+
 ## v0.6.0 (2026-05-05)
 
 ### Added
