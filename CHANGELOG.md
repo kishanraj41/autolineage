@@ -2,6 +2,16 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
+## v0.6.0 (2026-05-05)
+
+### Added
+- `UnifiedTracker.register_post_record_callback(callback)`: register a callback that fires after each `record()` call with the `TransformationRecord` that was just appended to `self.records`. By the time the callback fires, `tracker.records[-1]` is the same record and `tracker.nodes[record.child_id]` is queryable for shape/columns/content_hash. Distinct from `register_assign_id_callback` (which fires per-object-assignment and is the right hook for object-identity registration); this hook is the right one for operation-level mirroring (carries `parent_ids`, `library`, `operation`, `duration_ms`, etc.).
+- `tests/test_callbacks.py::TestRegisterPostRecordCallback`: 6 tests covering the new API (fires with record, record-already-stored invariant, registration-order multiple, exception caught, one buggy doesn't block others, zero-callback no-op).
+
+### Notes
+- Additive non-breaking change. Existing callers are unaffected. MINOR version bump per semver.
+- Used by RudriQ v0.0.6+ to mirror records as canonical TraceNodes/TraceEdges in its DuckDB so audit reports show full data→LLM ancestry without 'external' placeholders.
+
 ## v0.5.0 (2026-05-04)
 
 ### Added

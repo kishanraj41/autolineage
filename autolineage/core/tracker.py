@@ -24,6 +24,7 @@ class UnifiedTracker:
         self._lid_to_obj: WeakValueDictionary = WeakValueDictionary()
         self._file_to_lid: Dict[str, str] = {}
         self._assign_id_callbacks: list = []
+        self._post_record_callbacks: list = []
 
     # ------------------------------------------------------------------
     # Callback registration (downstream consumers like RudriQ)
@@ -58,6 +59,40 @@ class UnifiedTracker:
                 import logging
                 logging.getLogger("autolineage").debug(
                     "assign_id callback raised: %s", exc
+                )
+
+    def register_post_record_callback(self, callback) -> None:
+        """
+        Register a callback that fires after each ``record`` call.
+
+        The callback receives the ``TransformationRecord`` that was just
+        appended to ``self.records``. By the time the callback fires,
+        the record is queryable via ``tracker.records[-1]`` and the
+        node metadata for ``record.child_id`` is available via
+        ``tracker.nodes[record.child_id]``.
+
+        Used by downstream consumers (e.g. RudriQ) to mirror records
+        as their own canonical-graph nodes/edges. Distinct from
+        ``register_assign_id_callback`` which fires per-object-assignment
+        and is the right hook for object-identity registration; this
+        hook is the right one for operation-level mirroring (carries
+        parent_ids, library, operation, duration_ms, shape deltas).
+
+        Callbacks should be cheap (no I/O, no network). Exceptions are
+        caught and logged but not propagated. Multiple callbacks fire
+        in registration order; one buggy callback does not block others.
+        """
+        self._post_record_callbacks.append(callback)
+
+    def _fire_post_record_callbacks(self, rec) -> None:
+        """Internal: invoke all registered post-record callbacks."""
+        for cb in self._post_record_callbacks:
+            try:
+                cb(rec)
+            except Exception as exc:
+                import logging
+                logging.getLogger("autolineage").debug(
+                    "post_record callback raised: %s", exc
                 )
 
     # ------------------------------------------------------------------
@@ -125,6 +160,7 @@ class UnifiedTracker:
 
     def record(self, rec: TransformationRecord) -> None:
         self.records.append(rec)
+        self._fire_post_record_callbacks(rec)
 
     # ------------------------------------------------------------------
     # Queries
