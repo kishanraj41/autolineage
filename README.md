@@ -1,5 +1,7 @@
 # AutoLineage
 
+[![Paper](https://img.shields.io/badge/paper-SSRN-blue.svg)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6683825)
+
 **Zero-code data lineage for Python ML pipelines.**
 
 AutoLineage automatically records every DataFrame operation, model training step, and metric evaluation across pandas, scikit-learn, and PySpark — and then detects anomalies and pinpoints root causes when something goes wrong. One `import` activates 288 hooks. No decorators, no wrapper classes, no configuration files.
@@ -266,15 +268,20 @@ MIT
 
 ## Citation
 
-If you use AutoLineage in your research, please cite:
+If you use AutoLineage in your research or work, please cite the SSRN preprint:
+
+**Plain citation:**
+
+> VG, K.R. (2026). *AutoLineage: Operation-Level Data Lineage for Python ML Pipelines via Import-Time Hooking*. SSRN preprint. https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6683825
+
+**BibTeX:**
 
 ```bibtex
-@misc{vandhavasi2026autolineage,
-  title={AutoLineage: Operation-Level Data Lineage for Python ML Pipelines via Import-Time Hooking},
-  author={Vandhavasi, Kishan Raj},
-  year={2026},
-  eprint={2604.XXXXX},
-  archivePrefix={arXiv},
-  primaryClass={cs.SE}
+@misc{vg2026autolineage,
+  title  = {AutoLineage: Operation-Level Data Lineage for Python ML Pipelines via Import-Time Hooking},
+  author = {VG, Kishan Raj},
+  year   = {2026},
+  note   = {SSRN preprint, abstract\_id=6683825},
+  url    = {https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6683825}
 }
 ```
