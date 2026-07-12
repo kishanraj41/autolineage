@@ -1,10 +1,11 @@
 # AutoLineage
 
 [![Paper](https://img.shields.io/badge/paper-SSRN-blue.svg)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6683825)
+[![CI](https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml/badge.svg)](https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml)
 
 **Zero-code data lineage for Python ML pipelines.**
 
-AutoLineage automatically records every DataFrame operation, model training step, and metric evaluation across pandas, scikit-learn, and PySpark — and then detects anomalies and pinpoints root causes when something goes wrong. One `import` activates 288 hooks. No decorators, no wrapper classes, no configuration files.
+AutoLineage automatically records every DataFrame operation, model training step, and metric evaluation across pandas, scikit-learn, and PySpark, and then detects anomalies and pinpoints root causes when something goes wrong. One `import` activates 288 hooks. No decorators, no wrapper classes, no configuration files.
 
 ```python
 import autolineage.auto        # that's the whole setup
