@@ -67,7 +67,7 @@ def build(case, buggy):
 EXPECT = {"filter":"filter","join":"merge","encoding":"StandardScaler.fit_transform",
           "leakage":"StandardScaler.fit_transform","type":"dropna"}
 f1, acc = build(CASE, buggy)
-tr = get_tracker(); an = LineageAnalyzer(tr); fp = f"/tmp/exp/fp_{CASE}.json"
+tr = get_tracker(); an = LineageAnalyzer(tr); fp = f"fp_{CASE}.json"
 if MODE=="baseline":
     an.save_fingerprint(fp)
     print(json.dumps({"case":CASE,"base_f1":round(f1,4),"base_acc":round(acc,4)}))

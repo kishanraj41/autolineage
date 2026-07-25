@@ -2,7 +2,7 @@
 
 This extends the single planted-bug experiment in Section 6.5 of the paper (the quantile-filter case) to five distinct bug categories: **filter, join, encoding, target leakage, and type coercion**. The goal is to move the diagnosis evidence from an anecdote (n=1) to a small controlled study (n=5) that shows both where the analyzer succeeds and where it does not.
 
-All numbers below were produced by running AutoLineage 0.6.1 (239 hooks: pandas + scikit-learn; PySpark not installed in this run). The scripts are in `benchmarks/planted_bugs/` and reproduce every figure with `bash run_all.sh`.
+All numbers below were produced by running AutoLineage 0.6.2 (code identical to 0.6.1; 239 hooks: pandas + scikit-learn; PySpark not installed in this run). The scripts are in `benchmarks/planted_bugs/` and reproduce every figure with `bash run_all.sh`.
 
 ## Method
 
@@ -54,3 +54,12 @@ bash run_all.sh
 ```
 
 Each case prints the baseline F1, the buggy F1, the ranked anomalies, and the localized root cause with its impact score.
+
+## Determinism
+
+Random seeds are fixed for data generation, the train/test split, and the sampling step,
+and the classifier is deterministic, so the reported metrics (baseline and buggy F1) and
+the localized operation reproduce exactly across runs. `PYTHONHASHSEED` is pinned in
+`run_all.sh` for stable ordering. The *total anomaly count* can vary by one or two between
+runs because it includes timing-sensitive signals; the localization result does not depend
+on them.
