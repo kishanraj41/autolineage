@@ -1,11 +1,20 @@
-# AutoLineage
+<h1 align="center">AutoLineage</h1>
 
-[![Paper](https://img.shields.io/badge/paper-SSRN-blue.svg)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6683825)
-[![CI](https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml/badge.svg)](https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml)
+<p align="center"><b>Zero-code data lineage for Python ML pipelines.</b><br>
+One import. Every pandas, scikit-learn and PySpark operation tracked, anomalies caught, root cause localized.</p>
 
-**Zero-code data lineage for Python ML pipelines.**
+<p align="center">
+  <a href="https://pypi.org/project/autolineage/"><img src="https://img.shields.io/pypi/v/autolineage" alt="PyPI"></a>
+  <a href="https://pypi.org/project/autolineage/"><img src="https://img.shields.io/pypi/pyversions/autolineage" alt="Python versions"></a>
+  <a href="https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml"><img src="https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT"></a>
+  <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6683825"><img src="https://img.shields.io/badge/paper-SSRN-blue.svg" alt="Paper"></a>
+  <a href="https://colab.research.google.com/github/kishanraj41/autolineage/blob/main/examples/quickstart.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a>
+</p>
 
-AutoLineage automatically records every DataFrame operation, model training step, and metric evaluation across pandas, scikit-learn, and PySpark, and then detects anomalies and pinpoints root causes when something goes wrong. One `import` activates 288 hooks. No decorators, no wrapper classes, no configuration files.
+<p align="center"><img src="docs/screenshots/autolineage-hero.gif" alt="AutoLineage catching an F1 collapse and localizing the cause to a single filter operation" width="760"></p>
+
+> **Your model's F1 dropped from 0.97 to 0.00 and nothing crashed.** No exception, no error, just a silently broken pipeline. AutoLineage records the complete path from `read_csv` to `f1_score`, then tells you the exact operation that caused the regression. No decorators, no config.
 
 ```python
 import autolineage.auto        # that's the whole setup
@@ -29,6 +38,14 @@ from autolineage.auto import get_tracker
 get_tracker().visualize()      # opens an interactive lineage graph
 ```
 
+**Try it in 30 seconds:** [open the quickstart in Colab](https://colab.research.google.com/github/kishanraj41/autolineage/blob/main/examples/quickstart.ipynb) (installs the package, tracks a pipeline, plants a bug, watches it get caught), or run the GIF above yourself:
+
+```bash
+pip install "autolineage[sklearn]"
+git clone https://github.com/kishanraj41/autolineage && cd autolineage
+python examples/anomaly_demo.py
+```
+
 ![Interactive lineage graph](docs/screenshots/lineage_basic.png)
 
 Click any node to see operation metadata, shape changes, and upstream dependencies. Export to JSON, Graphviz DOT, Mermaid markup, or self-contained HTML.
@@ -37,7 +54,7 @@ Click any node to see operation metadata, shape changes, and upstream dependenci
 
 ## Why AutoLineage?
 
-ML pipelines fail silently. A model whose F1 drops from 0.98 to 0.00 invites hours of `print(df.shape)` debugging. Existing tools either require explicit instrumentation (MLflow), track only files (DVC), or cover only a single stage (Evidently, Arize). **No existing tool records the complete path from `read_csv` through `f1_score` in one graph automatically — and then tells you which operation caused a metric to drop.**
+ML pipelines fail silently. A model whose F1 drops from 0.97 to 0.00 invites hours of `print(df.shape)` debugging. Existing tools either require explicit instrumentation (MLflow), track only files (DVC), or cover only a single stage (Evidently, Arize). **No existing tool records the complete path from `read_csv` through `f1_score` in one graph automatically — and then tells you which operation caused a metric to drop.**
 
 AutoLineage closes that gap.
 
