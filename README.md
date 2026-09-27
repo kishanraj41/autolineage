@@ -46,9 +46,11 @@ git clone https://github.com/kishanraj41/autolineage && cd autolineage
 python examples/anomaly_demo.py
 ```
 
-![Interactive lineage graph](docs/screenshots/lineage_basic.png)
+**Install, run, inspect.** `pip install`, one import at the top of your script, then open the graph AutoLineage wrote:
 
-Click any node to see operation metadata, shape changes, and upstream dependencies. Export to JSON, Graphviz DOT, Mermaid markup, or self-contained HTML.
+<p align="center"><img src="docs/screenshots/autolineage-quickstart.gif" alt="Installing AutoLineage, running a pandas and scikit-learn script with one extra import, and opening the interactive lineage graph" width="760"></p>
+
+The script in the recording is [`examples/pipeline.py`](examples/pipeline.py). Click any node to see operation metadata, shape changes, and upstream dependencies. Export to JSON, Graphviz DOT, Mermaid markup, or self-contained HTML.
 
 ---
 
