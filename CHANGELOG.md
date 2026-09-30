@@ -2,6 +2,27 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
+## v0.6.3 (2026-09-29)
+
+### Fixed
+- Package metadata: the wheel now reports `__version__ == "0.6.3"` (the 0.6.2 wheel on PyPI reported 0.6.1) and the author is listed as Kishan Raj VG, matching the SSRN preprint and the citation block.
+- README images and links are absolute URLs so the PyPI project page renders the demo GIFs and the license link.
+
+### Added
+- README hero: PyPI, Python, CI, license, SSRN and Colab badges; `docs/screenshots/autolineage-hero.gif`, a recording of `examples/anomaly_demo.py` catching an F1 collapse and naming the filter that caused it; `docs/screenshots/autolineage-quickstart.gif`, install to interactive graph in 30 seconds.
+- `examples/quickstart.ipynb`: a Colab notebook that installs the package, tracks a pipeline, plants a one-line bug and shows the analyzer localizing it. Badge in the README opens it directly.
+- `examples/pipeline.py`: the 22-line script from the quickstart recording.
+- `docs/hero.tape`, `docs/quickstart.tape`, `docs/quickstart_browser.py`: the recordings are reproducible.
+- JOSS paper draft (`paper.md`, `paper.bib`), `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `benchmarks/planted_bugs` (shipped on `main` in July, first included in a release here).
+
+### Notes
+- No changes to the `autolineage` package code since v0.6.2. Safe to upgrade.
+
+## v0.6.2 (2026-06-13)
+
+### Fixed
+- Version strings in `pyproject.toml` and `autolineage/__init__.py` synced to 0.6.2. The 0.6.2 wheel was uploaded before this commit, so it reports `__version__ == "0.6.1"`; corrected in v0.6.3.
+
 ## v0.6.1 (2026-05-05)
 
 ### Fixed

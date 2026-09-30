@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autolineage"
-version = "0.6.2"
+version = "0.6.3"
 description = "Zero-code data lineage for Python ML pipelines: automatic tracking, anomaly detection, and root-cause localization across pandas, scikit-learn, and PySpark."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
 authors = [
-    { name = "Kishan Raj Vandhavasi", email = "kishanraj41@gmail.com" }
+    { name = "Kishan Raj VG", email = "kishanraj41@gmail.com" }
 ]
 keywords = [
     "data-lineage",

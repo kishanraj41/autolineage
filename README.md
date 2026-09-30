@@ -7,12 +7,12 @@ One import. Every pandas, scikit-learn and PySpark operation tracked, anomalies 
   <a href="https://pypi.org/project/autolineage/"><img src="https://img.shields.io/pypi/v/autolineage" alt="PyPI"></a>
   <a href="https://pypi.org/project/autolineage/"><img src="https://img.shields.io/pypi/pyversions/autolineage" alt="Python versions"></a>
   <a href="https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml"><img src="https://github.com/kishanraj41/autolineage/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT"></a>
+  <a href="https://github.com/kishanraj41/autolineage/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT"></a>
   <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6683825"><img src="https://img.shields.io/badge/paper-SSRN-blue.svg" alt="Paper"></a>
   <a href="https://colab.research.google.com/github/kishanraj41/autolineage/blob/main/examples/quickstart.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a>
 </p>
 
-<p align="center"><img src="docs/screenshots/autolineage-hero.gif" alt="AutoLineage catching an F1 collapse and localizing the cause to a single filter operation" width="760"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/kishanraj41/autolineage/main/docs/screenshots/autolineage-hero.gif" alt="AutoLineage catching an F1 collapse and localizing the cause to a single filter operation" width="760"></p>
 
 > **Your model's F1 dropped from 0.97 to 0.00 and nothing crashed.** No exception, no error, just a silently broken pipeline. AutoLineage records the complete path from `read_csv` to `f1_score`, then tells you the exact operation that caused the regression. No decorators, no config.
 
@@ -48,9 +48,9 @@ python examples/anomaly_demo.py
 
 **Install, run, inspect.** `pip install`, one import at the top of your script, then open the graph AutoLineage wrote:
 
-<p align="center"><img src="docs/screenshots/autolineage-quickstart.gif" alt="Installing AutoLineage, running a pandas and scikit-learn script with one extra import, and opening the interactive lineage graph" width="760"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/kishanraj41/autolineage/main/docs/screenshots/autolineage-quickstart.gif" alt="Installing AutoLineage, running a pandas and scikit-learn script with one extra import, and opening the interactive lineage graph" width="760"></p>
 
-The script in the recording is [`examples/pipeline.py`](examples/pipeline.py). Click any node to see operation metadata, shape changes, and upstream dependencies. Export to JSON, Graphviz DOT, Mermaid markup, or self-contained HTML.
+The script in the recording is [`examples/pipeline.py`](https://github.com/kishanraj41/autolineage/blob/main/examples/pipeline.py). Click any node to see operation metadata, shape changes, and upstream dependencies. Export to JSON, Graphviz DOT, Mermaid markup, or self-contained HTML.
 
 ---
 
