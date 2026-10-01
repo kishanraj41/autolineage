@@ -274,7 +274,7 @@ See `autolineage/hooks/pandas_io.py` for the smallest working example (~110 LoC)
 git clone https://github.com/kishanraj41/autolineage
 cd autolineage
 pip install -e ".[dev]"
-pytest tests/                      # 51 tests
+pytest tests/                      # 65 tests
 python examples/anomaly_demo.py    # full end-to-end demo
 ```
 

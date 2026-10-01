@@ -2,6 +2,14 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
+## Unreleased
+
+### Removed
+- Stale documentation and examples left over from the v0.1 to v0.3 architecture: `docs/cli.md` and `docs/compliance.md` (described a `lineage` CLI and a compliance reporter removed in v0.4.1), and eleven example scripts plus `examples/jupyter_demo.ipynb` that imported `DatasetTracker`, `autolineage.database`, `autolineage.tracker` or `%lineage_start` and failed on import against any release since 0.4.1. Remaining examples (`anomaly_demo.py`, `pipeline.py`, `quickstart.ipynb`) all run against the current release.
+
+### Changed
+- `docs/quickstart.md` rewritten for the current API.
+
 ## v0.6.3 (2026-09-29)
 
 ### Fixed

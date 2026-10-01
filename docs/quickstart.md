@@ -1,108 +1,60 @@
-# QuickStart Guide
+# Quickstart
 
-Get started with AutoLineage in 5 minutes!
+The shortest path is the README: it opens with a one-import example, the install line, and a 30-second Colab notebook you can run without installing anything.
 
-## Installation
+- README: https://github.com/kishanraj41/autolineage#readme
+- Colab notebook: https://colab.research.google.com/github/kishanraj41/autolineage/blob/main/examples/quickstart.ipynb
+
+## Install
+
 ```bash
-pip install autolineage
+pip install "autolineage[sklearn]"     # pandas + scikit-learn hooks
+pip install "autolineage[all]"         # adds PySpark hooks and Jupyter extras
 ```
 
-## Three Ways to Use AutoLineage
+## One import
 
-### 1. Automatic Tracking (Recommended)
-
-The easiest way - just import and everything is tracked:
 ```python
-import autolineage.auto
+import autolineage.auto                # must come before you import tracked symbols
+
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import f1_score
+# ... your pipeline, unchanged ...
 
-# Your normal code - everything tracked automatically!
-df = pd.read_csv('data.csv')
-df_clean = df.dropna()
-df_clean.to_csv('clean_data.csv')
-
-# View what was tracked
-from autolineage.auto import get_summary
-summary = get_summary()
-print(f"Tracked {summary['datasets_count']} datasets")
+from autolineage.auto import get_tracker
+tracker = get_tracker()
+print(tracker)                         # summary of recorded operations
+tracker.visualize("trace.html")        # interactive graph, self-contained HTML
+tracker.to_mermaid()                   # or Graphviz: tracker.to_dot()
 ```
 
-### 2. CLI Interface
+`import autolineage.auto` patches pandas, scikit-learn and PySpark at import time. A symbol imported *before* that line (for example `from sklearn.metrics import f1_score`) binds to the original function and bypasses the hook; AutoLineage warns when it detects this.
 
-Track any Python script from the command line:
-```bash
-# Track your pipeline
-lineage track my_pipeline.py
+## Catch a silent regression
 
-# View summary
-lineage summary
-
-# Generate visualization
-lineage show --format html --output graph.html
-
-# Generate compliance report
-lineage report --format markdown
-```
-
-### 3. Manual API
-
-For fine-grained control:
 ```python
-from autolineage import DatasetTracker
-from autolineage.hooks import enable_hooks
+from autolineage.core.analyzer import LineageAnalyzer
 
-# Create tracker
-tracker = DatasetTracker('my_lineage.db')
-tracker.start_run('my_experiment')
+# healthy run
+analyzer = LineageAnalyzer(get_tracker())
+analyzer.save_fingerprint("baseline.json")
 
-# Enable automatic hooks
-enable_hooks(tracker)
-
-# Your data science code here...
-import pandas as pd
-df = pd.read_csv('data.csv')
-df.to_csv('output.csv')
-
-# End tracking
-tracker.end_run()
-tracker.close()
+# later run, fresh process
+analyzer = LineageAnalyzer(get_tracker())
+analyzer.load_baseline("baseline.json")
+for a in analyzer.detect_anomalies():
+    print(a.severity, a.message)
+print(analyzer.localize_root_cause("f1_score").explanation)
 ```
 
-## Jupyter Notebooks
+## Runnable examples
 
-AutoLineage works seamlessly in Jupyter:
-```python
-# Load extension
-%load_ext autolineage
+- `examples/pipeline.py`: the 22-line script from the README recording; writes `trace.html`.
+- `examples/anomaly_demo.py`: runs a pipeline clean, then with a planted filter bug, and localizes the bug. This is the hero GIF.
+- `examples/quickstart.ipynb`: the Colab notebook.
 
-# Start tracking
-%lineage_start
+## Not a CLI
 
-# Your code here...
-import pandas as pd
-df = pd.read_csv('data.csv')
-df.to_csv('output.csv')
-
-# View results
-%lineage_summary
-%lineage_show
-
-# Generate report
-%lineage_report
-```
-
-## What Gets Tracked
-
-AutoLineage automatically tracks:
-
-- **pandas**: read_csv, to_csv, read_parquet, to_parquet, read_json, to_json, etc.
-- **numpy**: load, save, loadtxt, savetxt
-- **pickle**: dump, load
-- **joblib**: dump, load (if installed)
-
-## Next Steps
-
-- See [examples/](../examples/) for complete working examples
-- Read [CLI Guide](cli.md) for all command-line options
-- Check [API Reference](api.md) for detailed documentation
-- View [Compliance Guide](compliance.md) for EU AI Act reporting
+Earlier versions (0.1 to 0.3) shipped a `lineage` command-line tool, a SQLite-backed `DatasetTracker` and an EU AI Act compliance reporter. Those were removed in v0.4.1 and are not coming back in that form; the library is a Python API only. If you need an exported artifact, `tracker.visualize("trace.html")` and `LineageAnalyzer.save_fingerprint()` write self-contained files.
