@@ -2,7 +2,7 @@
 
 This extends the single planted-bug experiment in Section 6.5 of the paper (the quantile-filter case) to five distinct bug categories: **filter, join, encoding, target leakage, and type coercion**. The goal is to move the diagnosis evidence from an anecdote (n=1) to a small controlled study (n=5) that shows both where the analyzer succeeds and where it does not.
 
-All numbers below were produced by running AutoLineage 0.6.2 (code identical to 0.6.1; 239 hooks: pandas + scikit-learn; PySpark not installed in this run). The scripts are in `benchmarks/planted_bugs/` and reproduce every figure with `bash run_all.sh`.
+All numbers below were produced by running the current `main` (the v0.7.0 development line, 240 hooks: pandas + scikit-learn; PySpark not installed in this run) on pandas 3.0.5 and scikit-learn 1.9.1. The scripts are in `benchmarks/planted_bugs/` and reproduce every figure with `bash run_all.sh`. The previous published run (AutoLineage 0.6.2, pandas 2.x) is kept in the "Before" column so the change is visible.
 
 ## Method
 
@@ -14,34 +14,38 @@ For each bug category I use one pipeline and change exactly one line between the
 
 The data is synthetic (6,000 rows, an amount feature, a categorical region, and a label concentrated in high-amount rows) so that each bug can be injected cleanly and reproducibly. The two real datasets from the paper, Credit Card Fraud and UCI Online Retail, remain the headline cases; this study is about controlled coverage across bug *types*, not dataset realism.
 
-One honest note on construction: my first harness silently dropped every one-hot column because pandas 2.x returns boolean dummies and `select_dtypes(include=[number])` excludes booleans. That is itself exactly the class of silent structural bug this tool targets, and it is fixed in the released scripts (dummies are cast to float). I mention it because it is a good reminder that these bugs are easy to write by accident.
+Two honest notes on construction. First, my first harness silently dropped every one-hot column because pandas 2.x returns boolean dummies and `select_dtypes(include=[number])` excludes booleans. That is itself exactly the class of silent structural bug this tool targets, and it is fixed in the released scripts (dummies are cast to float). Second, the same harness crashed on pandas 3.0 because string columns are now `str` dtype, not `object`, so the `dtype == object` filter that removed them no longer matched and `StandardScaler` received text. The scripts now drop columns with `not pd.api.types.is_numeric_dtype(...)`, which is what the filter meant all along. I mention both because they are good reminders that these bugs are easy to write by accident.
 
 ## Results
 
-| # | Bug category | The one-line change | Baseline F1 | Buggy F1 | Detected | Localized operation (impact) | Verdict |
-|---|---|---|---|---|---|---|---|
-| 1 | Filter | `quantile(0.999)` to `quantile(0.05)` | 0.828 | **0.000** | yes (critical) | `filter` (1.0) | exact |
-| 2 | Join fan-out | merge key `["region","tier"]` to `["region"]` | 0.837 | 0.837 | yes | `merge` (0.8) | exact |
-| 3 | Encoding blow-up | one-hot `region` to `customer_id` (+396 cols) | 0.836 | 0.738 | yes | `drop` (0.3) | proximate |
-| 4 | Target leakage | drop label `y` from X, versus keep it | 0.836 | **1.000** | yes | `drop` (0.3) | proximate |
-| 5 | Type coercion | `to_numeric(errors="raise")` to `"coerce"` + `dropna` | 0.834 | 0.840 | yes | `dropna` (0.5) | exact |
+| # | Bug category | The one-line change | Baseline F1 | Buggy F1 | Detected | Localized operation (impact) | Verdict | Before (0.6.2) |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Filter | `quantile(0.999)` to `quantile(0.05)` | 0.828 | **0.000** | yes (critical) | `filter` (1.0) | exact | `filter` (1.0), exact |
+| 2 | Join fan-out | merge key `["region","tier"]` to `["region"]` | 0.837 | 0.837 | yes | `merge` (1.0) | exact | `merge` (0.8), exact |
+| 3 | Encoding blow-up | one-hot `region` to `customer_id` (+396 cols) | 0.836 | 0.738 | yes (critical) | `get_dummies` (1.0) | **exact** | `drop` (0.3), proximate |
+| 4 | Target leakage | drop label `y` from X, versus keep it | 0.836 | **1.000** | yes (critical) | `get_dummies` (0.7), names `y` | **exact** | `drop` (0.3), proximate |
+| 5 | Type coercion | `to_numeric(errors="raise")` to `"coerce"` + `dropna` | 0.834 | 0.840 | yes | `dropna` (0.5) | exact | `dropna` (0.5), exact |
 
 **Detection: 5 / 5.** Every planted bug produced a critical or warning anomaly pinpointing the region of the pipeline that changed.
 
-**Exact-operation localization: 3 / 5** (filter, join, type). In these cases the analyzer named the precise operation the bug lived in.
+**Exact-operation localization: 5 / 5.** In every case the analyzer named the operation the bug lived in. For the two cases that were proximate in 0.6.2 it now also names the columns:
 
-**Proximate localization: 2 / 5** (encoding, leakage). Here the analyzer flagged the correct structural symptom (a column-count change of +396 for the encoding blow-up, and the extra label column for leakage) but attributed it to the adjacent recorded operation (`drop`) rather than the literal buggy call. The reason is concrete and fixable: `pd.get_dummies` and "forgetting to drop the label" are not separately hooked operations, so the column-count change first becomes visible at the next instrumented step. Hooking `get_dummies` and column-set membership would convert both of these from proximate to exact.
+- *Encoding* — `get_dummies` at step 0: "introduced 399 column(s) the baseline never saw: customer_id_1, customer_id_10, ... (+394 more). 3 column(s) it created in the baseline were never created: region_north, region_south, region_west."
+- *Leakage* — `get_dummies` at step 0: "Column(s) y were removed by drop in the baseline but are never removed in this run." The bug here is a *missing* operation, so there is no literal buggy call to point at; the analyzer instead names the leaked column and the step at which it entered the feature frame, which is the diagnosis a developer needs.
+
+Two things changed between 0.6.2 and this run. `pd.get_dummies` is now a hooked operation with its own lineage record, so an encoding change is visible where it happens rather than one step downstream. And the fingerprint now carries column *sets* per operation (output columns, columns added, columns removed, every column seen), not just column counts. The analyzer uses them for three attributions, each credited to a single operation so that downstream operations that merely inherit the changed column set are not blamed: columns the baseline never saw (*introduced*), columns the baseline deliberately removed that this run never removes (*retained*, the leakage signature), and columns the baseline created that this run never creates (*missing*). Each contributes 0.4 to the localization score at its origin operation.
 
 ## What the five cases show
 
-The three cases that localize exactly (filter, join, type) are all **row-count** bugs, and row-count deviation carries the largest weight in the scoring (0.6, versus 0.3 for column count and 0.1 for novelty). That is why they also earn the highest impact scores. The two proximate cases are **column-count** bugs, which by design score lower (0.3) and, in this build, surface one operation downstream of their true origin.
+The three row-count bugs (filter, join, type) localize on row-count deviation, which carries the largest weight in the scoring (0.6, versus 0.4 for a column-set change at its origin, 0.3 for a column-count change, and 0.1 for a new operation). The two column bugs (encoding, leakage) now localize on column-set membership: the count change alone (0.3) is inherited by every operation downstream and ties them, while the membership change is attributed to one operation and breaks the tie. The leakage case scores 0.7 rather than 1.0 because a single retained column is, by design, weaker evidence than a 399-column blow-up; it still wins by a clear margin over the next candidate (0.3).
 
 Two cases moved the metric dramatically and two barely moved it. Filter drove F1 to 0.000; leakage drove it to a suspicious 1.000, which is the classic leak signature a reviewer would want flagged. Join and type changed F1 by less than a point, yet the analyzer still caught the structural drift (a 6,000-row join fan-out, a 2,400-row silent drop from coercion). This is the intended value: the tool reports what the code did to the data even when the headline metric has not yet visibly moved, which is precisely when these bugs are most dangerous.
 
 ## Honest limitations of this study
 
 - **Synthetic data.** Controlled injection is a feature here, but it is not a substitute for real-world bug corpora. A stronger future version would mine real regressions or use a public bug benchmark.
-- **Two of five localize to a neighbor, not the exact line.** This is a real gap driven by unhooked operations (`get_dummies`, label handling), not a fundamental limit. It is the clearest next engineering task.
+- **Localization quality depends on which operations are hooked.** The 0.6.2 run localized two of five cases to a neighbour because `get_dummies` was not hooked; adding the hook fixed both. The same gap exists for any column-producing call that is not yet instrumented (e.g. `pd.cut`, `str.get_dummies`, `pd.crosstab`): its effect still surfaces one step downstream.
+- **Membership attribution assumes column names are stable.** A run that renames columns (`rename`, prefix changes) will report the renamed columns as introduced and the old names as missing at the rename step, which is correct but noisier than a count-only comparison.
 - **Shape-preserving semantic bugs remain out of scope.** Every bug here changes a row or column count. A unit error that scales a column by 1000 while preserving all shapes would still slip through, exactly as the paper states.
 - **Single random seed per case.** The scripts fix `seed=0`; a fuller evaluation would report variance across seeds.
 

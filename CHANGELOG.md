@@ -4,6 +4,16 @@ All notable changes to AutoLineage will be documented in this file.
 
 ## Unreleased
 
+### Added
+- `pd.get_dummies` is now a hooked operation (`operation="get_dummies"`, pandas hook count 64 -> 65, total 288 -> 289). The record carries the encoded columns, the dummy columns created, and the `columns`/`prefix`/`drop_first`/`dummy_na`/`dtype` parameters. Internal pandas calls made by `get_dummies` (`concat`, `__getitem__`, `drop`) are swallowed by the reentrancy guard rather than recorded as separate operations.
+- Column-set membership in the analyzer. `RunFingerprint` gains `output_columns`, `columns_added`, `columns_removed` (per `op:occurrence` key) and `columns_seen` (whole run). `detect_anomalies()` emits three new anomaly metrics, each attributed to a single operation: `columns_introduced` (columns the baseline never saw), `columns_retained` (columns the baseline deliberately removed that this run never removes — the target-leakage signature, always critical), and `columns_missing` (columns the baseline created that this run never creates). `localize_root_cause()` credits each of these 0.4 (`LineageAnalyzer.MEMBERSHIP_WEIGHT`) to the operation where the change originated, never to downstream operations that inherit it, and the explanation names the columns. Disable with `thresholds={'column_membership': False}`. Frames wider than `LineageAnalyzer.MAX_TRACKED_COLUMNS` (5000) are not stored. Fingerprints written by earlier versions load unchanged; the membership checks are a no-op against them.
+- Every pandas transform record now populates `input_columns` / `output_columns` (previously always `None`).
+- `tests/test_column_membership.py`: 18 tests covering the hook, fingerprint round-trip and backward compatibility, the encoding and leakage planted bugs localizing exactly, and the no-false-positive cases (inserted operation, identical runs, threshold off).
+
+### Changed
+- `pd.merge` and `pd.concat` hooks now honour the same reentrancy depth guard as the DataFrame method hooks. Previously a `concat` issued internally by another pandas call (e.g. inside `get_dummies`) was recorded as a top-level operation; it is not any more, so the `concat:N` keys of a fingerprint recorded with 0.6.3 may not line up with one recorded now for the same script.
+- `benchmarks/planted_bugs`: localization is now exact on 5 of 5 cases (was 3 of 5); the README records the before/after. The benchmark harness is also fixed for pandas 3.0, where string columns are `str` dtype rather than `object` and the old `dtype == object` filter crashed `StandardScaler`.
+
 ### Removed
 - Stale documentation and examples left over from the v0.1 to v0.3 architecture: `docs/cli.md` and `docs/compliance.md` (described a `lineage` CLI and a compliance reporter removed in v0.4.1), and eleven example scripts plus `examples/jupyter_demo.ipynb` that imported `DatasetTracker`, `autolineage.database`, `autolineage.tracker` or `%lineage_start` and failed on import against any release since 0.4.1. Remaining examples (`anomaly_demo.py`, `pipeline.py`, `quickstart.ipynb`) all run against the current release.
 

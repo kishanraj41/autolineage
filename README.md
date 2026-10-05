@@ -174,7 +174,7 @@ anomalies = analyzer.detect_anomalies()
 
 ## What Gets Tracked
 
-**pandas (64 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
+**pandas (65 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
 
 **scikit-learn (175 hooks):** `train_test_split`, estimator `fit` / `predict` / `predict_proba` / `score` across 30+ classes (RandomForest, LogisticRegression, DecisionTree, SVC, KNN, GradientBoosting, etc.), 18 preprocessor classes, 15 metric functions.
 
@@ -274,7 +274,7 @@ See `autolineage/hooks/pandas_io.py` for the smallest working example (~110 LoC)
 git clone https://github.com/kishanraj41/autolineage
 cd autolineage
 pip install -e ".[dev]"
-pytest tests/                      # 65 tests
+pytest tests/                      # 83 tests
 python examples/anomaly_demo.py    # full end-to-end demo
 ```
 
