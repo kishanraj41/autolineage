@@ -1,4 +1,9 @@
-<h1 align="center">AutoLineage</h1>
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kishanraj41/autolineage/main/docs/brand/autolineage-lockup-dark.svg">
+    <img src="https://raw.githubusercontent.com/kishanraj41/autolineage/main/docs/brand/autolineage-lockup.svg" alt="AutoLineage" width="380">
+  </picture>
+</h1>
 
 <p align="center"><b>Zero-code data lineage for Python ML pipelines.</b><br>
 One import. Every pandas, scikit-learn and PySpark operation tracked, anomalies caught, root cause localized.</p>
