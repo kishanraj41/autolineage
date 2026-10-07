@@ -121,7 +121,7 @@ from autolineage.auto import get_tracker
 get_tracker().visualize()       # opens HTML graph in your browser
 ```
 
-> **Why first?** `import autolineage.auto` patches framework methods at import time. If you write `from sklearn.metrics import f1_score` *before* this line, your local `f1_score` reference will bypass the wrapper. AutoLineage will warn you when this happens, but the easiest fix is to put `import autolineage.auto` at the top of your file.
+> **Why first?** `import autolineage.auto` patches framework methods at import time. If your script or notebook does `from sklearn.metrics import f1_score` (or `from pandas import merge`, etc.) *before* this line, AutoLineage rebinds that name in `__main__` to the tracked version and warns you that it did. Names imported early inside *other* modules can't be rebound and still bypass tracking, so putting `import autolineage.auto` at the top remains the clean fix. Set `AUTOLINEAGE_REBIND_EARLY_IMPORTS=0` to keep early imports untouched.
 
 ### 2. Visualize the lineage
 
@@ -253,7 +253,7 @@ At production data scales (≥10⁵ rows), end-to-end overhead becomes indisting
 
 - **Single-process.** Pipelines spanning multiple machines require manual trace correlation. OpenTelemetry export is planned.
 - **Monkey-patching is version-sensitive.** Tested against pandas 2.x / 3.x, scikit-learn 1.x, PySpark 3.x / 4.x.
-- **Import order matters.** `import autolineage.auto` must come before `from sklearn.metrics import f1_score` (or any other hooked symbol) — otherwise the local reference will bypass the wrapper. AutoLineage will warn you when this happens.
+- **Import order matters outside `__main__`.** A hooked function imported by name *before* the hooks are installed is rebound automatically in your script or notebook, but not inside other modules you import (a helper module that does `from sklearn.metrics import f1_score` first keeps the untracked reference). Put `import autolineage.auto` first to avoid both cases.
 - **C-extension code is invisible.** Operations that execute entirely in compiled code without re-entering Python (e.g., certain numpy reductions) are not captured.
 - **Python-only.** R, Julia, Java are out of scope.
 
@@ -279,7 +279,7 @@ See `autolineage/hooks/pandas_io.py` for the smallest working example (~110 LoC)
 git clone https://github.com/kishanraj41/autolineage
 cd autolineage
 pip install -e ".[dev]"
-pytest tests/                      # 83 tests
+pytest tests/                      # 95 tests
 python examples/anomaly_demo.py    # full end-to-end demo
 ```
 

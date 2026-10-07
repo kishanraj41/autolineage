@@ -30,7 +30,7 @@ tracker.visualize("trace.html")        # interactive graph, self-contained HTML
 tracker.to_mermaid()                   # or Graphviz: tracker.to_dot()
 ```
 
-`import autolineage.auto` patches pandas, scikit-learn and PySpark at import time. A symbol imported *before* that line (for example `from sklearn.metrics import f1_score`) binds to the original function and bypasses the hook; AutoLineage warns when it detects this.
+`import autolineage.auto` patches pandas, scikit-learn and PySpark at import time. A symbol your script imports *before* that line (for example `from sklearn.metrics import f1_score`) is rebound to the tracked version automatically, with a warning; a symbol imported early inside another module is not, and bypasses the hook. Putting `import autolineage.auto` first avoids both.
 
 ## Catch a silent regression
 
