@@ -35,6 +35,22 @@ Two honest notes on construction. First, my first harness silently dropped every
 
 Two things changed between 0.6.2 and this run. `pd.get_dummies` is now a hooked operation with its own lineage record, so an encoding change is visible where it happens rather than one step downstream. And the fingerprint now carries column *sets* per operation (output columns, columns added, columns removed, every column seen), not just column counts. The analyzer uses them for three attributions, each credited to a single operation so that downstream operations that merely inherit the changed column set are not blamed: columns the baseline never saw (*introduced*), columns the baseline deliberately removed that this run never removes (*retained*, the leakage signature), and columns the baseline created that this run never creates (*missing*). Each contributes 0.4 to the localization score at its origin operation.
 
+## Across seeds (0–4)
+
+The table above is seed 0. `run_seeds.py` reruns every case with seeds 0–4; the seed controls the synthetic data, the train/test split and the sampling step, so each seed is a different 6,000-row dataset with the same one-line bug. Twenty-five healthy/buggy pairs, each in fresh processes:
+
+| # | Bug category | Baseline F1 (mean ± sd) | Buggy F1 (mean ± sd) | Detected | Exact localization | Impact (mean ± sd) |
+|---|---|---|---|---|---|---|
+| 1 | Filter | 0.843 ± 0.014 | 0.000 ± 0.000 | 5/5 | 5/5 | 1.00 ± 0.00 |
+| 2 | Join fan-out | 0.841 ± 0.008 | 0.847 ± 0.015 | 5/5 | 5/5 | 1.00 ± 0.00 |
+| 3 | Encoding blow-up | 0.843 ± 0.009 | 0.723 ± 0.019 | 5/5 | 5/5 | 1.00 ± 0.00 |
+| 4 | Target leakage | 0.843 ± 0.009 | 1.000 ± 0.000 | 5/5 | 5/5 | 0.70 ± 0.00 |
+| 5 | Type coercion | 0.844 ± 0.010 | 0.843 ± 0.006 | 5/5 | 5/5 | 0.50 ± 0.00 |
+
+**Detection 25/25, exact localization 25/25.** Per-run results are in `results_multiseed.json`.
+
+What this does and does not show. The metric effects vary with the data as expected (encoding F1 0.70–0.75 across seeds), but the localized operation and its impact score did not change on any seed. That is because these bugs are large structural changes (a filter keeping 5% of rows, a 6,000-row join fan-out, 399 extra columns) that dwarf seed-to-seed noise, so the result says the localization is stable under resampling, not that it holds for subtle bugs. Varying bug *severity* (how many rows a filter drops, how many columns an encoding adds) is the next axis to test, and is where a lower impact score would start to compete with noise.
+
 ## What the five cases show
 
 The three row-count bugs (filter, join, type) localize on row-count deviation, which carries the largest weight in the scoring (0.6, versus 0.4 for a column-set change at its origin, 0.3 for a column-count change, and 0.1 for a new operation). The two column bugs (encoding, leakage) now localize on column-set membership: the count change alone (0.3) is inherited by every operation downstream and ties them, while the membership change is attributed to one operation and breaks the tie. The leakage case scores 0.7 rather than 1.0 because a single retained column is, by design, weaker evidence than a 399-column blow-up; it still wins by a clear margin over the next candidate (0.3).
@@ -47,14 +63,15 @@ Two cases moved the metric dramatically and two barely moved it. Filter drove F1
 - **Localization quality depends on which operations are hooked.** The 0.6.2 run localized two of five cases to a neighbour because `get_dummies` was not hooked; adding the hook fixed both. The same gap exists for any column-producing call that is not yet instrumented (e.g. `pd.cut`, `str.get_dummies`, `pd.crosstab`): its effect still surfaces one step downstream.
 - **Membership attribution assumes column names are stable.** A run that renames columns (`rename`, prefix changes) will report the renamed columns as introduced and the old names as missing at the rename step, which is correct but noisier than a count-only comparison.
 - **Shape-preserving semantic bugs remain out of scope.** Every bug here changes a row or column count. A unit error that scales a column by 1000 while preserving all shapes would still slip through, exactly as the paper states.
-- **Single random seed per case.** The scripts fix `seed=0`; a fuller evaluation would report variance across seeds.
+- **Seeds vary the data, not the bug.** Five seeds per case (above) show the localization is stable under resampling; bug severity is fixed per case, so how small a bug can be and still be localized is untested.
 
 ## Reproducibility
 
 ```
 cd benchmarks/planted_bugs
 pip install "autolineage[sklearn]" scikit-learn pandas numpy
-bash run_all.sh
+bash run_all.sh          # seed 0, the table above
+python run_seeds.py      # seeds 0-4, the across-seeds table (about a minute)
 ```
 
 Each case prints the baseline F1, the buggy F1, the ranked anomalies, and the localized root cause with its impact score.

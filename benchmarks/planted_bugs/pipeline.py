@@ -1,5 +1,6 @@
 import sys, json
 CASE = sys.argv[1]; MODE = sys.argv[2]; buggy = (MODE=="buggy")
+SEED = int(sys.argv[3]) if len(sys.argv) > 3 else 0   # data, split and sampling seed
 import autolineage.auto
 from autolineage.auto import get_tracker
 from autolineage.core.analyzer import LineageAnalyzer
@@ -9,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, accuracy_score
 
-def make_data(seed=0, n=6000):
+def make_data(seed=SEED, n=6000):
     rng = np.random.default_rng(seed)
     amount = rng.exponential(50, n)
     region = rng.choice(["north","south","east","west"], n)
@@ -22,7 +23,7 @@ def fit_score(df):
     X = pd.get_dummies(d.drop(columns=["y"]), columns=cat, drop_first=True, dtype=float)
     X = X.drop(columns=[c for c in X.columns if not pd.api.types.is_numeric_dtype(X[c])])
     y = d["y"]
-    Xtr,Xte,ytr,yte = train_test_split(X, y, test_size=0.3, random_state=0)
+    Xtr,Xte,ytr,yte = train_test_split(X, y, test_size=0.3, random_state=SEED)
     sc = StandardScaler(); Xtr = sc.fit_transform(Xtr); Xte = sc.transform(Xte)
     m = LogisticRegression(max_iter=200).fit(Xtr, ytr); p = m.predict(Xte)
     return f1_score(yte,p,zero_division=0), accuracy_score(yte,p)
@@ -43,7 +44,7 @@ def build(case, buggy):
         df = pd.get_dummies(df, columns=(["customer_id"] if buggy else ["region"]), drop_first=True, dtype=float)
         df = df.drop(columns=[c for c in df.columns if not pd.api.types.is_numeric_dtype(df[c])])
         y=df["y"]; X=df.drop(columns=["y"])
-        Xtr,Xte,ytr,yte=train_test_split(X,y,test_size=0.3,random_state=0)
+        Xtr,Xte,ytr,yte=train_test_split(X,y,test_size=0.3,random_state=SEED)
         sc=StandardScaler(); Xtr=sc.fit_transform(Xtr); Xte=sc.transform(Xte)
         m=LogisticRegression(max_iter=200).fit(Xtr,ytr); p=m.predict(Xte)
         return f1_score(yte,p,zero_division=0), accuracy_score(yte,p)
@@ -52,14 +53,14 @@ def build(case, buggy):
         X = pd.get_dummies(base, columns=["region"], drop_first=True, dtype=float)
         X = X.drop(columns=[c for c in X.columns if not pd.api.types.is_numeric_dtype(X[c])])
         y = df["y"]
-        Xtr,Xte,ytr,yte=train_test_split(X,y,test_size=0.3,random_state=0)
+        Xtr,Xte,ytr,yte=train_test_split(X,y,test_size=0.3,random_state=SEED)
         sc=StandardScaler(); Xtr=sc.fit_transform(Xtr); Xte=sc.transform(Xte)
         m=LogisticRegression(max_iter=200).fit(Xtr,ytr); p=m.predict(Xte)
         return f1_score(yte,p,zero_division=0), accuracy_score(yte,p)
     if case == "type":
         df["code"] = df["amount"].round().astype(int).astype(str)
         if buggy:
-            df.loc[df.sample(frac=0.4, random_state=1).index, "code"] = "N/A"
+            df.loc[df.sample(frac=0.4, random_state=SEED + 1).index, "code"] = "N/A"
         df["code"] = pd.to_numeric(df["code"], errors="coerce")
         df = df.dropna(subset=["code"])
         return fit_score(df)
@@ -70,10 +71,10 @@ def build(case, buggy):
 EXPECT = {"filter":"filter","join":"merge","encoding":"get_dummies",
           "leakage":"get_dummies","type":"dropna"}
 f1, acc = build(CASE, buggy)
-tr = get_tracker(); an = LineageAnalyzer(tr); fp = f"fp_{CASE}.json"
+tr = get_tracker(); an = LineageAnalyzer(tr); fp = f"fp_{CASE}_s{SEED}.json"
 if MODE=="baseline":
     an.save_fingerprint(fp)
-    print(json.dumps({"case":CASE,"base_f1":round(f1,4),"base_acc":round(acc,4)}))
+    print(json.dumps({"case":CASE,"seed":SEED,"base_f1":round(f1,4),"base_acc":round(acc,4)}))
 else:
     an.load_baseline(fp); anoms = an.detect_anomalies()
     top = [{"op":a.operation,"metric":a.metric,"sev":a.severity,"dev":round(float(a.deviation),1)} for a in anoms]
@@ -83,5 +84,5 @@ else:
             r=an.localize_root_cause(metric)
             if r: rc={"metric":metric,"root_op":r.root_operation,"impact":round(float(r.impact_score),2)}; break
         except Exception as e: rc={"error":repr(e)[:80]}
-    print(json.dumps({"case":CASE,"buggy_f1":round(f1,4),"buggy_acc":round(acc,4),
+    print(json.dumps({"case":CASE,"seed":SEED,"buggy_f1":round(f1,4),"buggy_acc":round(acc,4),
                       "n_anom":len(anoms),"top_anoms":top[:4],"root_cause":rc,"expected_op":EXPECT[CASE]}))
