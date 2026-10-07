@@ -110,7 +110,10 @@ the column-set term localized these two cases to the adjacent recorded operation
 instead; the benchmark README records both runs. The localization used the library's
 default weights, which were not tuned on these five pipelines, so the result reflects
 out-of-the-box behaviour on previously unseen pipelines.
-The scripts fix all random seeds and reproduce every number reported here. A companion
+Repeating every case on five seeds, each a different synthetic dataset, gave the same
+localized operation on all 25 runs. Bug severity was fixed per case, so this shows
+stability under resampling, not sensitivity to smaller bugs. The scripts fix all random
+seeds and reproduce every number reported here. A companion
 preprint [@vg2026autolineage] describes the hooking methodology and the overhead and
 scaling studies in more detail.
 

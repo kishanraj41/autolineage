@@ -5,6 +5,6 @@ set -e
 export PYTHONHASHSEED=0   # byte-identical output across runs
 for c in filter join encoding leakage type; do
   echo "=== $c ==="
-  python3 pipeline.py "$c" baseline   # saves fp_$c.json fingerprint of the healthy run
+  python3 pipeline.py "$c" baseline   # saves fp_${c}_s0.json fingerprint of the healthy run
   python3 pipeline.py "$c" buggy      # loads baseline, detects + localizes on the buggy run
 done
