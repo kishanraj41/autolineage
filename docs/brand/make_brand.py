@@ -123,10 +123,10 @@ parts = [f'<rect width="1280" height="640" fill="{AUB}"/>',
 x0 = 480
 p, wa = text_path(MONO_R, "auto", 92, x0, 290, MUTED_D); parts.append(p)
 p, _ = text_path(MONO_B, "lineage", 92, x0 + wa, 290, LIGHT); parts.append(p)
-p, _ = text_path(SANS_R, "Find the pandas operation that", 36, x0, 372, "#D9CCE0"); parts.append(p)
-p, _ = text_path(SANS_R, "silently broke your model.", 36, x0, 420, "#D9CCE0"); parts.append(p)
+p, _ = text_path(SANS_R, "Find the operation that silently", 36, x0, 372, "#D9CCE0"); parts.append(p)
+p, _ = text_path(SANS_R, "broke your ML pipeline.", 36, x0, 420, "#D9CCE0"); parts.append(p)
 p, _ = text_path(MONO_R, "pip install autolineage", 28, x0, 500, LIME); parts.append(p)
-social = svg(1280, 640, "".join(parts), "AutoLineage: find the pandas operation that silently broke your model")
+social = svg(1280, 640, "".join(parts), "AutoLineage: find the operation that silently broke your ML pipeline")
 write("autolineage-social-preview.svg", social)
 png(social, "autolineage-social-preview.png", 1280, 640)
 
