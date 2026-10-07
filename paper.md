@@ -23,7 +23,7 @@ bibliography: paper.bib
 `AutoLineage` is a Python library that automatically records what a machine-learning
 pipeline does to its data, operation by operation, and localizes the operation
 responsible when a model metric regresses. A single `import autolineage.auto` statement
-instruments pandas, scikit-learn, and PySpark at load time (288 framework methods),
+instruments pandas, scikit-learn, and PySpark at load time (289 framework methods),
 capturing every transformation with its input and output shapes, the columns it touched,
 and timing metadata, with no decorators, no manual logging, and no changes to the
 pipeline code. The captured execution forms an in-memory directed acyclic graph that can
@@ -87,20 +87,29 @@ library is roughly 200 lines and touches none of the core, isolating the version
 surface per framework.
 
 Finally, root-cause localization scores each operation against the baseline by a weighted
-blend of row-count deviation (0.6), column-count change (0.3), and novelty (0.1). The
-weighting is a deliberate heuristic rather than a learned model: bugs in this class
-surface first and most violently as row-count anomalies, so the proximate cause outranks
-the downstream operations that merely inherit its damage.
+blend of row-count deviation (0.6), column-set change at its origin (0.4), column-count
+change (0.3), and novelty (0.1). The column-set term compares the names of the columns
+each operation produced, created, and removed, and credits a change only to the
+operation where it originated: a column the baseline never saw, a column the baseline
+deliberately removed that the current run never removes (the target-leakage signature),
+or a column the baseline created that the current run never creates. The weighting is a
+deliberate heuristic rather than a learned model: bugs in this class surface first and
+most violently as row-count anomalies, and column-set changes are attributable to one
+operation where a bare column-count change is inherited by every operation downstream.
 
 # Evaluation
 
 A controlled study in `benchmarks/planted_bugs/` injects five bug categories (filter
 corruption, join fan-out, encoding blow-up, target leakage, and type coercion) into a
 fixed pipeline, changing one line each. `AutoLineage` detected the structural change in
-all five cases and localized the exact operation in three (filter, join, type); the
-remaining two were flagged correctly but attributed to the adjacent recorded operation.
-The localization used the library's default weights, which were not tuned on these five
-pipelines, so the result reflects out-of-the-box behaviour on previously unseen pipelines.
+all five cases and localized the exact operation in all five. For the encoding and
+leakage cases the explanation also names the columns involved (the 399 one-hot columns
+a high-cardinality id produced; the label column that was dropped in the baseline but
+never dropped in the buggy run). An earlier build without the `get_dummies` hook and
+the column-set term localized these two cases to the adjacent recorded operation
+instead; the benchmark README records both runs. The localization used the library's
+default weights, which were not tuned on these five pipelines, so the result reflects
+out-of-the-box behaviour on previously unseen pipelines.
 The scripts fix all random seeds and reproduce every number reported here. A companion
 preprint [@vg2026autolineage] describes the hooking methodology and the overhead and
 scaling studies in more detail.

@@ -20,7 +20,7 @@ def fit_score(df):
     d = df.copy()
     cat = [c for c in ["region","tier"] if c in d.columns]
     X = pd.get_dummies(d.drop(columns=["y"]), columns=cat, drop_first=True, dtype=float)
-    X = X.drop(columns=[c for c in X.columns if X[c].dtype==object])
+    X = X.drop(columns=[c for c in X.columns if not pd.api.types.is_numeric_dtype(X[c])])
     y = d["y"]
     Xtr,Xte,ytr,yte = train_test_split(X, y, test_size=0.3, random_state=0)
     sc = StandardScaler(); Xtr = sc.fit_transform(Xtr); Xte = sc.transform(Xte)
@@ -41,7 +41,7 @@ def build(case, buggy):
     if case == "encoding":
         df["customer_id"] = (np.arange(len(df)) % 400).astype(str)
         df = pd.get_dummies(df, columns=(["customer_id"] if buggy else ["region"]), drop_first=True, dtype=float)
-        df = df.drop(columns=[c for c in df.columns if df[c].dtype==object])
+        df = df.drop(columns=[c for c in df.columns if not pd.api.types.is_numeric_dtype(df[c])])
         y=df["y"]; X=df.drop(columns=["y"])
         Xtr,Xte,ytr,yte=train_test_split(X,y,test_size=0.3,random_state=0)
         sc=StandardScaler(); Xtr=sc.fit_transform(Xtr); Xte=sc.transform(Xte)
@@ -50,7 +50,7 @@ def build(case, buggy):
     if case == "leakage":
         base = df if buggy else df.drop(columns=["y"])   # buggy leaves target y in the features
         X = pd.get_dummies(base, columns=["region"], drop_first=True, dtype=float)
-        X = X.drop(columns=[c for c in X.columns if X[c].dtype==object])
+        X = X.drop(columns=[c for c in X.columns if not pd.api.types.is_numeric_dtype(X[c])])
         y = df["y"]
         Xtr,Xte,ytr,yte=train_test_split(X,y,test_size=0.3,random_state=0)
         sc=StandardScaler(); Xtr=sc.fit_transform(Xtr); Xte=sc.transform(Xte)
@@ -64,8 +64,11 @@ def build(case, buggy):
         df = df.dropna(subset=["code"])
         return fit_score(df)
 
-EXPECT = {"filter":"filter","join":"merge","encoding":"StandardScaler.fit_transform",
-          "leakage":"StandardScaler.fit_transform","type":"dropna"}
+# The literal buggy call per case. For leakage the bug is a *missing* drop,
+# so the exact answer is the first operation that carries the label into
+# the feature frame (get_dummies), with the analyzer naming the column.
+EXPECT = {"filter":"filter","join":"merge","encoding":"get_dummies",
+          "leakage":"get_dummies","type":"dropna"}
 f1, acc = build(CASE, buggy)
 tr = get_tracker(); an = LineageAnalyzer(tr); fp = f"fp_{CASE}.json"
 if MODE=="baseline":

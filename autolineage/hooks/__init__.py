@@ -117,6 +117,22 @@ class BaseHookProvider(ABC):
         removed = sorted(p - c) or None
         return added, removed
 
+    @staticmethod
+    def _cols(obj):
+        """Column names of a DataFrame-like object as strings, or None.
+
+        Used to populate ``TransformationRecord.input_columns`` /
+        ``output_columns`` so the analyzer can compare column *sets*
+        between runs, not just column counts.
+        """
+        cols = getattr(obj, 'columns', None)
+        if cols is None:
+            return None
+        try:
+            return [str(c) for c in cols]
+        except Exception:
+            return None
+
 
 # Backward compatibility
 try:

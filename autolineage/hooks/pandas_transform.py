@@ -70,6 +70,15 @@ class PandasTransformHooks(BaseHookProvider):
         pd.concat = self._make_concat_hook(pd.concat)
         count += 1
 
+        # pd.get_dummies is a module-level function, not a DataFrame
+        # method. Encoding bugs (one-hot on a high-cardinality id column,
+        # a label column that never got dropped) first become visible in
+        # the column set it produces, so it needs its own record rather
+        # than surfacing one step downstream.
+        self._originals['pd.get_dummies'] = pd.get_dummies
+        pd.get_dummies = self._make_get_dummies_hook(pd.get_dummies)
+        count += 1
+
         orig_gb = self._save_original(pd.DataFrame, 'groupby')
         setattr(pd.DataFrame, 'groupby', self._make_groupby_hook(orig_gb))
         count += 1
@@ -103,6 +112,8 @@ class PandasTransformHooks(BaseHookProvider):
             pd.merge = self._originals['pd.merge']
         if 'pd.concat' in self._originals:
             pd.concat = self._originals['pd.concat']
+        if 'pd.get_dummies' in self._originals:
+            pd.get_dummies = self._originals['pd.get_dummies']
         for agg_method in _GROUPBY_AGG_METHODS:
             for cls in [DataFrameGroupBy, SeriesGroupBy]:
                 key = f"{cls.__name__}.{agg_method}"
@@ -146,8 +157,59 @@ class PandasTransformHooks(BaseHookProvider):
                     parent_ids=[parent_lid], child_id=child_lid,
                     parameters=provider._safe_params(params),
                     input_shape=tuple(self_df.shape), output_shape=tuple(target.shape),
+                    input_columns=provider._cols(self_df),
+                    output_columns=provider._cols(target),
                     columns_added=added, columns_removed=removed,
                     rows_before=len(self_df), rows_after=len(target), duration_ms=duration)
+                provider._emit(rec)
+            return result
+        return hooked
+
+    def _make_get_dummies_hook(self, orig_fn):
+        provider = self
+
+        @wraps(orig_fn)
+        def hooked(data, *args, **kwargs):
+            # Same reentrancy rule as the method hooks: get_dummies calls
+            # concat / __getitem__ / drop internally, and those must not
+            # become separate top-level records.
+            if provider._hook_depth >= 1:
+                return orig_fn(data, *args, **kwargs)
+            provider._hook_depth += 1
+            try:
+                result, duration = provider._timed(orig_fn, data, *args, **kwargs)
+            finally:
+                provider._hook_depth -= 1
+            import pandas as pd
+            if isinstance(result, pd.DataFrame) and isinstance(data, (pd.DataFrame, pd.Series)):
+                parent_lid = provider._get_or_assign(data, source="untracked")
+                child_lid = provider._get_or_assign(result, source="get_dummies")
+                input_cols = provider._cols(data)
+                if input_cols is None and isinstance(data, pd.Series):
+                    input_cols = [str(data.name)] if data.name is not None else None
+                added, removed = provider._col_diff(input_cols, result.columns)
+                columns = kwargs.get('columns')
+                try:
+                    columns = list(columns) if columns is not None else None
+                except TypeError:
+                    columns = str(columns)
+                params = {
+                    'columns': columns,
+                    'prefix': kwargs.get('prefix'),
+                    'drop_first': kwargs.get('drop_first', False),
+                    'dummy_na': kwargs.get('dummy_na', False),
+                    'dtype': str(kwargs['dtype']) if 'dtype' in kwargs else None,
+                    'n_dummy_columns': len(added) if added else 0,
+                }
+                in_shape = tuple(data.shape) if hasattr(data, 'shape') else None
+                rec = provider._make_record(
+                    category="transform", operation="get_dummies",
+                    parent_ids=[parent_lid], child_id=child_lid,
+                    parameters=provider._safe_params(params),
+                    input_shape=in_shape, output_shape=tuple(result.shape),
+                    input_columns=input_cols, output_columns=provider._cols(result),
+                    columns_added=added, columns_removed=removed,
+                    rows_before=len(data), rows_after=len(result), duration_ms=duration)
                 provider._emit(rec)
             return result
         return hooked
@@ -157,7 +219,13 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(*args, **kwargs):
-            result, duration = provider._timed(orig_fn, *args, **kwargs)
+            if provider._hook_depth >= 1:
+                return orig_fn(*args, **kwargs)
+            provider._hook_depth += 1
+            try:
+                result, duration = provider._timed(orig_fn, *args, **kwargs)
+            finally:
+                provider._hook_depth -= 1
             import pandas as pd
             if isinstance(result, pd.DataFrame):
                 left = args[0] if len(args) > 0 else kwargs.get('left')
@@ -169,12 +237,16 @@ class PandasTransformHooks(BaseHookProvider):
                     parent_ids.append(provider._get_or_assign(right, source="untracked"))
                 child_lid = provider._get_or_assign(result, source="merge")
                 params = {k: kwargs[k] for k in ('on', 'how', 'left_on', 'right_on') if k in kwargs}
+                left_cols = provider._cols(left)
+                added, removed = provider._col_diff(left_cols, result.columns)
                 rec = provider._make_record(
                     category="transform", operation="merge",
                     parent_ids=parent_ids, child_id=child_lid,
                     parameters=provider._safe_params(params),
                     input_shape=tuple(left.shape) if hasattr(left, 'shape') else None,
                     output_shape=tuple(result.shape),
+                    input_columns=left_cols, output_columns=provider._cols(result),
+                    columns_added=added, columns_removed=removed,
                     rows_before=len(left) if hasattr(left, '__len__') else None,
                     rows_after=len(result), duration_ms=duration)
                 provider._emit(rec)
@@ -186,19 +258,28 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(objs, *args, **kwargs):
-            result, duration = provider._timed(orig_fn, objs, *args, **kwargs)
+            if provider._hook_depth >= 1:
+                return orig_fn(objs, *args, **kwargs)
+            provider._hook_depth += 1
+            try:
+                result, duration = provider._timed(orig_fn, objs, *args, **kwargs)
+            finally:
+                provider._hook_depth -= 1
             import pandas as pd
             if isinstance(result, pd.DataFrame):
                 parent_ids = []
-                for obj in objs:
+                n_inputs = 0
+                for obj in (objs.values() if isinstance(objs, dict) else objs):
+                    n_inputs += 1
                     if isinstance(obj, pd.DataFrame):
                         parent_ids.append(provider._get_or_assign(obj, source="untracked"))
                 child_lid = provider._get_or_assign(result, source="concat")
                 rec = provider._make_record(
                     category="transform", operation="concat",
                     parent_ids=parent_ids, child_id=child_lid,
-                    parameters={'n_inputs': len(objs), 'axis': kwargs.get('axis', 0)},
+                    parameters={'n_inputs': n_inputs, 'axis': kwargs.get('axis', 0)},
                     output_shape=tuple(result.shape),
+                    output_columns=provider._cols(result),
                     rows_after=len(result), duration_ms=duration)
                 provider._emit(rec)
             return result
@@ -242,6 +323,8 @@ class PandasTransformHooks(BaseHookProvider):
                     parameters=provider._safe_params({'by': by_keys, 'agg': agg_name}),
                     input_shape=tuple(parent_df.shape) if parent_df is not None else None,
                     output_shape=tuple(target.shape),
+                    input_columns=provider._cols(parent_df) if parent_df is not None else None,
+                    output_columns=provider._cols(target),
                     rows_before=len(parent_df) if parent_df is not None else None,
                     rows_after=len(target), duration_ms=duration)
                 provider._emit(rec)
@@ -270,6 +353,7 @@ class PandasTransformHooks(BaseHookProvider):
                     operation="select" if isinstance(key, (list, pd.Index)) else "filter",
                     parent_ids=[parent_lid], child_id=child_lid,
                     input_shape=tuple(self_df.shape), output_shape=tuple(result.shape),
+                    input_columns=provider._cols(self_df), output_columns=provider._cols(result),
                     columns_added=added, columns_removed=removed,
                     rows_before=len(self_df), rows_after=len(result))
                 provider._emit(rec)
