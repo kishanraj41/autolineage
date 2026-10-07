@@ -98,7 +98,10 @@ pip install autolineage
 # Recommended: include sklearn support (most common ML stack)
 pip install autolineage[sklearn]
 
-# Full install with sklearn + pyspark + Jupyter rich output
+# OpenTelemetry span export
+pip install autolineage[otel]
+
+# Everything: sklearn + pyspark + Jupyter rich output + OpenTelemetry
 pip install autolineage[all]
 ```
 
@@ -174,6 +177,18 @@ analyzer = LineageAnalyzer(new_tracker)
 analyzer.load_baseline("baseline.json")
 anomalies = analyzer.detect_anomalies()
 ```
+
+### 6. Export to OpenTelemetry (optional)
+
+```python
+from autolineage.otel import enable_otel_export
+
+exporter = enable_otel_export()      # uses your global OpenTelemetry tracer provider
+# ... pipeline runs ...
+exporter.shutdown()
+```
+
+Every tracked operation becomes a span (`pandas-transforms.merge`, `sklearn.f1_score`, ...) under one `autolineage.run` span, timed by its measured duration, with rows before/after, shapes, columns added/removed, and metric values as attributes. Spans go wherever your tracer provider already sends them (OTLP collector, Jaeger, Tempo, Honeycomb); AutoLineage configures no exporter of its own. Lineage IDs (`autolineage.child_id`, `autolineage.parent_ids`) are attributes, so traces from separate processes can be joined on them. Requires `pip install autolineage[otel]`.
 
 ---
 
@@ -251,7 +266,7 @@ At production data scales (≥10⁵ rows), end-to-end overhead becomes indisting
 
 ## Limitations
 
-- **Single-process.** Pipelines spanning multiple machines require manual trace correlation. OpenTelemetry export is planned.
+- **Single-process tracking.** Each process tracks its own operations. With `autolineage[otel]`, every process can export spans carrying lineage IDs to one backend, but joining them into a single cross-machine lineage graph is still up to you; AutoLineage does not propagate context between processes.
 - **Monkey-patching is version-sensitive.** Tested against pandas 2.x / 3.x, scikit-learn 1.x, PySpark 3.x / 4.x.
 - **Import order matters outside `__main__`.** A hooked function imported by name *before* the hooks are installed is rebound automatically in your script or notebook, but not inside other modules you import (a helper module that does `from sklearn.metrics import f1_score` first keeps the untracked reference). Put `import autolineage.auto` first to avoid both cases.
 - **C-extension code is invisible.** Operations that execute entirely in compiled code without re-entering Python (e.g., certain numpy reductions) are not captured.
@@ -279,7 +294,7 @@ See `autolineage/hooks/pandas_io.py` for the smallest working example (~110 LoC)
 git clone https://github.com/kishanraj41/autolineage
 cd autolineage
 pip install -e ".[dev]"
-pytest tests/                      # 95 tests
+pytest tests/                      # 103 tests (8 skip without the otel extra)
 python examples/anomaly_demo.py    # full end-to-end demo
 ```
 
