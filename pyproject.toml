@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autolineage"
-version = "0.6.3"
+version = "0.7.0"
 description = "Zero-code data lineage for Python ML pipelines: automatic tracking, anomaly detection, and root-cause localization across pandas, scikit-learn, and PySpark."
 readme = "README.md"
 license = "MIT"
@@ -47,10 +47,13 @@ dependencies = [
 sklearn = ["scikit-learn>=1.0.0"]
 pyspark = ["pyspark>=3.0.0"]
 jupyter = ["ipython>=7.0.0"]
+otel = ["opentelemetry-api>=1.20.0", "opentelemetry-sdk>=1.20.0"]
 all = [
     "scikit-learn>=1.0.0",
     "pyspark>=3.0.0",
     "ipython>=7.0.0",
+    "opentelemetry-api>=1.20.0",
+    "opentelemetry-sdk>=1.20.0",
 ]
 dev = [
     "pytest>=7.0.0",
@@ -60,6 +63,8 @@ dev = [
     "scikit-learn>=1.0.0",
     "pyspark>=3.0.0",
     "ipython>=7.0.0",
+    "opentelemetry-api>=1.20.0",
+    "opentelemetry-sdk>=1.20.0",
 ]
 
 [project.urls]

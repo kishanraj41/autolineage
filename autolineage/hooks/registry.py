@@ -14,12 +14,8 @@ from . import BaseHookProvider
 _PROVIDERS = [
     ("autolineage.hooks.pandas_io", "PandasIOHooks"),
     ("autolineage.hooks.pandas_transform", "PandasTransformHooks"),
-    ("autolineage.hooks.numpy_hooks", "NumpyHooks"),
     ("autolineage.hooks.sklearn_hooks", "SklearnHooks"),
-    ("autolineage.hooks.xgboost_hooks", "XGBoostHooks"),
-    ("autolineage.hooks.lightgbm_hooks", "LightGBMHooks"),
     ("autolineage.hooks.pyspark_hooks", "PySparkHooks"),
-    ("autolineage.hooks.polars_hooks", "PolarsHooks"),
 ]
 
 # Set to 0 / false / no to keep early-imported names untouched (warn only).

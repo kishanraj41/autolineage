@@ -64,9 +64,9 @@ object. `AutoLineage` instead monkey-patches the framework methods at import tim
 unmodified user code is observed transparently. The trade-off is stated plainly in the
 documentation: the approach is version-sensitive and single-process, in exchange for
 zero-configuration capture of code the user never has to touch. Measured overhead is 84.7
-microseconds per operation (95% CI [78, 91]) on a 37-operation pandas/scikit-learn
-benchmark, low enough to leave enabled in notebooks and CI (reproduction scripts in
-`benchmarks/`).
+microseconds per hooked call (95% CI [78, 91]) in an interleaved microbenchmark of a
+small `dropna`, low enough to leave enabled in notebooks and CI (reproduction script
+`paper/microbenchmark_v2.py`).
 
 Patching at this level creates a reentrancy problem: hooked methods invoke other hooked
 methods internally, so a single `fit()` triggers several times as many hooked calls as
@@ -110,7 +110,10 @@ the column-set term localized these two cases to the adjacent recorded operation
 instead; the benchmark README records both runs. The localization used the library's
 default weights, which were not tuned on these five pipelines, so the result reflects
 out-of-the-box behaviour on previously unseen pipelines.
-The scripts fix all random seeds and reproduce every number reported here. A companion
+Repeating every case on five seeds, each a different synthetic dataset, gave the same
+localized operation on all 25 runs. Bug severity was fixed per case, so this shows
+stability under resampling, not sensitivity to smaller bugs. The scripts fix all random
+seeds and reproduce every number reported here. A companion
 preprint [@vg2026autolineage] describes the hooking methodology and the overhead and
 scaling studies in more detail.
 

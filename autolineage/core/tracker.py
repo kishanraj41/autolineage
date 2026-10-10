@@ -84,6 +84,15 @@ class UnifiedTracker:
         """
         self._post_record_callbacks.append(callback)
 
+    def unregister_post_record_callback(self, callback) -> bool:
+        """Remove a callback added with ``register_post_record_callback``.
+        Returns True if it was registered."""
+        try:
+            self._post_record_callbacks.remove(callback)
+            return True
+        except ValueError:
+            return False
+
     def _fire_post_record_callbacks(self, rec) -> None:
         """Internal: invoke all registered post-record callbacks."""
         for cb in self._post_record_callbacks:
