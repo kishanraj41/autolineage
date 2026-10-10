@@ -252,7 +252,7 @@ Plugin-based. Each library is a single file implementing `BaseHookProvider`. Add
 
 ## Performance
 
-Per-operation instrumentation cost on a 37-operation pipeline (Intel i7-12700H, Python 3.12, pandas 3.0):
+Per-call cost of one hooked operation (`df.dropna()` on a 50-row DataFrame, median of 10 x 10,000 calls per trial, 15 interleaved subprocess trials per condition, `paper/microbenchmark_v2.py`; Intel i7-12700H, Python 3.12, pandas 3.0):
 
 | Condition | Mean time per call | 95% CI |
 |---|---|---|

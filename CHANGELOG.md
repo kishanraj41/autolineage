@@ -2,9 +2,12 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
-## Unreleased
+## v0.7.0 (2026-10-11)
+
+Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in the analyzer, which takes planted-bug localization from 3/5 to 5/5 exact (25/25 across five seeds); early-bound imports in scripts and notebooks are now rebound and tracked instead of silently missed. Upgrade note: fingerprints saved by 0.6.x still load, but `concat:N` keys may shift (see Changed), so re-record any baseline you compare against.
 
 ### Added
+- Project logo and brand assets in `docs/brand/` (mark, lockups, icons, favicon, social preview), shown in the README header.
 - OpenTelemetry export behind a new `otel` extra (`pip install autolineage[otel]`). `autolineage.otel.enable_otel_export(tracker=None, tracer_provider=None)` turns every recorded operation into a span named `<library>.<operation>` under one `autolineage.run` span, timed by the operation's measured duration, with `autolineage.*` attributes: lineage IDs (`child_id`, `parent_ids`), rows before/after and delta, input/output shape, columns added/removed (capped at 50 names plus a count), duration, content hash, metric name and value. Uses the caller's tracer provider; configures no exporter. Only operations recorded after the call are exported; `shutdown()` stops export and ends the run span. Built on the existing post-record callback; no change to tracking when not enabled.
 - `UnifiedTracker.unregister_post_record_callback(callback)`.
 - `tests/test_otel.py`: 8 tests (span per operation under one run span, lineage/shape/metric attributes, shutdown idempotent and final, pre-enable operations not exported, attribute capping and OTel-valid types, callback unregister). Skipped when the extra is not installed.
@@ -19,13 +22,13 @@ All notable changes to AutoLineage will be documented in this file.
 ### Changed
 - `pd.merge` and `pd.concat` hooks now honour the same reentrancy depth guard as the DataFrame method hooks. Previously a `concat` issued internally by another pandas call (e.g. inside `get_dummies`) was recorded as a top-level operation; it is not any more, so the `concat:N` keys of a fingerprint recorded with 0.6.3 may not line up with one recorded now for the same script.
 - `benchmarks/planted_bugs`: localization is now exact on 5 of 5 cases (was 3 of 5); the README records the before/after. The benchmark harness is also fixed for pandas 3.0, where string columns are `str` dtype rather than `object` and the old `dtype == object` filter crashed `StandardScaler`.
+- `docs/quickstart.md` rewritten for the current API.
+- README, RELEASE_NOTES and the JOSS paper described the 84.7 µs overhead figure as coming from a 37-operation pipeline. It comes from `paper/microbenchmark_v2.py`, which times one hooked call (`df.dropna()` on a 50-row DataFrame); the description now says so. The figure itself is unchanged.
+- Release workflow: runs in a `pypi` environment for PyPI trusted publishing, refuses to publish when the tag, `pyproject.toml` and `__version__` disagree, and runs `twine check --strict` before upload.
 
 ### Removed
 - The four placeholder hook providers `numpy_hooks.py`, `xgboost_hooks.py`, `lightgbm_hooks.py` and `polars_hooks.py`. Each was 11 lines, installed 0 hooks, and was registered in `_PROVIDERS` anyway. No behaviour change; real Polars support is planned for v0.8.0.
 - Stale documentation and examples left over from the v0.1 to v0.3 architecture: `docs/cli.md` and `docs/compliance.md` (described a `lineage` CLI and a compliance reporter removed in v0.4.1), and eleven example scripts plus `examples/jupyter_demo.ipynb` that imported `DatasetTracker`, `autolineage.database`, `autolineage.tracker` or `%lineage_start` and failed on import against any release since 0.4.1. Remaining examples (`anomaly_demo.py`, `pipeline.py`, `quickstart.ipynb`) all run against the current release.
-
-### Changed
-- `docs/quickstart.md` rewritten for the current API.
 
 ## v0.6.3 (2026-09-29)
 
