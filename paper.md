@@ -99,31 +99,78 @@ operation where a bare column-count change is inherited by every operation downs
 
 # Evaluation
 
-A controlled study in `benchmarks/planted_bugs/` injects five bug categories (filter
-corruption, join fan-out, encoding blow-up, target leakage, and type coercion) into a
-fixed pipeline, changing one line each. `AutoLineage` detected the structural change in
-all five cases and localized the exact operation in all five. For the encoding and
-leakage cases the explanation also names the columns involved (the 399 one-hot columns
-a high-cardinality id produced; the label column that was dropped in the baseline but
-never dropped in the buggy run). An earlier build without the `get_dummies` hook and
-the column-set term localized these two cases to the adjacent recorded operation
-instead; the benchmark README records both runs. The localization used the library's
-default weights, which were not tuned on these five pipelines, so the result reflects
-out-of-the-box behaviour on previously unseen pipelines.
-Repeating every case on five seeds, each a different synthetic dataset, gave the same
-localized operation on all 25 runs. Bug severity was fixed per case, so this shows
-stability under resampling, not sensitivity to smaller bugs. The scripts fix all random
-seeds and reproduce every number reported here. A companion
-preprint [@vg2026autolineage] describes the hooking methodology and the overhead and
-scaling studies in more detail.
+Published detection and localization numbers come only from the held-out half of the
+corpus in `benchmarks/real/`. The protocol was frozen on 10 October 2026, before any
+script in that corpus was scored, and is the file `benchmarks/real/PROTOCOL.md`.
+The per-case records of the one held-out run are in `benchmarks/real/heldout_results/`.
+
+A case is a public Python script that already trains a scikit-learn model on pandas
+data, plus one fault inserted by an AST mutation. The script and the dataset are the
+ones the repository published. The fault is planted, and the planted line is the
+ground truth. Bugs mined from commit history are a later study and are not in this
+submission.
+
+For each planted fault that changes a recorded metric, the paper reports detection
+(any warning or critical anomaly), top-1 and top-3 localization of the mutated line,
+false positives on an unmutated rerun, the share of pipeline calls that produced a
+record, and wall-clock overhead. The same cases are scored against three baselines:
+the largest row drop, the last step whose rows changed, and a seeded random choice
+among the script's pipeline lines. Faults with no site in the script, faults that do
+not change a metric, and runs that crash are counted beside the rate and are not
+inside it.
+
+The candidate pools are the GitHub code searches named in the protocol. The first
+pool did not yield enough scripts that finish. A second search, and then a third,
+were added in that file before each search was scored. The development set has five
+slots, and the library was allowed to change against those slots. All three searches
+are exhausted. Four development scripts and three held-out scripts finished an
+unmutated run; the rest of the planned slots did not qualify, and that shortfall is
+recorded in the protocol. The held-out scripts were mutated once, after development
+stopped. That run was not used to change the library.
+
+Of 27 mutations, 20 had no site in the script, 1 left every recorded metric
+unchanged, and 4 crashed. The rate is the other 2 faults, both planted in
+`nazaninzareirad/SVM-paper` `visuals2.py`. `Devanik21/Harmonic-Resonance-Forest`
+`hrf_conference.py` crashed on every applicable mutation. `duckyies/Fuzzy-knn`
+`fknn.py` had no applicable mutation.
+
+AutoLineage flagged an anomaly on both scored faults. The mutated line was the
+first ranked cause for 1 of the 2, so top-1 and top-3 are both 1/2. On that fault
+the largest-row-drop baseline and the last-changed-step baseline named the same
+line. On the other fault the ranked list was empty, and both of those baselines
+missed it as well. A seeded random choice among pipeline lines named neither.
+Neither unmutated rerun of a scored fault raised a warning or a critical anomaly.
+Mean coverage of pipeline-call lines on the two scored runs was 0.29.
+
+The protocol mean on those two runs was 164 seconds (217 and 111). It was
+confounded by a blocking `plt.show()`. The script calls that once per
+configuration, and the scoring run did not set a non-interactive matplotlib
+backend. Qualification did. The operations AutoLineage recorded on those two
+runs took 1.1 and 1.5 seconds. A third run of the same script, kept out of
+the rate because the mutation left the metrics unchanged, was 50 seconds
+faster with hooks on.
+
+With `MPLBACKEND=Agg` and the OpenML files already cached, wall time on this
+one script is not a single number. Four alternating runs in one session took
+19.2, 19.1, 19.1, and 19.0 seconds (hooks off, on, off, on). Three alternating
+pairs in a later session took 39.6 and 32.3, 37.2 and 31.0, and 34.6 and 30.6
+seconds. Three more pairs after that took 57.3 and 47.9, 55.0 and 49.4, and
+53.9 and 55.1 seconds. Each pair is hooks off, then hooks on. The 164 second
+mean is the protocol average. It is separate from the per-call microbenchmark
+above, 84.7 microseconds for one small `dropna`.
+
+The synthetic script previously used as a benchmark is a regression test under
+`tests/regression/planted_bugs/`. It is not a result. A companion preprint
+[@vg2026autolineage] describes the hooking methodology and the scaling studies in
+more detail.
 
 # Limitations
 
 `AutoLineage` detects structural drift (row counts, column counts, and end metrics), not
 shape-preserving semantic bugs such as a unit error that rescales a column while leaving
 its shape intact. It assumes a single dominant root cause, and its default localization
-weights and thresholds are heuristics tuned on a small set of pipelines rather than
-learned. Coverage is pandas, scikit-learn, and PySpark, single-machine and in-process;
+weights and thresholds are heuristics. They may be adjusted on the development split.
+They are not adjusted on the held-out split. Coverage is pandas, scikit-learn, and PySpark, single-machine and in-process;
 PyTorch, TensorFlow, Polars, and distributed execution are out of scope.
 
 # Acknowledgements

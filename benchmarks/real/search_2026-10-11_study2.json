@@ -1,0 +1,502 @@
+[
+  {
+    "repo": "lorenzkap/MAP_TFT",
+    "path": "XGB.py",
+    "html_url": "https://github.com/lorenzkap/MAP_TFT/blob/d41ac15827cb7d382027bcf6eeef4e3a3b396ab6/XGB.py"
+  },
+  {
+    "repo": "Netherquark/nefrikinoso",
+    "path": "knn.py",
+    "html_url": "https://github.com/Netherquark/nefrikinoso/blob/fe678808cfb2cdf7450cc4be68f574dce647f63c/knn.py"
+  },
+  {
+    "repo": "santiagotena/msc-thesis",
+    "path": "knn.py",
+    "html_url": "https://github.com/santiagotena/msc-thesis/blob/7c15a752538d03acd2903e52598d7779e0250fdc/knn.py"
+  },
+  {
+    "repo": "kaorusha/vibration_analysis",
+    "path": "ml.py",
+    "html_url": "https://github.com/kaorusha/vibration_analysis/blob/cde1c3a8c9a5f742e961135d2ae8044439c14ac8/ml.py"
+  },
+  {
+    "repo": "manelouchar/DataMining-Project",
+    "path": "IHM.py",
+    "html_url": "https://github.com/manelouchar/DataMining-Project/blob/d62270a815c4a6529070bb918ec1690125c43964/IHM.py"
+  },
+  {
+    "repo": "thilak-kanala/DDoS-Detect",
+    "path": "ml.py",
+    "html_url": "https://github.com/thilak-kanala/DDoS-Detect/blob/03bc39f2fc0df6cc9699b5f1e0d4ee4e8c8299af/ml.py"
+  },
+  {
+    "repo": "jiewwantan/XGBoost_stock_prediction",
+    "path": "P5.py",
+    "html_url": "https://github.com/jiewwantan/XGBoost_stock_prediction/blob/c4cdadb677bb80a43850d2f511c99600bd6ff83e/P5.py"
+  },
+  {
+    "repo": "minoh0201/DeepMicro",
+    "path": "DM.py",
+    "html_url": "https://github.com/minoh0201/DeepMicro/blob/b0502a0a087facfd2e93e928c4362546d496ea91/DM.py"
+  },
+  {
+    "repo": "BBQtime/Synthetic-Financial-Datasets-For-Fraud-Detection",
+    "path": "dt.py",
+    "html_url": "https://github.com/BBQtime/Synthetic-Financial-Datasets-For-Fraud-Detection/blob/986a15d0f57ff41a9fde00b53d776f4adbd7d146/dt.py"
+  },
+  {
+    "repo": "BBQtime/Synthetic-Financial-Datasets-For-Fraud-Detection",
+    "path": "XGB.py",
+    "html_url": "https://github.com/BBQtime/Synthetic-Financial-Datasets-For-Fraud-Detection/blob/986a15d0f57ff41a9fde00b53d776f4adbd7d146/XGB.py"
+  },
+  {
+    "repo": "solo-developer/loan-default-prediction",
+    "path": "NN.py",
+    "html_url": "https://github.com/solo-developer/loan-default-prediction/blob/3dcefc51b99c762d855c4e2a475f940db1c915c9/NN.py"
+  },
+  {
+    "repo": "jsivaku1/kNNMTD",
+    "path": "app.py",
+    "html_url": "https://github.com/jsivaku1/kNNMTD/blob/3f22cba2a90052bd70fec39da0c7703b7d48d456/app.py"
+  },
+  {
+    "repo": "sharpeye08/Sharpner",
+    "path": "app.py",
+    "html_url": "https://github.com/sharpeye08/Sharpner/blob/c2e95a41f54d939c0292ff2b1b3fccae48c6b4d2/app.py"
+  },
+  {
+    "repo": "megemini/-_megemini-",
+    "path": "run.py",
+    "html_url": "https://github.com/megemini/-_megemini-/blob/2144a8acec17450a4d5adcb22fd65a1525fd7b0c/run.py"
+  },
+  {
+    "repo": "johnsonkao0213/kill_time_detection",
+    "path": "H5.py",
+    "html_url": "https://github.com/johnsonkao0213/kill_time_detection/blob/9f6982c2d047c2511bcef1a90c84ff82ced31028/H5.py"
+  },
+  {
+    "repo": "shaestasaleem/Heart-Disease-Prediction",
+    "path": "app.py",
+    "html_url": "https://github.com/shaestasaleem/Heart-Disease-Prediction/blob/0362c71c4fb78b2dc56349ed2d5811c0e53e50af/app.py"
+  },
+  {
+    "repo": "laghri/Train-Dataset-NSL_KDD",
+    "path": "kdd.py",
+    "html_url": "https://github.com/laghri/Train-Dataset-NSL_KDD/blob/7eee76d496e1a40a1310f262b4215c87b4bcac7d/kdd.py"
+  },
+  {
+    "repo": "amr-farahat/BCI-P300",
+    "path": "src.py",
+    "html_url": "https://github.com/amr-farahat/BCI-P300/blob/48d7f5e785f1cbca2d4a1cd1ebad2e01e2d1d4c1/src.py"
+  },
+  {
+    "repo": "mangofarmergoose/Algorithmic-Trading-Bot",
+    "path": "bot.py",
+    "html_url": "https://github.com/mangofarmergoose/Algorithmic-Trading-Bot/blob/8fe61cfe5b05ed22b1252c1f2bac6349cb215c1c/bot.py"
+  },
+  {
+    "repo": "justin95214/Malware_detection",
+    "path": "SVM.py",
+    "html_url": "https://github.com/justin95214/Malware_detection/blob/d4e892f2685c5d9a3fa8bd97dbe5d4265e194c9c/SVM.py"
+  },
+  {
+    "repo": "FilippoMB/Detecting-and-interpreting-faults-in-vulnerable-power-grids-with-machine-learning",
+    "path": "MLP.py",
+    "html_url": "https://github.com/FilippoMB/Detecting-and-interpreting-faults-in-vulnerable-power-grids-with-machine-learning/blob/00e6bba581c4f99d200e9b413930748ecc4a5b42/MLP.py"
+  },
+  {
+    "repo": "Alex-Liang01/HotelBookingCancellations",
+    "path": "ML.py",
+    "html_url": "https://github.com/Alex-Liang01/HotelBookingCancellations/blob/cf93a19c1245d4ce6dbb1203a2b1838d80891507/ML.py"
+  },
+  {
+    "repo": "frozzel/Multi-class-Classification-LLM",
+    "path": "app.py",
+    "html_url": "https://github.com/frozzel/Multi-class-Classification-LLM/blob/176263fa583cf508fd67972f02a8f3f146e4ad6d/app.py"
+  },
+  {
+    "repo": "Ansh07017/Student_Performance_-_Activity",
+    "path": "app.py",
+    "html_url": "https://github.com/Ansh07017/Student_Performance_-_Activity/blob/d136df502491d1f5acb5504a7dd0557af83b7384/app.py"
+  },
+  {
+    "repo": "rishuatgithub/explainable-ai-app",
+    "path": "app.py",
+    "html_url": "https://github.com/rishuatgithub/explainable-ai-app/blob/e70d9bfd3ce85a0cc2864feec0f646d37ace34a6/app.py"
+  },
+  {
+    "repo": "vrprateek18/AI-Bunk-Prediction-Project",
+    "path": "app.py",
+    "html_url": "https://github.com/vrprateek18/AI-Bunk-Prediction-Project/blob/66ddc5e29eda24d513eaaaa2853da7babd425203/app.py"
+  },
+  {
+    "repo": "ilmareca/MaldiTof-BacteriaID-GregorioMaranon",
+    "path": "mcp.py",
+    "html_url": "https://github.com/ilmareca/MaldiTof-BacteriaID-GregorioMaranon/blob/164289f2dace6dbbcf47d5ded5200060593dc9ac/mcp.py"
+  },
+  {
+    "repo": "rd9437/predicting_loan_approval",
+    "path": "app.py",
+    "html_url": "https://github.com/rd9437/predicting_loan_approval/blob/56d3881a454d8132befc7ccadfd3b9413ad1b264/app.py"
+  },
+  {
+    "repo": "DaniyalIAhmed/Machine-Learning-Models",
+    "path": "t3.py",
+    "html_url": "https://github.com/DaniyalIAhmed/Machine-Learning-Models/blob/b8c92544e6f5de7ad6d4a35042b3c09e3cd51472/t3.py"
+  },
+  {
+    "repo": "Jeremiahogingo/officer_attrition_analysis_and_prediction",
+    "path": "app.py",
+    "html_url": "https://github.com/Jeremiahogingo/officer_attrition_analysis_and_prediction/blob/cc12ae70b54e70b8e1c57ea742f15828b1d4ba4a/app.py"
+  },
+  {
+    "repo": "y-takefuji/recidivism",
+    "path": "nij.py",
+    "html_url": "https://github.com/y-takefuji/recidivism/blob/7cc0fd794d120a6e58f095d545523dd229df7e04/nij.py"
+  },
+  {
+    "repo": "Chethana1705/Bitcoin-Price-Prediction",
+    "path": "app.py",
+    "html_url": "https://github.com/Chethana1705/Bitcoin-Price-Prediction/blob/f471be726ca40a9a461cea6d2585b83a5a78295d/app.py"
+  },
+  {
+    "repo": "lord-rudra0/skin_disease",
+    "path": "ic.py",
+    "html_url": "https://github.com/lord-rudra0/skin_disease/blob/a6e6f51052d20ba9f031020fc9eff27d1ea4f00b/ic.py"
+  },
+  {
+    "repo": "shakirth-anisha/Flight_Delay_Predictor",
+    "path": "app.py",
+    "html_url": "https://github.com/shakirth-anisha/Flight_Delay_Predictor/blob/74873d5ca98139862841ed04a52bc89364983e34/app.py"
+  },
+  {
+    "repo": "sona7941/Analyzing-and-Predicting-Online-Course-Dropouts-Using-NLP-Techniques",
+    "path": "app.py",
+    "html_url": "https://github.com/sona7941/Analyzing-and-Predicting-Online-Course-Dropouts-Using-NLP-Techniques/blob/7be58fa23ca5d98dd25997d8215e60eaa9c116e2/app.py"
+  },
+  {
+    "repo": "AnshumanSingh1112/AI-Sales-Conversion-Prediction",
+    "path": "eda.py",
+    "html_url": "https://github.com/AnshumanSingh1112/AI-Sales-Conversion-Prediction/blob/e2c1ca2af327233a40d4caf583d22a9743521bd5/eda.py"
+  },
+  {
+    "repo": "sragvisai/H1B_Visa-Prediction",
+    "path": "ML.py",
+    "html_url": "https://github.com/sragvisai/H1B_Visa-Prediction/blob/e8aaf2fc103a82b45e72def7e39df4898e9d163e/ML.py"
+  },
+  {
+    "repo": "rafi4482/Diabetes-Prediction-Streamlit",
+    "path": "app.py",
+    "html_url": "https://github.com/rafi4482/Diabetes-Prediction-Streamlit/blob/cc69bd03337376e02c8f10e49031b693d152dd0b/app.py"
+  },
+  {
+    "repo": "lord-rudra0/skin_disease",
+    "path": "ic2.py",
+    "html_url": "https://github.com/lord-rudra0/skin_disease/blob/a6e6f51052d20ba9f031020fc9eff27d1ea4f00b/ic2.py"
+  },
+  {
+    "repo": "Linnix11/F1",
+    "path": "ml.py",
+    "html_url": "https://github.com/Linnix11/F1/blob/b42e49c16b101416618689397780992a5262f533/ml.py"
+  },
+  {
+    "repo": "HsinYu-Yu/Tennessee-Eastman-Process-Fault-Detection-Diagnosis",
+    "path": "EDA.py",
+    "html_url": "https://github.com/HsinYu-Yu/Tennessee-Eastman-Process-Fault-Detection-Diagnosis/blob/686bcab72f3b02fc0770e5152f3c137680e5bf1c/EDA.py"
+  },
+  {
+    "repo": "SamanKalsoom/HoneyGen",
+    "path": "app.py",
+    "html_url": "https://github.com/SamanKalsoom/HoneyGen/blob/2f053de6e6dc9bed6ffd2a7479ba159431df7473/app.py"
+  },
+  {
+    "repo": "Mohshaikh23/Customer_Churn",
+    "path": "app.py",
+    "html_url": "https://github.com/Mohshaikh23/Customer_Churn/blob/79a669e6a74dc659d02fdd1c8f1575891768dcde/app.py"
+  },
+  {
+    "repo": "sravan2007-ui/Stress-Detection",
+    "path": "app.py",
+    "html_url": "https://github.com/sravan2007-ui/Stress-Detection/blob/2b306ba1c0aa86137c3e0fac97f3cf83e680fa14/app.py"
+  },
+  {
+    "repo": "Komalpreet2809/Earnomly",
+    "path": "app.py",
+    "html_url": "https://github.com/Komalpreet2809/Earnomly/blob/387ba236d982e61d759ea5d324f847d4830afa55/app.py"
+  },
+  {
+    "repo": "Savaira-31/heart-disease-ml",
+    "path": "app.py",
+    "html_url": "https://github.com/Savaira-31/heart-disease-ml/blob/437e9b87449efbc761ddfcd2d4c1b13aaef191f6/app.py"
+  },
+  {
+    "repo": "Mervin2811/smoke-detection_iot",
+    "path": "app.py",
+    "html_url": "https://github.com/Mervin2811/smoke-detection_iot/blob/e97df42e8e8cb3c8f1d9249fc277ca166ff9ba1b/app.py"
+  },
+  {
+    "repo": "Kushalsharma0702/prediction.ai",
+    "path": "gst.py",
+    "html_url": "https://github.com/Kushalsharma0702/prediction.ai/blob/525bf0bdbb47d3046534f35b2a59f6bd0b0575c9/gst.py"
+  },
+  {
+    "repo": "axby1/ML-Framework-for-URL-Security",
+    "path": "xgb.py",
+    "html_url": "https://github.com/axby1/ML-Framework-for-URL-Security/blob/83450ce17f5215697d0f68d9046419711dfe8864/xgb.py"
+  },
+  {
+    "repo": "J-Yhwh/browse-track-analyze",
+    "path": "app.py",
+    "html_url": "https://github.com/J-Yhwh/browse-track-analyze/blob/6852a9c73bc3ce1dd0a551ee136545b5cffb3a34/app.py"
+  },
+  {
+    "repo": "divyanshichauhan117/heart-disease-prediction",
+    "path": "app.py",
+    "html_url": "https://github.com/divyanshichauhan117/heart-disease-prediction/blob/b64fd6405ae558ce000b7ad88b361beeb107b706/app.py"
+  },
+  {
+    "repo": "apurvis14/CollegeBasketballModel",
+    "path": "log.py",
+    "html_url": "https://github.com/apurvis14/CollegeBasketballModel/blob/7823e2817f16398ae8e230f4db3f591042206f3b/log.py"
+  },
+  {
+    "repo": "sayee027/sms-spam-detection-system",
+    "path": ".py.py",
+    "html_url": "https://github.com/sayee027/sms-spam-detection-system/blob/d43189b0ee774d72c9860e875402f094c3d261c4/.py.py"
+  },
+  {
+    "repo": "Praharshkumar/Lung-Cancer-Prediction",
+    "path": "app.py",
+    "html_url": "https://github.com/Praharshkumar/Lung-Cancer-Prediction/blob/011d4964d76f66fe1342ea634ac02c88666db43c/app.py"
+  },
+  {
+    "repo": "MonikaDewangan/Fraud-Transaction-Detection",
+    "path": "app.py",
+    "html_url": "https://github.com/MonikaDewangan/Fraud-Transaction-Detection/blob/612757ba6dd692e6efd5d87185aa7c43c138e1d8/app.py"
+  },
+  {
+    "repo": "enteprise/hdc-quantum",
+    "path": "vc.py",
+    "html_url": "https://github.com/enteprise/hdc-quantum/blob/80e0209d37996619d4c800d14decd5d7c521f84e/vc.py"
+  },
+  {
+    "repo": "lidapmariyam/police",
+    "path": "app.py",
+    "html_url": "https://github.com/lidapmariyam/police/blob/4f0d19d4896eb90814e8895fff2b2d71726b13cc/app.py"
+  },
+  {
+    "repo": "ao-batouche/husemo_upgrading",
+    "path": "lib.py",
+    "html_url": "https://github.com/ao-batouche/husemo_upgrading/blob/4bf401c80fda5813ae2e33b06793edd8c1db2241/lib.py"
+  },
+  {
+    "repo": "romin18/Insurance-Claim",
+    "path": "ML.py",
+    "html_url": "https://github.com/romin18/Insurance-Claim/blob/8d8904b68791ff09ef52672b9f1ca6b80f0695a3/ML.py"
+  },
+  {
+    "repo": "saaru31/DL-Assignment",
+    "path": "Q2.py",
+    "html_url": "https://github.com/saaru31/DL-Assignment/blob/7be5cfe53a66c81589b9809af348c883bdacf50a/Q2.py"
+  },
+  {
+    "repo": "Grib01/BayesHeartD",
+    "path": "BHD.py",
+    "html_url": "https://github.com/Grib01/BayesHeartD/blob/0edbbcd99c3eebc6a1612bd569c6d5692d93e40b/BHD.py"
+  },
+  {
+    "repo": "illubaby/HCMUT_SmartFarm",
+    "path": "AI.py",
+    "html_url": "https://github.com/illubaby/HCMUT_SmartFarm/blob/bd7b6ca292fd71895aa6ab2fdc733d762cfd1e9b/AI.py"
+  },
+  {
+    "repo": "imakshat47/ML",
+    "path": "app.py",
+    "html_url": "https://github.com/imakshat47/ML/blob/01ab137bf13ea9a925a053bd95aa8bb78ed93eb9/app.py"
+  },
+  {
+    "repo": "Jaegaren/Early-characterization-of-stroke-using-video-analysis-machine-learning-and-eye-tracking",
+    "path": "KNN.py",
+    "html_url": "https://github.com/Jaegaren/Early-characterization-of-stroke-using-video-analysis-machine-learning-and-eye-tracking/blob/38fcac1a4a4e74ba77bdf2c5dc5abc2ca6cca772/KNN.py"
+  },
+  {
+    "repo": "rishabshah0/titanic",
+    "path": "rf.py",
+    "html_url": "https://github.com/rishabshah0/titanic/blob/e4d816c2fb389d0c82ead02a926b40981313b54a/rf.py"
+  },
+  {
+    "repo": "Piyushkumar14/ML_Interpretor",
+    "path": "app.py",
+    "html_url": "https://github.com/Piyushkumar14/ML_Interpretor/blob/6fefab44e0c8f780286fe4f161b0bd61350499e8/app.py"
+  },
+  {
+    "repo": "Zhaxstronaut/Machine-Learning",
+    "path": "AI.py",
+    "html_url": "https://github.com/Zhaxstronaut/Machine-Learning/blob/c8a3e5ef9ccfc1af853ee77202ff19b17d1459d0/AI.py"
+  },
+  {
+    "repo": "Shreelakshmigbhat/HotelEcho",
+    "path": "app.py",
+    "html_url": "https://github.com/Shreelakshmigbhat/HotelEcho/blob/f0ea07cb54a689ab724231797b03853201b6e283/app.py"
+  },
+  {
+    "repo": "J-VIEW/churn_prediction",
+    "path": "app.py",
+    "html_url": "https://github.com/J-VIEW/churn_prediction/blob/2f67f31a41fbc738f3cbc44cfc4c56804891ff8a/app.py"
+  },
+  {
+    "repo": "FBoyang/Software-Developer-Analysis",
+    "path": "MLP.py",
+    "html_url": "https://github.com/FBoyang/Software-Developer-Analysis/blob/1e0e092a3a86268f9dcbe37d2884d53d203ee673/MLP.py"
+  },
+  {
+    "repo": "jqwangrou/CMS-Net",
+    "path": "ML.py",
+    "html_url": "https://github.com/jqwangrou/CMS-Net/blob/d47e30412b9e8db89a691b984f8aa92576ae44d9/ML.py"
+  },
+  {
+    "repo": "sidd-zeppelin/megathon-25",
+    "path": "1.py",
+    "html_url": "https://github.com/sidd-zeppelin/megathon-25/blob/774d7ba76a9baff19b2c86c0f492bdb2f1f11164/1.py"
+  },
+  {
+    "repo": "gehad-alaa-abaas/ML-IDS-Recurrent-Neural-Network-for-Cybersecurity",
+    "path": "IDS.py",
+    "html_url": "https://github.com/gehad-alaa-abaas/ML-IDS-Recurrent-Neural-Network-for-Cybersecurity/blob/9dbe4c81cbd2a0267a791b1e1ae61ad60109e2aa/IDS.py"
+  },
+  {
+    "repo": "rakomw/Rivals-Data-Mining",
+    "path": "svm.py",
+    "html_url": "https://github.com/rakomw/Rivals-Data-Mining/blob/2b5a26d41c9556f0e33cf7e4ad312c21c0a13300/svm.py"
+  },
+  {
+    "repo": "Trilokuday3/Automated-Drift-Detection-System",
+    "path": "dd.py",
+    "html_url": "https://github.com/Trilokuday3/Automated-Drift-Detection-System/blob/395b114c6aa1b6b2e876ca17c667e1fd09ae628d/dd.py"
+  },
+  {
+    "repo": "frknbrbroglu/Machine-Learning-for-Beginner",
+    "path": "ML.py",
+    "html_url": "https://github.com/frknbrbroglu/Machine-Learning-for-Beginner/blob/5522a042b6131b157cb8db60e0f999e3c43184a9/ML.py"
+  },
+  {
+    "repo": "peyushgedela/NetIQ",
+    "path": "gui.py",
+    "html_url": "https://github.com/peyushgedela/NetIQ/blob/5bf157de55041541b363483b04855e4b58f8feaa/gui.py"
+  },
+  {
+    "repo": "Davi-AlvesC/Data_Mining_Online_News_Popularity",
+    "path": "KNN.py",
+    "html_url": "https://github.com/Davi-AlvesC/Data_Mining_Online_News_Popularity/blob/1a8e5035c1b113ce0e510494581612048b656de2/KNN.py"
+  },
+  {
+    "repo": "AsumiSenpai/BKDS03-12757",
+    "path": "app.py",
+    "html_url": "https://github.com/AsumiSenpai/BKDS03-12757/blob/576b444b6a48d2fe3e884a218321badd8632d256/app.py"
+  },
+  {
+    "repo": "Harshita-2205/Neural-Network-Models",
+    "path": "Mlp.py",
+    "html_url": "https://github.com/Harshita-2205/Neural-Network-Models/blob/31644dc36ba1fcde163d7600f6a09e38e49b7a4a/Mlp.py"
+  },
+  {
+    "repo": "wrenlab/label-extraction",
+    "path": "hf.py",
+    "html_url": "https://github.com/wrenlab/label-extraction/blob/8da37249d3994a0e00fc2af1270351600f80ff7c/hf.py"
+  },
+  {
+    "repo": "jessinai81-hash/Creditcardv2",
+    "path": "app.py",
+    "html_url": "https://github.com/jessinai81-hash/Creditcardv2/blob/73e02f9f3d75bc68be27965fa71b538357d77697/app.py"
+  },
+  {
+    "repo": "oussama-grami/NeoRisk-monitor-backend",
+    "path": "knn.py",
+    "html_url": "https://github.com/oussama-grami/NeoRisk-monitor-backend/blob/9ce8b7f97fdb03881bb63b0f906b18891971f7ce/knn.py"
+  },
+  {
+    "repo": "mohab-yasser/telecom-churn-app",
+    "path": "mo.py",
+    "html_url": "https://github.com/mohab-yasser/telecom-churn-app/blob/54e92a88d61cf628249618a24cd5a4ec2019df78/mo.py"
+  },
+  {
+    "repo": "Rahul24rs/Mental-health-prediction",
+    "path": "ml.py",
+    "html_url": "https://github.com/Rahul24rs/Mental-health-prediction/blob/448cd35930dd3b19258ed6eb85b2ea3c91a27b3e/ml.py"
+  },
+  {
+    "repo": "LotusLabs/Churn_interactive_demo",
+    "path": "app.py",
+    "html_url": "https://github.com/LotusLabs/Churn_interactive_demo/blob/ddc79fe6f97db873874c5c5f06eb2487c3fa09a0/app.py"
+  },
+  {
+    "repo": "Nileshhhh77/Heart-Disease-Prediction",
+    "path": "app.py",
+    "html_url": "https://github.com/Nileshhhh77/Heart-Disease-Prediction/blob/72b3c776a6caa80ea7e2e2efda7116e45fffd81f/app.py"
+  },
+  {
+    "repo": "PriyanujBoruah/Automated-EDA-Report",
+    "path": "app.py",
+    "html_url": "https://github.com/PriyanujBoruah/Automated-EDA-Report/blob/689b0b0b040487843310aee7ed9e08d56cdc7681/app.py"
+  },
+  {
+    "repo": "Dubeyshruti/Intelligent-Data-Analysis",
+    "path": "ida.py",
+    "html_url": "https://github.com/Dubeyshruti/Intelligent-Data-Analysis/blob/29c6270ffceaaa9a47c14e915f2572c2075b25bf/ida.py"
+  },
+  {
+    "repo": "caiorj2004/modelos_lineares_p2",
+    "path": "app.py",
+    "html_url": "https://github.com/caiorj2004/modelos_lineares_p2/blob/a70ae6fcc93a353f7cf324c0d6fcd1fbd216abf3/app.py"
+  },
+  {
+    "repo": "ics091/battery_fault_pred",
+    "path": "t.py",
+    "html_url": "https://github.com/ics091/battery_fault_pred/blob/b0567826f1d63d581f8bf103e810e1a1e56f0271/t.py"
+  },
+  {
+    "repo": "Harshita-2205/Neural-Network-Models",
+    "path": "RBF.py",
+    "html_url": "https://github.com/Harshita-2205/Neural-Network-Models/blob/31644dc36ba1fcde163d7600f6a09e38e49b7a4a/RBF.py"
+  },
+  {
+    "repo": "Piyanshu05/CardioDiseasePredictor",
+    "path": "app.py",
+    "html_url": "https://github.com/Piyanshu05/CardioDiseasePredictor/blob/748a8316e3ea89e5be8d2f485658b2d43356b397/app.py"
+  },
+  {
+    "repo": "Harshith0308/phishing-detection-ml",
+    "path": "app.py",
+    "html_url": "https://github.com/Harshith0308/phishing-detection-ml/blob/38c1af7c998b4b8915fc26b12108b896be2946eb/app.py"
+  },
+  {
+    "repo": "Ashoksai-tech/Automated-ML-Workflow-with-Google-Gemini",
+    "path": "app.py",
+    "html_url": "https://github.com/Ashoksai-tech/Automated-ML-Workflow-with-Google-Gemini/blob/fac76cd8eb743d7e9674ec0447fc4339f388f63f/app.py"
+  },
+  {
+    "repo": "k19tvan/Analyzing-Feature-Importance-in-Customer-Churn",
+    "path": "app.py",
+    "html_url": "https://github.com/k19tvan/Analyzing-Feature-Importance-in-Customer-Churn/blob/8e3b6b47b440bc8e8f8caf47f6446c1b6aad7601/app.py"
+  },
+  {
+    "repo": "Ayush-0915/Road-Traffic-Severity-Classification-Project",
+    "path": "app.py",
+    "html_url": "https://github.com/Ayush-0915/Road-Traffic-Severity-Classification-Project/blob/034aa38745d6522747d01731cb49cc3da91d2269/app.py"
+  },
+  {
+    "repo": "issunajeeb7/Email-Classifier-Spam-or-Not-Spam-",
+    "path": "nb.py",
+    "html_url": "https://github.com/issunajeeb7/Email-Classifier-Spam-or-Not-Spam-/blob/b65fb0f2791ac02fa7a4def1d8b5674c709ac791/nb.py"
+  },
+  {
+    "repo": "AnantRayal2006/Loan_Analysis",
+    "path": "ml.py",
+    "html_url": "https://github.com/AnantRayal2006/Loan_Analysis/blob/84b7ad4938025aae35e1756a9879a130d5eff1bd/ml.py"
+  },
+  {
+    "repo": "shsps933422/CDSpolish",
+    "path": "RF.py",
+    "html_url": "https://github.com/shsps933422/CDSpolish/blob/2f30af2eaca2e8606c08334393c636d580fe790b/RF.py"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "fault": "change_encoding",
+  "status": "crash",
+  "mutated_line": 345,
+  "detected": null,
+  "top1": null,
+  "top3": null,
+  "false_positive": null,
+  "coverage": 0.0,
+  "overhead_s": -522.3669174001552,
+  "hooked_duration_ms": 1329.3405985459685,
+  "baseline_largest_row_drop": null,
+  "baseline_last_changed_step": null,
+  "baseline_random": null,
+  "random_guess_line": 345,
+  "largest_row_drop_line": null,
+  "last_changed_line": null,
+  "ranked_lines": [],
+  "slot": "heldout-2",
+  "repo": "nazaninzareirad/SVM-paper",
+  "path": "visuals2.py"
+}

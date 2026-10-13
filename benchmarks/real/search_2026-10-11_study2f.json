@@ -1,0 +1,502 @@
+[
+  {
+    "repo": "avandocampos/ppgcc",
+    "path": "S1/AM/T2/utils.py",
+    "html_url": "https://github.com/avandocampos/ppgcc/blob/ebebfa35c4f35a07fc9511e76c689d4c82036588/S1/AM/T2/utils.py"
+  },
+  {
+    "repo": "avandocampos/ppgcc",
+    "path": "S1/AM/T4/utils.py",
+    "html_url": "https://github.com/avandocampos/ppgcc/blob/ebebfa35c4f35a07fc9511e76c689d4c82036588/S1/AM/T4/utils.py"
+  },
+  {
+    "repo": "avandocampos/ppgcc",
+    "path": "S1/AM/T3/utils.py",
+    "html_url": "https://github.com/avandocampos/ppgcc/blob/ebebfa35c4f35a07fc9511e76c689d4c82036588/S1/AM/T3/utils.py"
+  },
+  {
+    "repo": "avandocampos/ppgcc",
+    "path": "S1/AM/T7/utils.py",
+    "html_url": "https://github.com/avandocampos/ppgcc/blob/ebebfa35c4f35a07fc9511e76c689d4c82036588/S1/AM/T7/utils.py"
+  },
+  {
+    "repo": "avandocampos/ppgcc",
+    "path": "S1/AM/T8/utils.py",
+    "html_url": "https://github.com/avandocampos/ppgcc/blob/ebebfa35c4f35a07fc9511e76c689d4c82036588/S1/AM/T8/utils.py"
+  },
+  {
+    "repo": "dewUmesh/PythonWorkSpace",
+    "path": "ML/IrisPlot.py",
+    "html_url": "https://github.com/dewUmesh/PythonWorkSpace/blob/14b86fbb127c2457b3356358bcef3e0bbacf2b6a/ML/IrisPlot.py"
+  },
+  {
+    "repo": "robsonWojtas/shap-hyperparameter-tuning",
+    "path": "src/hyperparameters_tuning.py",
+    "html_url": "https://github.com/robsonWojtas/shap-hyperparameter-tuning/blob/430124a3114ccf8b5f9076f748bd935e18238a9e/src/hyperparameters_tuning.py"
+  },
+  {
+    "repo": "avesperinas/poc_mlops_kubeflow",
+    "path": "src/pipelines/iris_classification/steps.py",
+    "html_url": "https://github.com/avesperinas/poc_mlops_kubeflow/blob/a63ecac3bfa9ec4a2ab72a4ec1ea66bbd54845d0/src/pipelines/iris_classification/steps.py"
+  },
+  {
+    "repo": "Sansyuh06/qunart",
+    "path": "archive/v2/qunart_v2.py",
+    "html_url": "https://github.com/Sansyuh06/qunart/blob/d24bf6f08d46285430b863652de5333f708ff519/archive/v2/qunart_v2.py"
+  },
+  {
+    "repo": "Sansyuh06/qunart",
+    "path": "archive/v1/feature_compression(qunart_v1).py",
+    "html_url": "https://github.com/Sansyuh06/qunart/blob/d24bf6f08d46285430b863652de5333f708ff519/archive/v1/feature_compression(qunart_v1).py"
+  },
+  {
+    "repo": "n57d30top/sovryn-open-inventions",
+    "path": "results/batch15-shuttle-deep-protocol-risk-study/evidence/build_batches15_20_protocol_risk.py",
+    "html_url": "https://github.com/n57d30top/sovryn-open-inventions/blob/a4dca78b9a93998d3b257c72fc7f3ba03bce93fd/results/batch15-shuttle-deep-protocol-risk-study/evidence/build_batches15_20_protocol_risk.py"
+  },
+  {
+    "repo": "PlayingNumbers/ML_Process_Course",
+    "path": "ml_process_cheat_sheet.py",
+    "html_url": "https://github.com/PlayingNumbers/ML_Process_Course/blob/43843dd4f96c7cb95dc483a715b63e7d845a6c8f/ml_process_cheat_sheet.py"
+  },
+  {
+    "repo": "iridia-ulb/AI-book",
+    "path": "DecisionTrees/main.py",
+    "html_url": "https://github.com/iridia-ulb/AI-book/blob/d1bf1bf9ba1895e547860da80d44f750cb7427df/DecisionTrees/main.py"
+  },
+  {
+    "repo": "adithya-s-k/World-of-AI",
+    "path": "machine_learning/healthy_food_predictor/healthy_food_predictor.py",
+    "html_url": "https://github.com/adithya-s-k/World-of-AI/blob/829cac52de6627178f0867bf4bb1564816b04e8a/machine_learning/healthy_food_predictor/healthy_food_predictor.py"
+  },
+  {
+    "repo": "Akashkharita/PNW_Seismic_Event_Classification",
+    "path": "src/utils.py",
+    "html_url": "https://github.com/Akashkharita/PNW_Seismic_Event_Classification/blob/f952edfc8d0e6ced8ca028a85d75b5f4ed5363c5/src/utils.py"
+  },
+  {
+    "repo": "GitsSaikat/QuXAI",
+    "path": "experiments/rank_correlation.py",
+    "html_url": "https://github.com/GitsSaikat/QuXAI/blob/f04a37434eb6511aff0e1ab68a45aab91b62a57b/experiments/rank_correlation.py"
+  },
+  {
+    "repo": "The-Data-Alchemists-Manipal/MindWave",
+    "path": "Machine Learning/RandomForest_healthy food predictor/healthy_food_predictor.py",
+    "html_url": "https://github.com/The-Data-Alchemists-Manipal/MindWave/blob/8a4cd14dbe7471899c1544924b5e4c79eb8b07f7/Machine Learning/RandomForest_healthy food predictor/healthy_food_predictor.py"
+  },
+  {
+    "repo": "majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning",
+    "path": "xgboost_6factor.py",
+    "html_url": "https://github.com/majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning/blob/0a058a6bf5df2c094a806cb6d1cd701b7ac0a092/xgboost_6factor.py"
+  },
+  {
+    "repo": "majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning",
+    "path": "TrainTestClassifier.py",
+    "html_url": "https://github.com/majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning/blob/0a058a6bf5df2c094a806cb6d1cd701b7ac0a092/TrainTestClassifier.py"
+  },
+  {
+    "repo": "xiaoheilong3112/Experiment-with-the-Cleveland-Heart-Dataset",
+    "path": "medical_data.py",
+    "html_url": "https://github.com/xiaoheilong3112/Experiment-with-the-Cleveland-Heart-Dataset/blob/b0697635e59718c5b112bae1b7437e8136937c82/medical_data.py"
+  },
+  {
+    "repo": "Akashkharita/Surface_Event_Detection",
+    "path": "src/utils.py",
+    "html_url": "https://github.com/Akashkharita/Surface_Event_Detection/blob/5fc7b9ab01028d36583c5e48226e7ffb26b5f492/src/utils.py"
+  },
+  {
+    "repo": "dcouvin/SpolLineages",
+    "path": "Python3_ML/machine_learning.py",
+    "html_url": "https://github.com/dcouvin/SpolLineages/blob/eec1c677c9a9f662ea1f8b0165fa43307453f991/Python3_ML/machine_learning.py"
+  },
+  {
+    "repo": "rembertdesigns/Programming-Language-Tutorials",
+    "path": "Python-AI.py",
+    "html_url": "https://github.com/rembertdesigns/Programming-Language-Tutorials/blob/95bdecafa77f6a8458190f6c2727c1268d29a299/Python-AI.py"
+  },
+  {
+    "repo": "bigcenter91/Stduy_",
+    "path": "ml/ml_31~40/m34_LDA_pr.py",
+    "html_url": "https://github.com/bigcenter91/Stduy_/blob/d3cab57565ffcca2ad0b8e3aa82de20a51a2a4ce/ml/ml_31~40/m34_LDA_pr.py"
+  },
+  {
+    "repo": "APMaii/Aug2024-Python-and-ML-for-Engineering-Tutorial",
+    "path": "LL16.py",
+    "html_url": "https://github.com/APMaii/Aug2024-Python-and-ML-for-Engineering-Tutorial/blob/1705686f0f71ea317f38a3336eb3f858413caee2/LL16.py"
+  },
+  {
+    "repo": "jcval94/InsideForest",
+    "path": "experiments/benchmark.py",
+    "html_url": "https://github.com/jcval94/InsideForest/blob/62b6ba8891b250ad194e27376b22f3be13c8f184/experiments/benchmark.py"
+  },
+  {
+    "repo": "iQuantC/Kubeflow-KServe",
+    "path": "pipeline.py",
+    "html_url": "https://github.com/iQuantC/Kubeflow-KServe/blob/8c69ae290eda515d315f22045d7d72c8348d1439/pipeline.py"
+  },
+  {
+    "repo": "ogarreche/XAI_NIDS",
+    "path": "RoEduNet-SIMARGL2021/DNN_final.py",
+    "html_url": "https://github.com/ogarreche/XAI_NIDS/blob/2ba38d36663a7b35e46b08930323e65620bf66b3/RoEduNet-SIMARGL2021/DNN_final.py"
+  },
+  {
+    "repo": "juan541/ml_pipeline",
+    "path": "utils.py",
+    "html_url": "https://github.com/juan541/ml_pipeline/blob/7fb894088989b241aee1ee58c6eb3a4a398b884a/utils.py"
+  },
+  {
+    "repo": "ivofernandes/turingDeal",
+    "path": "src/pocs/modelAI.py",
+    "html_url": "https://github.com/ivofernandes/turingDeal/blob/fc0874a040470db113adfdb5ef7ec87b0f456fc1/src/pocs/modelAI.py"
+  },
+  {
+    "repo": "kskola/analysing-stroke-dataset",
+    "path": "RF/randomforest.py",
+    "html_url": "https://github.com/kskola/analysing-stroke-dataset/blob/302ae02a3f2098a0e2f371fed70aefa3be306fd9/RF/randomforest.py"
+  },
+  {
+    "repo": "rhighs/mlpy",
+    "path": "ch4/main.py",
+    "html_url": "https://github.com/rhighs/mlpy/blob/de280cf1fa5622fab224915fb365519d7a9f78d9/ch4/main.py"
+  },
+  {
+    "repo": "APMaii/Aug2024-Python-and-ML-for-Engineering-Tutorial",
+    "path": "LL17.py",
+    "html_url": "https://github.com/APMaii/Aug2024-Python-and-ML-for-Engineering-Tutorial/blob/1705686f0f71ea317f38a3336eb3f858413caee2/LL17.py"
+  },
+  {
+    "repo": "ogarreche/XAI_NIDS",
+    "path": "RoEduNet-SIMARGL2021/DNN_all_final.py",
+    "html_url": "https://github.com/ogarreche/XAI_NIDS/blob/2ba38d36663a7b35e46b08930323e65620bf66b3/RoEduNet-SIMARGL2021/DNN_all_final.py"
+  },
+  {
+    "repo": "venomez-viper/breezeml",
+    "path": "breezeml/breezeml.py",
+    "html_url": "https://github.com/venomez-viper/breezeml/blob/42d8b4a4ebb8909b1b22a102b34febeb805ee03e/breezeml/breezeml.py"
+  },
+  {
+    "repo": "gibarac-filip/python-playground",
+    "path": "iris.py",
+    "html_url": "https://github.com/gibarac-filip/python-playground/blob/4277e4b915b45162598ac832e120caa171aaf9d4/iris.py"
+  },
+  {
+    "repo": "Keerthan0811/ML_LAB",
+    "path": "Question2.py",
+    "html_url": "https://github.com/Keerthan0811/ML_LAB/blob/db786491adcdeaec2363bc2d6be633b06b5d902b/Question2.py"
+  },
+  {
+    "repo": "Dubeyshruti/Intelligent-Data-Analysis",
+    "path": "ida.py",
+    "html_url": "https://github.com/Dubeyshruti/Intelligent-Data-Analysis/blob/29c6270ffceaaa9a47c14e915f2572c2075b25bf/ida.py"
+  },
+  {
+    "repo": "majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning",
+    "path": "five_factors_extract/TrainTestClassifier_5factor.py",
+    "html_url": "https://github.com/majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning/blob/0a058a6bf5df2c094a806cb6d1cd701b7ac0a092/five_factors_extract/TrainTestClassifier_5factor.py"
+  },
+  {
+    "repo": "AndrewCarvajal97/clase-sena-piedecuesta-adso-noche",
+    "path": "curso-modelos-aprendizaje/_build/gen_05.py",
+    "html_url": "https://github.com/AndrewCarvajal97/clase-sena-piedecuesta-adso-noche/blob/76f2a71e2e7499f31bab87b1af270d2122e07145/curso-modelos-aprendizaje/_build/gen_05.py"
+  },
+  {
+    "repo": "baselhusam/ClickML",
+    "path": "1_ClickML.py",
+    "html_url": "https://github.com/baselhusam/ClickML/blob/ed2fb67db91e488882e48e4b7b5dfe12da44e8d4/1_ClickML.py"
+  },
+  {
+    "repo": "Pankaj-Bashera/ML_Algo_Visualiser",
+    "path": "backend/app/main.py",
+    "html_url": "https://github.com/Pankaj-Bashera/ML_Algo_Visualiser/blob/fe753203c6eb9ee999633c6cc68069806f69ea48/backend/app/main.py"
+  },
+  {
+    "repo": "Sheba97/Task-5",
+    "path": "MLP_Iris.py",
+    "html_url": "https://github.com/Sheba97/Task-5/blob/ab60ff6e9025074da65f3361d5793ce0b1adb63b/MLP_Iris.py"
+  },
+  {
+    "repo": "Nandini-tech-pixel/internship.prep1",
+    "path": "day23/day23.py",
+    "html_url": "https://github.com/Nandini-tech-pixel/internship.prep1/blob/2ca267944ca1cb39c080c400078d0d8adae5d0d7/day23/day23.py"
+  },
+  {
+    "repo": "KatherLab/tabpfnbenchmark",
+    "path": "TabPFN_CommonScript-Top.py",
+    "html_url": "https://github.com/KatherLab/tabpfnbenchmark/blob/7e422876fce060f3136b5de78dbaa86febfc04c8/TabPFN_CommonScript-Top.py"
+  },
+  {
+    "repo": "bigcenter91/Stduy_",
+    "path": "ml/ml_21~30/m25_feature_importances01~04.py",
+    "html_url": "https://github.com/bigcenter91/Stduy_/blob/d3cab57565ffcca2ad0b8e3aa82de20a51a2a4ce/ml/ml_21~30/m25_feature_importances01~04.py"
+  },
+  {
+    "repo": "trungtada123/CNM_TH2",
+    "path": "train.py",
+    "html_url": "https://github.com/trungtada123/CNM_TH2/blob/c84d4afdbc8a7eb4ea5cee1f54956e8b7ea0f610/train.py"
+  },
+  {
+    "repo": "laxmi-narayan-87/1",
+    "path": "main1.py",
+    "html_url": "https://github.com/laxmi-narayan-87/1/blob/9244a15749b0e79426210163066ae2a601187302/main1.py"
+  },
+  {
+    "repo": "FazeFlynn/AIML-Class",
+    "path": "Examples.py",
+    "html_url": "https://github.com/FazeFlynn/AIML-Class/blob/e5947279443b230c23d1e29fd30f6e6fdc6fbad6/Examples.py"
+  },
+  {
+    "repo": "nathirad/Coding",
+    "path": "untitled2.py",
+    "html_url": "https://github.com/nathirad/Coding/blob/bd6fd2d427baca315e5b863d9a8142c4bad7d393/untitled2.py"
+  },
+  {
+    "repo": "Prince-Khatri/ml-lab",
+    "path": "cie/small_codes/q12.py",
+    "html_url": "https://github.com/Prince-Khatri/ml-lab/blob/1cff59d9a23239526b3a41718c88f4ef97519326/cie/small_codes/q12.py"
+  },
+  {
+    "repo": "zhzseu/test",
+    "path": "\u795e\u7ecf\u7f51\u7edc\u6a21\u578b.py",
+    "html_url": "https://github.com/zhzseu/test/blob/62dd6a24fb414da815125b68f4b40bc403514d82/\u795e\u7ecf\u7f51\u7edc\u6a21\u578b.py"
+  },
+  {
+    "repo": "majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning",
+    "path": "five_factors_riskControl/TrainTestClassifier_5factor_tune.py",
+    "html_url": "https://github.com/majiajue/Quantitative-Trading-Strategy-Based-on-Machine-Learning/blob/0a058a6bf5df2c094a806cb6d1cd701b7ac0a092/five_factors_riskControl/TrainTestClassifier_5factor_tune.py"
+  },
+  {
+    "repo": "EstefantDiaz/MLOps-fastApi",
+    "path": "trabajo_final.py",
+    "html_url": "https://github.com/EstefantDiaz/MLOps-fastApi/blob/d1a067f73d1e2f3190375d620b08aea4714cc819/trabajo_final.py"
+  },
+  {
+    "repo": "dipit099/CSE_330_Machine_Learning",
+    "path": "online1/MLP_demo.py",
+    "html_url": "https://github.com/dipit099/CSE_330_Machine_Learning/blob/b451ceedcb6b23f5cc204e4957fab875dcc11c7b/online1/MLP_demo.py"
+  },
+  {
+    "repo": "iamdanialkamali/Crime-Prediction",
+    "path": "experiments.py",
+    "html_url": "https://github.com/iamdanialkamali/Crime-Prediction/blob/6060f4f8acbf14559f98e63f4af6941698ff04ab/experiments.py"
+  },
+  {
+    "repo": "Austinpjh/D7041E-miniproject",
+    "path": "mini_project.py",
+    "html_url": "https://github.com/Austinpjh/D7041E-miniproject/blob/b2fab104a6908babf0f87c543d79667df6d7f6af/mini_project.py"
+  },
+  {
+    "repo": "EmDem6/Construccion-de-arboles-de-decision-con-RN",
+    "path": "SVM/testSVM.py",
+    "html_url": "https://github.com/EmDem6/Construccion-de-arboles-de-decision-con-RN/blob/2107435cfca6421a7801679c2c7e6458d5842866/SVM/testSVM.py"
+  },
+  {
+    "repo": "frontenddevtrainer/MLOps",
+    "path": "airflow-demo/dags/train_model.py",
+    "html_url": "https://github.com/frontenddevtrainer/MLOps/blob/129f3193df230215d070cd479a50837f3de1ab29/airflow-demo/dags/train_model.py"
+  },
+  {
+    "repo": "Clearfk/py_DataM",
+    "path": "data_demo1.py",
+    "html_url": "https://github.com/Clearfk/py_DataM/blob/435a8ef882d0bd9e71564d1a9eeebd15989d1d4d/data_demo1.py"
+  },
+  {
+    "repo": "Tharshini-K/heathcare_stroke_data",
+    "path": "ai_model.py",
+    "html_url": "https://github.com/Tharshini-K/heathcare_stroke_data/blob/afdb9d555532d2995d13ce0bc8a475e1f2b04430/ai_model.py"
+  },
+  {
+    "repo": "dipenchand/MSE803-DA",
+    "path": "w6-a1/data_cleaning.py",
+    "html_url": "https://github.com/dipenchand/MSE803-DA/blob/3b7fb55898b259d6339566c4f5fced87115afa3c/w6-a1/data_cleaning.py"
+  },
+  {
+    "repo": "YutoMochizuki/Machine-learning-scripts",
+    "path": "clustering.py",
+    "html_url": "https://github.com/YutoMochizuki/Machine-learning-scripts/blob/da30bad5ff2723e56565818f450f6c67b8b7524e/clustering.py"
+  },
+  {
+    "repo": "EmDem6/Construccion-de-arboles-de-decision-con-RN",
+    "path": "RN/TestsRNAll.py",
+    "html_url": "https://github.com/EmDem6/Construccion-de-arboles-de-decision-con-RN/blob/2107435cfca6421a7801679c2c7e6458d5842866/RN/TestsRNAll.py"
+  },
+  {
+    "repo": "DerAndr/machine_learning_course_basics",
+    "path": "lectures/lecture_03_data_preparation_part_2/lecture_examples/example_04.py",
+    "html_url": "https://github.com/DerAndr/machine_learning_course_basics/blob/25a32c13fe9c60d54fb1ed28e243fc1c5a237332/lectures/lecture_03_data_preparation_part_2/lecture_examples/example_04.py"
+  },
+  {
+    "repo": "aakash334/Codsoft-Task-3",
+    "path": "codsoft_task3.py",
+    "html_url": "https://github.com/aakash334/Codsoft-Task-3/blob/4f87efbc7edcaf7bf9499071a743a9e5e1cd321b/codsoft_task3.py"
+  },
+  {
+    "repo": "Hamed-Aghapanah/BOOTCAMP_AI",
+    "path": "day3.py",
+    "html_url": "https://github.com/Hamed-Aghapanah/BOOTCAMP_AI/blob/fd7c59cc4eb721cedd04bb9e78efef0e9986a599/day3.py"
+  },
+  {
+    "repo": "EmDem6/Construccion-de-arboles-de-decision-con-RN",
+    "path": "DNDTv2/testAll.py",
+    "html_url": "https://github.com/EmDem6/Construccion-de-arboles-de-decision-con-RN/blob/2107435cfca6421a7801679c2c7e6458d5842866/DNDTv2/testAll.py"
+  },
+  {
+    "repo": "FarisyIlman/Deep_Learning_with_regression_method_on_4_different_dataset",
+    "path": "dataset4_iris.py",
+    "html_url": "https://github.com/FarisyIlman/Deep_Learning_with_regression_method_on_4_different_dataset/blob/99325f45a680a50ba43d1ce1f17f241501d04492/dataset4_iris.py"
+  },
+  {
+    "repo": "GeniusDog/MachineLearningProject",
+    "path": "tools/generate_beginner_projects.py",
+    "html_url": "https://github.com/GeniusDog/MachineLearningProject/blob/663e34107dcc5d61c07eb2e60c6b180b349e854b/tools/generate_beginner_projects.py"
+  },
+  {
+    "repo": "yqy123456/CPS4982-SVM-Iris",
+    "path": "svm_experiment.py",
+    "html_url": "https://github.com/yqy123456/CPS4982-SVM-Iris/blob/29bd3fad88bbb928695293f1113fd08ba24eaa44/svm_experiment.py"
+  },
+  {
+    "repo": "Kanestar/ml",
+    "path": "iris_classification.py",
+    "html_url": "https://github.com/Kanestar/ml/blob/748bab7701f413164d813ff197bd1809d716c399/iris_classification.py"
+  },
+  {
+    "repo": "Foundations-of-AI/FoundationsOfAILab3",
+    "path": "lab3b_sklearn.py",
+    "html_url": "https://github.com/Foundations-of-AI/FoundationsOfAILab3/blob/8cbe79f6270929da759fe5915c009d89bfb5dab0/lab3b_sklearn.py"
+  },
+  {
+    "repo": "NoRaincheck/kitnega",
+    "path": "scripts/bench_histogram.py",
+    "html_url": "https://github.com/NoRaincheck/kitnega/blob/8fa1a64d130bb6e659037ef50037820123243885/scripts/bench_histogram.py"
+  },
+  {
+    "repo": "bigcenter91/Stduy_",
+    "path": "keras2/keras67_hyper_\ubd84\ub958_\ud68c\uadc0_for_if.py",
+    "html_url": "https://github.com/bigcenter91/Stduy_/blob/d3cab57565ffcca2ad0b8e3aa82de20a51a2a4ce/keras2/keras67_hyper_\ubd84\ub958_\ud68c\uadc0_for_if.py"
+  },
+  {
+    "repo": "4GeeksAcademy/magy509_proyecto_final",
+    "path": "src/utils.py",
+    "html_url": "https://github.com/4GeeksAcademy/magy509_proyecto_final/blob/f07856516ab2ae7eeb8413027d15b204a3703464/src/utils.py"
+  },
+  {
+    "repo": "4GeeksAcademy/ingenieropg80.Clasificador_de_imagen",
+    "path": "src/utils.py",
+    "html_url": "https://github.com/4GeeksAcademy/ingenieropg80.Clasificador_de_imagen/blob/e8c4b7972bdcb233eff6b14a99d490ba27cbc8c4/src/utils.py"
+  },
+  {
+    "repo": "baselhusam/ClickML",
+    "path": "pages/3_\ud83d\udcda_StudyML.py",
+    "html_url": "https://github.com/baselhusam/ClickML/blob/ed2fb67db91e488882e48e4b7b5dfe12da44e8d4/pages/3_\ud83d\udcda_StudyML.py"
+  },
+  {
+    "repo": "Ammar-Yasser8/ML-Models-Comparison",
+    "path": "setup_datasets_models.py",
+    "html_url": "https://github.com/Ammar-Yasser8/ML-Models-Comparison/blob/faad1e7d6ac3118d1a0f63eb7c1fd72fc8d6a81b/setup_datasets_models.py"
+  },
+  {
+    "repo": "EstefantDiaz/test-mlops",
+    "path": "trabajo_final (2).py",
+    "html_url": "https://github.com/EstefantDiaz/test-mlops/blob/9edfdb0513c53b17b69b2582f08c410207436689/trabajo_final (2).py"
+  },
+  {
+    "repo": "MayankTamakuwala/DADS_7305_Machine-Learning-Operations",
+    "path": "Lab 2/dags/src/lab.py",
+    "html_url": "https://github.com/MayankTamakuwala/DADS_7305_Machine-Learning-Operations/blob/32544806dc3202d740edc186315c60ab5f6e6cbf/Lab 2/dags/src/lab.py"
+  },
+  {
+    "repo": "382543/cridet-card-fraud-detection",
+    "path": "credit_card_fraud.py",
+    "html_url": "https://github.com/382543/cridet-card-fraud-detection/blob/d17ae0085e3539a2d0e9e2c8fb7d8a307b4c3d05/credit_card_fraud.py"
+  },
+  {
+    "repo": "frlinaker/skribe",
+    "path": "examples/quickstart.py",
+    "html_url": "https://github.com/frlinaker/skribe/blob/91ad97486ed31419df3fc49979bb522776e77aee/examples/quickstart.py"
+  },
+  {
+    "repo": "alex-zhy/SAMN",
+    "path": "SAMNCode-Data/SAMN.py",
+    "html_url": "https://github.com/alex-zhy/SAMN/blob/286643b7aeec7f6081898742d7765c6d869e97ba/SAMNCode-Data/SAMN.py"
+  },
+  {
+    "repo": "NJManganelli/SMQawa",
+    "path": "src/qawa/BDT_savemodel_onnx.py",
+    "html_url": "https://github.com/NJManganelli/SMQawa/blob/1cefe65247a21ee4a15120d5ce7374b89c4b2e04/src/qawa/BDT_savemodel_onnx.py"
+  },
+  {
+    "repo": "aajb99/final_proj_486",
+    "path": "models/rf_fe1_model.py",
+    "html_url": "https://github.com/aajb99/final_proj_486/blob/53865ae6002da7d291411ba07af43e5fad52398d/models/rf_fe1_model.py"
+  },
+  {
+    "repo": "Jahiatus/dasar-pemrog",
+    "path": "Python/s1/data_set.py",
+    "html_url": "https://github.com/Jahiatus/dasar-pemrog/blob/974a251910664b4d439a709568ecb520414f4c93/Python/s1/data_set.py"
+  },
+  {
+    "repo": "SadnurIslam/Machine-Learning-Lab",
+    "path": "svm.py",
+    "html_url": "https://github.com/SadnurIslam/Machine-Learning-Lab/blob/2c559469fd4ad004028f5524142df5948dc8395d/svm.py"
+  },
+  {
+    "repo": "maxzspb/mlops-paltform-v1",
+    "path": "scripts/kubepipe.py",
+    "html_url": "https://github.com/maxzspb/mlops-paltform-v1/blob/5664d69be7398ff852f277f137e89d7de00470d8/scripts/kubepipe.py"
+  },
+  {
+    "repo": "4GeeksAcademy/ingenieropg80.Proyecto_final_madre",
+    "path": "src/utils.py",
+    "html_url": "https://github.com/4GeeksAcademy/ingenieropg80.Proyecto_final_madre/blob/51b5892740c11df0d8e0e1a29c22b79712a855c4/src/utils.py"
+  },
+  {
+    "repo": "mateoniksic/practice-machine-and-deep-learning",
+    "path": "supervised_learning.py",
+    "html_url": "https://github.com/mateoniksic/practice-machine-and-deep-learning/blob/5be3ca88a173ebdf11297309d8b99dfc6029f5bd/supervised_learning.py"
+  },
+  {
+    "repo": "SadnurIslam/Machine-Learning-Lab",
+    "path": "knn.py",
+    "html_url": "https://github.com/SadnurIslam/Machine-Learning-Lab/blob/2c559469fd4ad004028f5524142df5948dc8395d/knn.py"
+  },
+  {
+    "repo": "COSC481W-2024Fall/MLite",
+    "path": "flask_app/ML_API.py",
+    "html_url": "https://github.com/COSC481W-2024Fall/MLite/blob/63af0e29051b3eff2dc3e248b0e03e2d727c64db/flask_app/ML_API.py"
+  },
+  {
+    "repo": "dipotr89-yo/IDX-Partners-Data-Scientist-",
+    "path": "IDX_Partner_Dipo_Timur.py",
+    "html_url": "https://github.com/dipotr89-yo/IDX-Partners-Data-Scientist-/blob/78adcc5adde8ac3a6b9e199c36550fa8d81e7c5b/IDX_Partner_Dipo_Timur.py"
+  },
+  {
+    "repo": "SadnurIslam/Machine-Learning-Lab",
+    "path": "pca.py",
+    "html_url": "https://github.com/SadnurIslam/Machine-Learning-Lab/blob/2c559469fd4ad004028f5524142df5948dc8395d/pca.py"
+  },
+  {
+    "repo": "areyouadithya/DAClab",
+    "path": "sfinal_endsem/one.py",
+    "html_url": "https://github.com/areyouadithya/DAClab/blob/63e9b173b97d8f1900b8f20c5b0fdec6e0c3237a/sfinal_endsem/one.py"
+  },
+  {
+    "repo": "AiMk937/ML-Lab",
+    "path": "exp5a.py",
+    "html_url": "https://github.com/AiMk937/ML-Lab/blob/f31440b9eed4fe7db35e70dede6aadeae8cd5830/exp5a.py"
+  },
+  {
+    "repo": "gk-9000/Machine-Learning-Lab",
+    "path": "exp5a.py",
+    "html_url": "https://github.com/gk-9000/Machine-Learning-Lab/blob/182f7a38dff306671713aaad2a730e560b927f47/exp5a.py"
+  },
+  {
+    "repo": "Ryanditko/federated-learning-at-cybersecurity",
+    "path": "project/code/scripts-datasets/iris-dataset/aprendizado-supervisionado.py",
+    "html_url": "https://github.com/Ryanditko/federated-learning-at-cybersecurity/blob/05a3046ed598bde524177eb9bd267b9eae92f414/project/code/scripts-datasets/iris-dataset/aprendizado-supervisionado.py"
+  },
+  {
+    "repo": "AyorindeTayo/MLOPS-with-Kubeflow",
+    "path": "pipelines/pipeline.py",
+    "html_url": "https://github.com/AyorindeTayo/MLOPS-with-Kubeflow/blob/52892a20462b173804a314c21fe7a41370c2562c/pipelines/pipeline.py"
+  }
+]

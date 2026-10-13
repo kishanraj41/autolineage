@@ -1,0 +1,11 @@
+{
+  "fault": "change_encoding",
+  "status": "not_applicable",
+  "mutated_line": null,
+  "detected": null,
+  "top1": null,
+  "top3": null,
+  "slot": "heldout-3",
+  "repo": "duckyies/Fuzzy-knn",
+  "path": "fknn.py"
+}

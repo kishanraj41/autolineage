@@ -1,0 +1,2335 @@
+{
+  "protocol": "benchmarks/real/PROTOCOL.md",
+  "frozen": "2026-10-10",
+  "query": "accuracy_score train_test_split read_csv extension:py",
+  "pool": "benchmarks/real/search_2026-10-10.json",
+  "pool_size": 100,
+  "next_index": 100,
+  "dev": [
+    {
+      "slot": "dev-1",
+      "role": "development",
+      "scored": false,
+      "repo": "malick08012/End-to-End-ML-Pipeline-with-Scikit-learn-Pipeline-API-",
+      "url": "https://github.com/malick08012/End-to-End-ML-Pipeline-with-Scikit-learn-Pipeline-API-",
+      "commit": "b35f523d18b06121746c85b588fc035d9f92eb30",
+      "path": "end_to_end_ml_pipeline_with_scikit_learn_pipeline_api.py",
+      "license": null,
+      "reason": "No OSI licence. Not vendored. A clone may live in the gitignored cache for development. Numbers from this slot are not published and the slot cannot move to held-out."
+    },
+    {
+      "role": "development",
+      "scored": true,
+      "qualified_run": true,
+      "repo": "MrMike92/Grid_Search",
+      "url": "https://github.com/MrMike92/Grid_Search",
+      "commit": "8462b141e777f1e9ce0cb502db7bac70e264f447",
+      "path": "RF.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "water_potability.csv",
+        "sha256": "111a9ba65f2d791003ac07b54b8e18e2f7e0bc1cfa37cfdb251d3758a4e8c24c",
+        "bytes": 521910,
+        "url": "https://raw.githubusercontent.com/MrMike92/Grid_Search/8462b141e777f1e9ce0cb502db7bac70e264f447/water_potability.csv"
+      },
+      "adapter": [],
+      "slot": "dev-2",
+      "staged_script": "RF.py"
+    },
+    {
+      "role": "development",
+      "scored": true,
+      "qualified_run": true,
+      "repo": "Anwarulh007/AI-based-Email-Sorting-System",
+      "url": "https://github.com/Anwarulh007/AI-based-Email-Sorting-System",
+      "commit": "382a4ea68eeb51f340ad8629a3ff9f8671934efa",
+      "path": "P1.PY",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "email_dataset.csv",
+        "sha256": "f865cbabbedb41ee055a792305246788ab943ad0ebe04067d7548ffb9ab5ad95",
+        "bytes": 73,
+        "url": "https://raw.githubusercontent.com/Anwarulh007/AI-based-Email-Sorting-System/382a4ea68eeb51f340ad8629a3ff9f8671934efa/email_dataset.csv"
+      },
+      "adapter": [],
+      "slot": "dev-3",
+      "staged_script": "P1.PY"
+    },
+    {
+      "role": "development",
+      "scored": true,
+      "qualified_run": true,
+      "repo": "Thanvik931/NeuroCloak",
+      "url": "https://github.com/Thanvik931/NeuroCloak",
+      "commit": "70441f40770559be19eefd489ac39b0f1449ae2a",
+      "path": "dataset taken to train the model/scripts/fetch_openml_credit_g.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "openml",
+        "openml_name": "credit-g",
+        "data_id": 31,
+        "version": "1",
+        "url": "https://openml.org/data/v1/download/31/credit-g.arff",
+        "sha256": "768be84ef749110d5fcac109a6541f2df190e8c6987e1dc432c0a4f29d0642f5",
+        "bytes": 162291,
+        "licence": "Public"
+      },
+      "adapter": [],
+      "slot": "dev-4",
+      "staged_script": "fetch_openml_credit_g.py"
+    },
+    {
+      "role": "development",
+      "scored": true,
+      "qualified_run": true,
+      "repo": "ktakita1011/MiniKaggle",
+      "url": "https://github.com/ktakita1011/MiniKaggle",
+      "commit": "1cff52bd29e61f2d71e84cf5cb96257851dea7f9",
+      "path": "tool/sample_make_titanic_competition.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "openml",
+        "openml_name": "Titanic",
+        "data_id": 40945,
+        "version": "1",
+        "url": "https://openml.org/data/v1/download/16826755/Titanic.arff",
+        "sha256": "c56e3785c96cd8aceac85f11bff21c2bf72841426f50903a6f27be8f334a7d03",
+        "bytes": 118039,
+        "licence": "Public"
+      },
+      "adapter": [],
+      "slot": "dev-5",
+      "staged_script": "sample_make_titanic_competition.py"
+    }
+  ],
+  "heldout": [
+    {
+      "role": "heldout",
+      "scored": true,
+      "qualified_run": true,
+      "repo": "Devanik21/Harmonic-Resonance-Forest",
+      "url": "https://github.com/Devanik21/Harmonic-Resonance-Forest",
+      "commit": "356df370276efe14797bcbae413967da6c4b3b39",
+      "path": "HRF Codes/hrf_conference.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "openml",
+        "openml_name": "eeg-eye-state",
+        "data_id": 1471,
+        "version": "1",
+        "url": "https://openml.org/data/v1/download/1587924/eeg-eye-state.arff",
+        "sha256": "c5a35604f5f9356fe4d6a7f5154c7d3e4cc9e26a2abb5a52c7f0970b9e09e109",
+        "bytes": 1682156,
+        "licence": "Public"
+      },
+      "adapter": [],
+      "slot": "heldout-1",
+      "staged_script": "hrf_conference.py"
+    },
+    {
+      "role": "heldout",
+      "scored": true,
+      "qualified_run": true,
+      "repo": "nazaninzareirad/SVM-paper",
+      "url": "https://github.com/nazaninzareirad/SVM-paper",
+      "commit": "ff772fe679d9129ce8b3d57d91c591365fd9e327",
+      "path": "visuals2.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "openml",
+        "files": [
+          {
+            "openml_name": "abalone",
+            "data_id": 183,
+            "version": "1",
+            "url": "https://openml.org/data/v1/download/3620/abalone.arff",
+            "sha256": "a75351597c04719e793dd5fc9bee926bae0f06e413fe77591f01e4688154988e",
+            "bytes": 192330,
+            "licence": "Public"
+          },
+          {
+            "openml_name": "segment",
+            "data_id": 36,
+            "version": "1",
+            "url": "https://openml.org/data/v1/download/36/segment.arff",
+            "sha256": "f54038600f6b8ab6cb6edf58887ba98c891781250b4140f5edeb74296e466854",
+            "bytes": 306054,
+            "licence": "Public"
+          },
+          {
+            "openml_name": "diabetes",
+            "data_id": 37,
+            "version": "1",
+            "url": "https://openml.org/data/v1/download/37/diabetes.arff",
+            "sha256": "4eddd5b2b64679e8888348e306520a393d6a28e1ddc9643cfb76fc5d912d6d40",
+            "bytes": 37419,
+            "licence": "Public"
+          },
+          {
+            "openml_name": "waveform-5000",
+            "data_id": 60,
+            "version": "1",
+            "url": "https://openml.org/data/v1/download/60/waveform-5000.arff",
+            "sha256": "ea857b7e905331181e43f56af95b3d512d08d0b03a65d2af48cb4dbdda2334a3",
+            "bytes": 1080193,
+            "licence": "Public"
+          }
+        ]
+      },
+      "adapter": [],
+      "slot": "heldout-2",
+      "staged_script": "visuals2.py"
+    },
+    {
+      "role": "heldout",
+      "scored": true,
+      "qualified_run": true,
+      "repo": "duckyies/Fuzzy-knn",
+      "url": "https://github.com/duckyies/Fuzzy-knn",
+      "commit": "f5f652106c56cd93b73bb7c3be4c9e7d99e1b564",
+      "path": "fknn.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn.datasets",
+        "licence": "BSD-3-Clause",
+        "sklearn_version": "1.9.1",
+        "note": "Bundled with scikit-learn. No separate download.",
+        "files": [
+          {
+            "loader": "load_iris",
+            "path": "sklearn/datasets/data/iris.csv",
+            "sha256": "f9e3809b56cc0f2f2f69554b7a0ea04e94d0e2c21343c86593eaf5581551dab6"
+          },
+          {
+            "loader": "load_breast_cancer",
+            "path": "sklearn/datasets/data/breast_cancer.csv",
+            "sha256": "ff5fc1f247213db5fd49539610bcd5a98033bbd0307524fde3127251752aa073"
+          }
+        ]
+      },
+      "adapter": [],
+      "slot": "heldout-3",
+      "staged_script": "fknn.py"
+    }
+  ],
+  "rejected_after_static": [
+    {
+      "role": "development",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "Gowtham1729/Human-Resources-Prediction",
+      "url": "https://github.com/Gowtham1729/Human-Resources-Prediction",
+      "commit": "5deb28bbae65da88b5a7ad864a0c6992ebd50247",
+      "path": "hr.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "HR_comma_sep.csv",
+        "sha256": "2510e274a90547f34c7b0db5a4ab70282c2710eb54252f14921bf980b81a928c",
+        "bytes": 566778
+      },
+      "adapter": [],
+      "slot": "dev-2",
+      "staged_script": "hr.py"
+    },
+    {
+      "role": "development",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "MrMike92/Grid_Search",
+      "url": "https://github.com/MrMike92/Grid_Search",
+      "commit": "8462b141e777f1e9ce0cb502db7bac70e264f447",
+      "path": "NB.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "water_potability.csv",
+        "sha256": "111a9ba65f2d791003ac07b54b8e18e2f7e0bc1cfa37cfdb251d3758a4e8c24c",
+        "bytes": 521910
+      },
+      "adapter": [],
+      "slot": "dev-3",
+      "staged_script": "NB.py"
+    },
+    {
+      "role": "development",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "MuhamadJahangir/Fertilizer_Prediction",
+      "url": "https://github.com/MuhamadJahangir/Fertilizer_Prediction",
+      "commit": "31f0ee4ed85901b58906d5e5f5e2f2c6ce31939a",
+      "path": "1.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "Final_Fertilizer_Dataset.csv",
+        "sha256": "88490aa70947774b1eb513b24c1d8c769c2f0ead15b43052e7adcd1ac300680c",
+        "bytes": 789328
+      },
+      "adapter": [],
+      "slot": "dev-5",
+      "staged_script": "1.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "jaggusuperhit/Wine-quality",
+      "url": "https://github.com/jaggusuperhit/Wine-quality",
+      "commit": "a1aa23a4be7d2d237dfb65e65cdea4298f161463",
+      "path": "app.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "winequality-red.csv",
+        "sha256": "d6a0d9bd24806944818795f22500c46cb6424cbff517aacda36595d3ed9b2daa",
+        "bytes": 100951
+      },
+      "adapter": [],
+      "slot": "heldout-2",
+      "staged_script": "app.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "Krishnendu0016/Suspicious-Email-Detection",
+      "url": "https://github.com/Krishnendu0016/Suspicious-Email-Detection",
+      "commit": "1f9c9b5dc5dcc93e294ee4b698f8631bbeb6a896",
+      "path": "app.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "mail_data.csv",
+        "sha256": "df920c8044de4479cac2f35e5e179b2d49956d8928e8e63f44037ed7c9712bc9",
+        "bytes": 488175
+      },
+      "adapter": [
+        {
+          "op": "retarget_read_csv",
+          "line": 13,
+          "to": "mail_data.csv"
+        }
+      ],
+      "slot": "heldout-3",
+      "staged_script": "app.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "shreyashbandekar/ML-Lab",
+      "url": "https://github.com/shreyashbandekar/ML-Lab",
+      "commit": "03bbb48fb940507d70b2ba9f39c13be4b1413d81",
+      "path": "5.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "titanic.csv",
+        "sha256": "7d118fef8b6ccf7f81111877bc388536f7b1e498a655e3d649d19aaa010e9f6f",
+        "bytes": 61194
+      },
+      "adapter": [
+        {
+          "op": "retarget_read_csv",
+          "line": 73,
+          "to": "titanic.csv"
+        }
+      ],
+      "slot": "heldout-4",
+      "staged_script": "5.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "ysfjoe/Improving-learning-from-imbalanced-data-using-CGANs-Credit-card-fraud-detection-case-study",
+      "url": "https://github.com/ysfjoe/Improving-learning-from-imbalanced-data-using-CGANs-Credit-card-fraud-detection-case-study",
+      "commit": "f35ec4bd9638cc8c337ded33cd8d84e0dd1895aa",
+      "path": "app.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "repo_csv",
+        "locator": "data_RUS.csv",
+        "sha256": "9852978ff6cd209e0501c692a6f346c7ab71031cbc7ad8324439b93cfef2d9df",
+        "bytes": 559366
+      },
+      "adapter": [
+        {
+          "op": "retarget_read_csv",
+          "line": 32,
+          "to": "data_RUS.csv"
+        }
+      ],
+      "slot": "heldout-5",
+      "staged_script": "app.py"
+    },
+    {
+      "role": "development",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "skorch-dev/skorch",
+      "url": "https://github.com/skorch-dev/skorch",
+      "commit": "195afc0361a2b3aaf2ec0a4504a2a6ea8ef29cbb",
+      "path": "examples/optuna/skorch_example.py",
+      "license": "BSD-3-Clause",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "dev-4",
+      "staged_script": "skorch_example.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "emlearn/emlearn",
+      "url": "https://github.com/emlearn/emlearn",
+      "commit": "578d89dcd97e3eb47f993571b9854fb6c22a2f73",
+      "path": "examples/trees_voting.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-1",
+      "staged_script": "trees_voting.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "fnnx-ai/falcon",
+      "url": "https://github.com/fnnx-ai/falcon",
+      "commit": "9f120a93840b5923aeb2a99303e3d127f95a9344",
+      "path": "benchmarks/run.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-2",
+      "staged_script": "run.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "Devanik21/Harmonic-Resonance-Forest",
+      "url": "https://github.com/Devanik21/Harmonic-Resonance-Forest",
+      "commit": "356df370276efe14797bcbae413967da6c4b3b39",
+      "path": "HRF Codes/hrf_eeg.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-3",
+      "staged_script": "hrf_eeg.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "thatipamula-jashwanth/smart-knn",
+      "url": "https://github.com/thatipamula-jashwanth/smart-knn",
+      "commit": "35ea3f6303bb8662911055e1ae3dad1b51e33396",
+      "path": "benchmarks/class_set_2.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-4",
+      "staged_script": "class_set_2.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "thatipamula-jashwanth/smart-knn",
+      "url": "https://github.com/thatipamula-jashwanth/smart-knn",
+      "commit": "35ea3f6303bb8662911055e1ae3dad1b51e33396",
+      "path": "benchmarks/Class_Set_1.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-5",
+      "staged_script": "Class_Set_1.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "Devanik21/Harmonic-Resonance-Forest",
+      "url": "https://github.com/Devanik21/Harmonic-Resonance-Forest",
+      "commit": "356df370276efe14797bcbae413967da6c4b3b39",
+      "path": "HRF-Engine/HRF 21D/hrf_eeg.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-6",
+      "staged_script": "hrf_eeg.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "marcelovca90/auto-ml-evaluation",
+      "url": "https://github.com/marcelovca90/auto-ml-evaluation",
+      "commit": "95df52082a847062facc9cbe99488ba6ed04004b",
+      "path": "common.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-8",
+      "staged_script": "common.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "WeightedAI/semicart",
+      "url": "https://github.com/WeightedAI/semicart",
+      "commit": "461b5c1b7cbc3f585ba31d6d2ce3a113cd4d0532",
+      "path": "benchmark.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-9",
+      "staged_script": "benchmark.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "walkieq/RNN_HLS",
+      "url": "https://github.com/walkieq/RNN_HLS",
+      "commit": "1cde9e831dbfe204380b518242c51c411fc7e5fa",
+      "path": "rnn_using_Intel_FPGA/t0_hls4ml_dnn.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-10",
+      "staged_script": "t0_hls4ml_dnn.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "biquality-learn/biquality-learn",
+      "url": "https://github.com/biquality-learn/biquality-learn",
+      "commit": "3f3f1609cd45983aa5d83bef91505db77fabc263",
+      "path": "examples/plot_reweighting_vs_noise_model.py",
+      "license": "BSD-3-Clause",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-2",
+      "staged_script": "plot_reweighting_vs_noise_model.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "mmills6060/Northeastern-Masters-in-Computer-Science",
+      "url": "https://github.com/mmills6060/Northeastern-Masters-in-Computer-Science",
+      "commit": "1523fc69606c7dfa931329ea748d149740075355",
+      "path": "CS_6140/assignment3q2.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-3",
+      "staged_script": "assignment3q2.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "aruncbhusal/rbm",
+      "url": "https://github.com/aruncbhusal/rbm",
+      "commit": "0ca02c8890fff694b666ee5d92d4ae120d403419",
+      "path": "main.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-4",
+      "staged_script": "main.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "TortueSagace/versatile_evasion_attacks",
+      "url": "https://github.com/TortueSagace/versatile_evasion_attacks",
+      "commit": "5e88e33c185dd2bb4efd33e98f1d8338a9a26f2e",
+      "path": "vea/attacks/header.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-6",
+      "staged_script": "header.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "qrzou/FML-bench",
+      "url": "https://github.com/qrzou/FML-bench",
+      "commit": "d336651ebea50c622c256f02ded82b68b4451fdc",
+      "path": "ml_tasks/Fairness_fairlearn/train_eval_baseline.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-7",
+      "staged_script": "train_eval_baseline.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "AbhigyanRanjan0505/py-alphab-detector",
+      "url": "https://github.com/AbhigyanRanjan0505/py-alphab-detector",
+      "commit": "bbba79bace7dfcb240f8ea920999137b5d232d61",
+      "path": "detection.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-8",
+      "staged_script": "detection.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "hls4ml-finn-mlperftiny/CIFAR10",
+      "url": "https://github.com/hls4ml-finn-mlperftiny/CIFAR10",
+      "commit": "18f838c7d2fb047fe9d32272e5db0e13e1a66ebc",
+      "path": "hls4ml/convert.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "fetch_openml"
+      },
+      "adapter": [],
+      "slot": "heldout-9",
+      "staged_script": "convert.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "Tanooj-Seelam/ChronicKidneyDiseasePredection-ML",
+      "url": "https://github.com/Tanooj-Seelam/ChronicKidneyDiseasePredection-ML",
+      "commit": "fba828c7504a730763c18bda6718ab7c8eccdd8f",
+      "path": "main.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-3",
+      "staged_script": "main.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "0xpranjal/Breast-cancer-prediction",
+      "url": "https://github.com/0xpranjal/Breast-cancer-prediction",
+      "commit": "de7f03b233f362a878d39ea9863c1c5e15d414a7",
+      "path": "app.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-4",
+      "staged_script": "app.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "url": "https://github.com/israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "commit": "d91aa2692add3b78ddb3500169623bc628c3c039",
+      "path": "try7.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-5",
+      "staged_script": "try7.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "url": "https://github.com/israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "commit": "d91aa2692add3b78ddb3500169623bc628c3c039",
+      "path": "try9.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-6",
+      "staged_script": "try9.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "url": "https://github.com/israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "commit": "d91aa2692add3b78ddb3500169623bc628c3c039",
+      "path": "try6.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-7",
+      "staged_script": "try6.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "url": "https://github.com/israelCamperoJurado/GAMA_generalized_island_model_AutoML",
+      "commit": "d91aa2692add3b78ddb3500169623bc628c3c039",
+      "path": "try21.py",
+      "license": "Apache-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-8",
+      "staged_script": "try21.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "AgungHari/nyoba",
+      "url": "https://github.com/AgungHari/nyoba",
+      "commit": "a923454255a709e98311baae2dccdd46a2a8631a",
+      "path": "p.py",
+      "license": "MPL-2.0",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-9",
+      "staged_script": "p.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "ygmldr/Tetrisise",
+      "url": "https://github.com/ygmldr/Tetrisise",
+      "commit": "92ce96296ea6a61635ab6e48f895511be06b9cce",
+      "path": "xgb.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-10",
+      "staged_script": "xgb.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "Adamkhald/breiman-cart",
+      "url": "https://github.com/Adamkhald/breiman-cart",
+      "commit": "141cc9bd2f466fa194bfdf20392cbfd493f04a78",
+      "path": "demo.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-4",
+      "staged_script": "demo.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "azakzam/Z-Azeemulha-Abdul-Kalam",
+      "url": "https://github.com/azakzam/Z-Azeemulha-Abdul-Kalam",
+      "commit": "eb964bb528cfe3fc875f8d0b0c270a65f4a6c9c7",
+      "path": "SVC.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-5",
+      "staged_script": "SVC.py"
+    },
+    {
+      "role": "heldout",
+      "scored": false,
+      "qualified_run": false,
+      "repo": "Haimantika/random",
+      "url": "https://github.com/Haimantika/random",
+      "commit": "899e373fbd301154709fab2da2e5c3e12c234524",
+      "path": "app.py",
+      "license": "MIT",
+      "dataset": {
+        "kind": "sklearn_or_openml",
+        "locator": "sklearn.datasets"
+      },
+      "adapter": [],
+      "slot": "heldout-6",
+      "staged_script": "app.py"
+    }
+  ],
+  "qualification_env": "Project venv, plus matplotlib, seaborn, and multiprocess installed after the first attempt failed on those imports and before the retry. streamlit and flask were not installed.",
+  "next_index_pool2": 100,
+  "next_index_pool3": 100,
+  "study2": {
+    "dev": [
+      {
+        "repo": "EmperialX/BANK-LOAN-CHECK",
+        "path": "fibe.py",
+        "html_url": "https://github.com/EmperialX/BANK-LOAN-CHECK/blob/0321886b6d73216f49086fc2264efcec4d633064/fibe.py",
+        "license": "MIT",
+        "commit": "0321886b6d73216f49086fc2264efcec4d633064",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "loan_data.csv",
+          "sha256": "b49aea065d75530cb9ff6ed278b73eb9a9266bef6a43346b2168f2de5eb1250e",
+          "bytes": 202
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": true,
+        "adapter": [
+          {
+            "op": "retarget_read_csv",
+            "line": 10,
+            "to": "loan_data.csv"
+          }
+        ],
+        "staged_script": "fibe.py",
+        "role": "development",
+        "slot": "s2-dev-1"
+      }
+    ],
+    "heldout": [],
+    "pending": [],
+    "rejected": [
+      {
+        "repo": "Ansh07017/Student_Performance_-_Activity",
+        "path": "app.py",
+        "html_url": "https://github.com/Ansh07017/Student_Performance_-_Activity/blob/d136df502491d1f5acb5504a7dd0557af83b7384/app.py",
+        "license": "MIT",
+        "commit": "d136df502491d1f5acb5504a7dd0557af83b7384",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "preprocessed_student_lifestyle_dataset.csv",
+          "sha256": "8f51605c118253802b9279a68c2e3aa7ed082db40bda4995b394d1593bdc34b0",
+          "bytes": 225374
+        },
+        "applicable": [
+          "insert_filter",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "app.py"
+      },
+      {
+        "repo": "rishuatgithub/explainable-ai-app",
+        "path": "app.py",
+        "html_url": "https://github.com/rishuatgithub/explainable-ai-app/blob/e70d9bfd3ce85a0cc2864feec0f646d37ace34a6/app.py",
+        "license": "Apache-2.0",
+        "commit": "e70d9bfd3ce85a0cc2864feec0f646d37ace34a6",
+        "dataset": {
+          "kind": "uci",
+          "locator": "archive.ics.uci.edu"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "app.py"
+      },
+      {
+        "repo": "Mohshaikh23/Customer_Churn",
+        "path": "app.py",
+        "html_url": "https://github.com/Mohshaikh23/Customer_Churn/blob/79a669e6a74dc659d02fdd1c8f1575891768dcde/app.py",
+        "license": "MIT",
+        "commit": "79a669e6a74dc659d02fdd1c8f1575891768dcde",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "dataset.csv",
+          "sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+          "bytes": 970457
+        },
+        "applicable": [
+          "insert_filter",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "app.py"
+      },
+      {
+        "repo": "divyanshichauhan117/heart-disease-prediction",
+        "path": "app.py",
+        "html_url": "https://github.com/divyanshichauhan117/heart-disease-prediction/blob/b64fd6405ae558ce000b7ad88b361beeb107b706/app.py",
+        "license": "MIT",
+        "commit": "b64fd6405ae558ce000b7ad88b361beeb107b706",
+        "dataset": {
+          "kind": "uci",
+          "locator": "archive.ics.uci.edu"
+        },
+        "applicable": [
+          "insert_filter",
+          "leakage",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "app.py"
+      },
+      {
+        "repo": "Piyushkumar14/ML_Interpretor",
+        "path": "app.py",
+        "html_url": "https://github.com/Piyushkumar14/ML_Interpretor/blob/6fefab44e0c8f780286fe4f161b0bd61350499e8/app.py",
+        "license": "MIT",
+        "commit": "6fefab44e0c8f780286fe4f161b0bd61350499e8",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "load_iris"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "app.py"
+      },
+      {
+        "repo": "Davi-AlvesC/Data_Mining_Online_News_Popularity",
+        "path": "KNN.py",
+        "html_url": "https://github.com/Davi-AlvesC/Data_Mining_Online_News_Popularity/blob/1a8e5035c1b113ce0e510494581612048b656de2/KNN.py",
+        "license": "MIT",
+        "commit": "1a8e5035c1b113ce0e510494581612048b656de2",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "load_iris"
+        },
+        "applicable": [
+          "leakage",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "KNN.py"
+      },
+      {
+        "repo": "Harshita-2205/Neural-Network-Models",
+        "path": "Mlp.py",
+        "html_url": "https://github.com/Harshita-2205/Neural-Network-Models/blob/31644dc36ba1fcde163d7600f6a09e38e49b7a4a/Mlp.py",
+        "license": "MIT",
+        "commit": "31644dc36ba1fcde163d7600f6a09e38e49b7a4a",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "MOCK_DATA (3).csv",
+          "sha256": "7a334b4ff1100a4d5f696054240cf3f96d12129fa6dd2061d8a35d33277072bb",
+          "bytes": 37573
+        },
+        "applicable": [
+          "insert_filter",
+          "leakage",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "Mlp.py"
+      },
+      {
+        "repo": "oussama-grami/NeoRisk-monitor-backend",
+        "path": "knn.py",
+        "html_url": "https://github.com/oussama-grami/NeoRisk-monitor-backend/blob/9ce8b7f97fdb03881bb63b0f906b18891971f7ce/knn.py",
+        "license": "MIT",
+        "commit": "9ce8b7f97fdb03881bb63b0f906b18891971f7ce",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "newborn_health_monitoring_with_risk.csv",
+          "sha256": "09aefbc8282b3c05dcd9d2de52204408dd4d5407d1e9f99c5ecb0319521b1386",
+          "bytes": 351990
+        },
+        "applicable": [
+          "insert_filter",
+          "leakage",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "knn.py"
+      },
+      {
+        "repo": "Harshita-2205/Neural-Network-Models",
+        "path": "RBF.py",
+        "html_url": "https://github.com/Harshita-2205/Neural-Network-Models/blob/31644dc36ba1fcde163d7600f6a09e38e49b7a4a/RBF.py",
+        "license": "MIT",
+        "commit": "31644dc36ba1fcde163d7600f6a09e38e49b7a4a",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "MOCK_DATA (3).csv",
+          "sha256": "7a334b4ff1100a4d5f696054240cf3f96d12129fa6dd2061d8a35d33277072bb",
+          "bytes": 37573
+        },
+        "applicable": [
+          "insert_filter",
+          "leakage",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "RBF.py"
+      },
+      {
+        "repo": "Rakesh9100/ML-Project-Drug-Review-Dataset",
+        "path": "main.py",
+        "html_url": "https://github.com/Rakesh9100/ML-Project-Drug-Review-Dataset/blob/1da4f7e5a4a0d65cf57ac3bd7c8a24d712fd841f/main.py",
+        "license": "Apache-2.0",
+        "commit": "1da4f7e5a4a0d65cf57ac3bd7c8a24d712fd841f",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_join",
+          "drop_column",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "raflilasahido34-boop/Sistem_Prediksi_Cuaca",
+        "path": "main.py",
+        "html_url": "https://github.com/raflilasahido34-boop/Sistem_Prediksi_Cuaca/blob/52fbfdeb6d88ab3c642555aa7dd800b7ade973b9/main.py",
+        "license": "MIT",
+        "commit": "52fbfdeb6d88ab3c642555aa7dd800b7ade973b9",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "data_cuaca_gorontalo.csv",
+          "sha256": "8a534d87c0b4540b3c315065ecd9990dfa4cee8d54a4b3f748942d2333bf0a02",
+          "bytes": 96041
+        },
+        "applicable": [
+          "insert_filter",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "Sapar-hub/course-work",
+        "path": "main.py",
+        "html_url": "https://github.com/Sapar-hub/course-work/blob/6a4f4b7bbadaecb8877dbc12abdf8351d17bc0c3/main.py",
+        "license": "MIT",
+        "commit": "6a4f4b7bbadaecb8877dbc12abdf8351d17bc0c3",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "WA_Fn-UseC_-Telco-Customer-Churn.csv",
+          "sha256": "88be4b93fbe0cc83421af1c503794c97c342eca914c1576db7c276e61d61358a",
+          "bytes": 977501
+        },
+        "applicable": [
+          "insert_filter",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "maxime-langevin/simpleLSTM",
+        "path": "jak2.py",
+        "html_url": "https://github.com/maxime-langevin/simpleLSTM/blob/a36b5e266f58634410b61420cadc10103fb3619d/jak2.py",
+        "license": "MIT",
+        "commit": "a36b5e266f58634410b61420cadc10103fb3619d",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "data/jak2_data.csv",
+          "sha256": "da5d460aaf9ba3f1adcb3b777c2c22e9f80e8a6255a74aff2f776292590daab3",
+          "bytes": 113369
+        },
+        "applicable": [
+          "insert_filter",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "jak2.py"
+      },
+      {
+        "repo": "arieldreis/censo_data_science",
+        "path": "datas.py",
+        "html_url": "https://github.com/arieldreis/censo_data_science/blob/42c419e054b54bb2be8b00e6510728dfa322b94f/datas.py",
+        "license": "MIT",
+        "commit": "42c419e054b54bb2be8b00e6510728dfa322b94f",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "dados.csv",
+          "sha256": "885cf98f0bdd7ab4030205988d8b13d41a3c98700171998043289b1d6b3247ad",
+          "bytes": 221437
+        },
+        "applicable": [
+          "insert_filter",
+          "leakage",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "datas.py"
+      },
+      {
+        "repo": "gomiten1/ia-final",
+        "path": "mlp.py",
+        "html_url": "https://github.com/gomiten1/ia-final/blob/4b76f59b58abefc18bb90ab364aa13369f55b039/mlp.py",
+        "license": "MIT",
+        "commit": "4b76f59b58abefc18bb90ab364aa13369f55b039",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "data/TCGA_InfoWithGrade.csv",
+          "sha256": "1b25614ff94c8cf95f80f2c91c33e69843044c62283332690c9ff88f195144a1",
+          "bytes": 43704
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "leakage",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "mlp.py"
+      },
+      {
+        "repo": "swaraj-khan/stroke-prediction-DA",
+        "path": "predict.py",
+        "html_url": "https://github.com/swaraj-khan/stroke-prediction-DA/blob/829f912cf035863598d0f9e39c235b7a30e617bd/predict.py",
+        "license": "MIT",
+        "commit": "829f912cf035863598d0f9e39c235b7a30e617bd",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "health.csv",
+          "sha256": "644d473b05d2797006bd94865e4f8bb057f0c721617911613c82c8fcfc707420",
+          "bytes": 316971
+        },
+        "applicable": [
+          "insert_filter",
+          "leakage",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "predict.py"
+      },
+      {
+        "repo": "Jaisuntbiji/Enhanced-Brain-Tumor-Detection-Using-CNN",
+        "path": "medicne.py",
+        "html_url": "https://github.com/Jaisuntbiji/Enhanced-Brain-Tumor-Detection-Using-CNN/blob/bfdb455ba0d815dd1f5effa0e9f79fd6e8f01add/medicne.py",
+        "license": "MIT",
+        "commit": "bfdb455ba0d815dd1f5effa0e9f79fd6e8f01add",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "med.csv",
+          "sha256": "70c2697ec3f88afc7eb2ed33e418f5f99f8d9a07a3ccfe16dfdeb66f9ad05a3f",
+          "bytes": 12429
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "medicne.py"
+      },
+      {
+        "repo": "kcarvajals/loss-of-customers-Bank",
+        "path": "train.py",
+        "html_url": "https://github.com/kcarvajals/loss-of-customers-Bank/blob/49bf3610e1e18e55acc83077a600a54b91469386/train.py",
+        "license": "Apache-2.0",
+        "commit": "49bf3610e1e18e55acc83077a600a54b91469386",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "supply_chain_train.csv",
+          "sha256": "1791a1753c7f829106f7d1b7d14fb2c37c809bfb4563a058eaeff31bc4ba9ee8",
+          "bytes": 905259
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "train.py"
+      },
+      {
+        "repo": "DEVLuisz/classifica-o-em-Python",
+        "path": "main.py",
+        "html_url": "https://github.com/DEVLuisz/classifica-o-em-Python/blob/d6a8455b0014b3ed8013e84365d69e2f2b5ba23d/main.py",
+        "license": "MIT",
+        "commit": "d6a8455b0014b3ed8013e84365d69e2f2b5ba23d",
+        "dataset": {
+          "kind": "repo_csv",
+          "locator": "Data/final_data.csv",
+          "sha256": "346981da1c6ee1722c1396fc247e7a7c330fc83c920e3901e33cffef99f02606",
+          "bytes": 156925
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "AutoViML/featurewiz",
+        "path": "featurewiz/ml_models.py",
+        "html_url": "https://github.com/AutoViML/featurewiz/blob/1fe1341a4272957a32d42f63a2446f5f8c4011c2/featurewiz/ml_models.py",
+        "license": "Apache-2.0",
+        "commit": "1fe1341a4272957a32d42f63a2446f5f8c4011c2",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_filter_threshold",
+          "change_join",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "ml_models.py"
+      },
+      {
+        "repo": "SLIMlaboratory/learnedbf",
+        "path": "snippet6.py",
+        "html_url": "https://github.com/SLIMlaboratory/learnedbf/blob/a7ca7a9051757d4fc17b30b27c4a61d872b18c86/snippet6.py",
+        "license": "Apache-2.0",
+        "commit": "a7ca7a9051757d4fc17b30b27c4a61d872b18c86",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "snippet6.py"
+      },
+      {
+        "repo": "SLIMlaboratory/learnedbf",
+        "path": "snippet8.py",
+        "html_url": "https://github.com/SLIMlaboratory/learnedbf/blob/a7ca7a9051757d4fc17b30b27c4a61d872b18c86/snippet8.py",
+        "license": "Apache-2.0",
+        "commit": "a7ca7a9051757d4fc17b30b27c4a61d872b18c86",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_filter_threshold",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "snippet8.py"
+      },
+      {
+        "repo": "AmirhosseinHonardoust/Shap-Mini",
+        "path": "train.py",
+        "html_url": "https://github.com/AmirhosseinHonardoust/Shap-Mini/blob/d176a9ab05f855f7ba903590c829e503d8c87d25/train.py",
+        "license": "MIT",
+        "commit": "d176a9ab05f855f7ba903590c829e503d8c87d25",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "train.py"
+      },
+      {
+        "repo": "SLIMlaboratory/learnedbf",
+        "path": "snippet9.py",
+        "html_url": "https://github.com/SLIMlaboratory/learnedbf/blob/a7ca7a9051757d4fc17b30b27c4a61d872b18c86/snippet9.py",
+        "license": "Apache-2.0",
+        "commit": "a7ca7a9051757d4fc17b30b27c4a61d872b18c86",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "drop_column",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "snippet9.py"
+      },
+      {
+        "repo": "HewlettPackard/X-TIME",
+        "path": "fpga_emulation/quant_training/train_and_dump.py",
+        "html_url": "https://github.com/HewlettPackard/X-TIME/blob/0fd3f225a16ba5f8c71d86f7f42dd4363fa06a93/fpga_emulation/quant_training/train_and_dump.py",
+        "license": "Apache-2.0",
+        "commit": "0fd3f225a16ba5f8c71d86f7f42dd4363fa06a93",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "leakage",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "train_and_dump.py"
+      },
+      {
+        "repo": "Sazan-Mahbub/RAG_IM",
+        "path": "preprocess_step2.py",
+        "html_url": "https://github.com/Sazan-Mahbub/RAG_IM/blob/11863a388d9f6fcba0ec3582da1ebf23d10bbca0/preprocess_step2.py",
+        "license": "MIT",
+        "commit": "11863a388d9f6fcba0ec3582da1ebf23d10bbca0",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "drop_column",
+          "remove_dedup"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "preprocess_step2.py"
+      },
+      {
+        "repo": "sahajrajmalla/Quantum-Neural-Networks-Binary-Classification",
+        "path": "src/scale.py",
+        "html_url": "https://github.com/sahajrajmalla/Quantum-Neural-Networks-Binary-Classification/blob/73d0313ec687f49cc730288b1278a8bcb425a3f5/src/scale.py",
+        "license": "MIT",
+        "commit": "73d0313ec687f49cc730288b1278a8bcb425a3f5",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "scale.py"
+      },
+      {
+        "repo": "Ravikisha/PythonCentralHub",
+        "path": "projects/intermediate/mlmodeltrainer.py",
+        "html_url": "https://github.com/Ravikisha/PythonCentralHub/blob/d1590b79e98eb9975548da88001387bdedcd930a/projects/intermediate/mlmodeltrainer.py",
+        "license": "MIT",
+        "commit": "d1590b79e98eb9975548da88001387bdedcd930a",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "mlmodeltrainer.py"
+      },
+      {
+        "repo": "rembertdesigns/Programming-Language-Tutorials",
+        "path": "Python-AI.py",
+        "html_url": "https://github.com/rembertdesigns/Programming-Language-Tutorials/blob/95bdecafa77f6a8458190f6c2727c1268d29a299/Python-AI.py",
+        "license": "MIT",
+        "commit": "95bdecafa77f6a8458190f6c2727c1268d29a299",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_join",
+          "drop_column",
+          "leakage",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "Python-AI.py"
+      },
+      {
+        "repo": "Li-OmicsLab/HerbMet",
+        "path": "codes/main.py",
+        "html_url": "https://github.com/Li-OmicsLab/HerbMet/blob/904e76d8d0a39a950e00ca27fda93de2f420bfdc/codes/main.py",
+        "license": "MIT",
+        "commit": "904e76d8d0a39a950e00ca27fda93de2f420bfdc",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "IBM/dataframe-pipeline",
+        "path": "benchmarks/mental_health_1/original.py",
+        "html_url": "https://github.com/IBM/dataframe-pipeline/blob/44bb4efc77ca36022ef2d54cba4d77825111841f/benchmarks/mental_health_1/original.py",
+        "license": "Apache-2.0",
+        "commit": "44bb4efc77ca36022ef2d54cba4d77825111841f",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "original.py"
+      },
+      {
+        "repo": "dof-studio/MML",
+        "path": "mml/tree.py",
+        "html_url": "https://github.com/dof-studio/MML/blob/af1d17620c7378fc68118e11d35d081cbc474cef/mml/tree.py",
+        "license": "Apache-2.0",
+        "commit": "af1d17620c7378fc68118e11d35d081cbc474cef",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_join",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "tree.py"
+      },
+      {
+        "repo": "QUMIA/train-scripts",
+        "path": "train_stage_2.py",
+        "html_url": "https://github.com/QUMIA/train-scripts/blob/b29859a9786755e7bb712cbf3d70b1b68d4306c9/train_stage_2.py",
+        "license": "Apache-2.0",
+        "commit": "b29859a9786755e7bb712cbf3d70b1b68d4306c9",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_join",
+          "remove_dedup",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "train_stage_2.py"
+      },
+      {
+        "repo": "logman117/AutoML-Bayesian-Model-Selection-",
+        "path": "main.py",
+        "html_url": "https://github.com/logman117/AutoML-Bayesian-Model-Selection-/blob/f43a4845db5fe10460344c95a66856fdb35d8de0/main.py",
+        "license": "MIT",
+        "commit": "f43a4845db5fe10460344c95a66856fdb35d8de0",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "leakage",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "davidomanovic/machine-learning-tools",
+        "path": "lasso/src/LASSO.py",
+        "html_url": "https://github.com/davidomanovic/machine-learning-tools/blob/9264ca61e4dae844b324067b85dc4d92f0c0c790/lasso/src/LASSO.py",
+        "license": "MIT",
+        "commit": "9264ca61e4dae844b324067b85dc4d92f0c0c790",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_filter_threshold",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "LASSO.py"
+      },
+      {
+        "repo": "Castel44/TSDD",
+        "path": "src/main_experiments.py",
+        "html_url": "https://github.com/Castel44/TSDD/blob/bd114fdac7d3ac4f4f60cda922d689599ec4cb65/src/main_experiments.py",
+        "license": "MIT",
+        "commit": "bd114fdac7d3ac4f4f60cda922d689599ec4cb65",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_join",
+          "leakage",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main_experiments.py"
+      },
+      {
+        "repo": "ViniciusKanh/itmofs-lab",
+        "path": "benchmark.py",
+        "html_url": "https://github.com/ViniciusKanh/itmofs-lab/blob/94b34e94b1961cb5e2d74483fa8eeb7455a6e60f/benchmark.py",
+        "license": "MIT",
+        "commit": "94b34e94b1961cb5e2d74483fa8eeb7455a6e60f",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "benchmark.py"
+      },
+      {
+        "repo": "Yu-Yang-Li/StarWhisper",
+        "path": "skills/research-baseline-builder/templates/baseline_randomforest.py",
+        "html_url": "https://github.com/Yu-Yang-Li/StarWhisper/blob/e92646c8d3c90e3e478d8103fde2bd315eb1cfe7/skills/research-baseline-builder/templates/baseline_randomforest.py",
+        "license": "Apache-2.0",
+        "commit": "e92646c8d3c90e3e478d8103fde2bd315eb1cfe7",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "change_encoding"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "baseline_randomforest.py"
+      },
+      {
+        "repo": "Yu-Yang-Li/StarWhisper",
+        "path": "skills/research-baseline-builder/templates/baseline_xgboost_optuna.py",
+        "html_url": "https://github.com/Yu-Yang-Li/StarWhisper/blob/e92646c8d3c90e3e478d8103fde2bd315eb1cfe7/skills/research-baseline-builder/templates/baseline_xgboost_optuna.py",
+        "license": "Apache-2.0",
+        "commit": "e92646c8d3c90e3e478d8103fde2bd315eb1cfe7",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "change_encoding"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "baseline_xgboost_optuna.py"
+      },
+      {
+        "repo": "FLAIR-THU/VFLAIR-LLM",
+        "path": "src/main_tree.py",
+        "html_url": "https://github.com/FLAIR-THU/VFLAIR-LLM/blob/ff18565d89dce6367b6f13881a415c053b60cb0f/src/main_tree.py",
+        "license": "MIT",
+        "commit": "ff18565d89dce6367b6f13881a415c053b60cb0f",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "drop_column",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main_tree.py"
+      },
+      {
+        "repo": "yyveggie/Positive-and-Unlabeled-Learning",
+        "path": "methods/pu_lib.py",
+        "html_url": "https://github.com/yyveggie/Positive-and-Unlabeled-Learning/blob/b94cf83f8c3f385f9262d12764d96adde797c9a2/methods/pu_lib.py",
+        "license": "MIT",
+        "commit": "b94cf83f8c3f385f9262d12764d96adde797c9a2",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "fetch_openml"
+        },
+        "applicable": [
+          "change_encoding",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "pu_lib.py"
+      },
+      {
+        "repo": "baselhusam/ClickML",
+        "path": "1_ClickML.py",
+        "html_url": "https://github.com/baselhusam/ClickML/blob/ed2fb67db91e488882e48e4b7b5dfe12da44e8d4/1_ClickML.py",
+        "license": "MIT",
+        "commit": "ed2fb67db91e488882e48e4b7b5dfe12da44e8d4",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_encoding"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "1_ClickML.py"
+      },
+      {
+        "repo": "wangln19/vertical-federated-unlearning",
+        "path": "main_tree.py",
+        "html_url": "https://github.com/wangln19/vertical-federated-unlearning/blob/7ec8d8ca0d6a36b8574d85b3d439c2dc6d412898/main_tree.py",
+        "license": "MIT",
+        "commit": "7ec8d8ca0d6a36b8574d85b3d439c2dc6d412898",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "drop_column",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main_tree.py"
+      },
+      {
+        "repo": "tvsiddhu/AILearn_PyCode",
+        "path": "src/9.supervised_learning/Trees/trees_cart.py",
+        "html_url": "https://github.com/tvsiddhu/AILearn_PyCode/blob/e5865012493114c88ea3fe450fba7896702fba72/src/9.supervised_learning/Trees/trees_cart.py",
+        "license": "MIT",
+        "commit": "e5865012493114c88ea3fe450fba7896702fba72",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "trees_cart.py"
+      },
+      {
+        "repo": "tudorandrian/genai-practice-projects",
+        "path": "projects/p04_decision_tree/decision_tree.py",
+        "html_url": "https://github.com/tudorandrian/genai-practice-projects/blob/804ab9774211c6bb852c68ed02d3d2dc1dba5188/projects/p04_decision_tree/decision_tree.py",
+        "license": "MIT",
+        "commit": "804ab9774211c6bb852c68ed02d3d2dc1dba5188",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_join",
+          "change_encoding",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "decision_tree.py"
+      },
+      {
+        "repo": "avesperinas/poc_mlops_kubeflow",
+        "path": "src/pipelines/iris_classification/steps.py",
+        "html_url": "https://github.com/avesperinas/poc_mlops_kubeflow/blob/a63ecac3bfa9ec4a2ab72a4ec1ea66bbd54845d0/src/pipelines/iris_classification/steps.py",
+        "license": "Apache-2.0",
+        "commit": "a63ecac3bfa9ec4a2ab72a4ec1ea66bbd54845d0",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "load_iris"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "steps.py"
+      },
+      {
+        "repo": "iridia-ulb/AI-book",
+        "path": "DecisionTrees/main.py",
+        "html_url": "https://github.com/iridia-ulb/AI-book/blob/d1bf1bf9ba1895e547860da80d44f750cb7427df/DecisionTrees/main.py",
+        "license": "MIT",
+        "commit": "d1bf1bf9ba1895e547860da80d44f750cb7427df",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "adithya-s-k/World-of-AI",
+        "path": "machine_learning/healthy_food_predictor/healthy_food_predictor.py",
+        "html_url": "https://github.com/adithya-s-k/World-of-AI/blob/829cac52de6627178f0867bf4bb1564816b04e8a/machine_learning/healthy_food_predictor/healthy_food_predictor.py",
+        "license": "MIT",
+        "commit": "829cac52de6627178f0867bf4bb1564816b04e8a",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "healthy_food_predictor.py"
+      },
+      {
+        "repo": "GitsSaikat/QuXAI",
+        "path": "experiments/rank_correlation.py",
+        "html_url": "https://github.com/GitsSaikat/QuXAI/blob/f04a37434eb6511aff0e1ab68a45aab91b62a57b/experiments/rank_correlation.py",
+        "license": "Apache-2.0",
+        "commit": "f04a37434eb6511aff0e1ab68a45aab91b62a57b",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_join",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "rank_correlation.py"
+      },
+      {
+        "repo": "The-Data-Alchemists-Manipal/MindWave",
+        "path": "Machine Learning/RandomForest_healthy food predictor/healthy_food_predictor.py",
+        "html_url": "https://github.com/The-Data-Alchemists-Manipal/MindWave/blob/8a4cd14dbe7471899c1544924b5e4c79eb8b07f7/Machine Learning/RandomForest_healthy food predictor/healthy_food_predictor.py",
+        "license": "MIT",
+        "commit": "8a4cd14dbe7471899c1544924b5e4c79eb8b07f7",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "healthy_food_predictor.py"
+      },
+      {
+        "repo": "jcval94/InsideForest",
+        "path": "experiments/benchmark.py",
+        "html_url": "https://github.com/jcval94/InsideForest/blob/62b6ba8891b250ad194e27376b22f3be13c8f184/experiments/benchmark.py",
+        "license": "MIT",
+        "commit": "62b6ba8891b250ad194e27376b22f3be13c8f184",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "drop_column",
+          "change_encoding"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "benchmark.py"
+      },
+      {
+        "repo": "juan541/ml_pipeline",
+        "path": "utils.py",
+        "html_url": "https://github.com/juan541/ml_pipeline/blob/7fb894088989b241aee1ee58c6eb3a4a398b884a/utils.py",
+        "license": "MIT",
+        "commit": "7fb894088989b241aee1ee58c6eb3a4a398b884a",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "remove_dedup",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "utils.py"
+      },
+      {
+        "repo": "APMaii/Aug2024-Python-and-ML-for-Engineering-Tutorial",
+        "path": "LL17.py",
+        "html_url": "https://github.com/APMaii/Aug2024-Python-and-ML-for-Engineering-Tutorial/blob/1705686f0f71ea317f38a3336eb3f858413caee2/LL17.py",
+        "license": "MIT",
+        "commit": "1705686f0f71ea317f38a3336eb3f858413caee2",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "drop_column",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "LL17.py"
+      },
+      {
+        "repo": "venomez-viper/breezeml",
+        "path": "breezeml/breezeml.py",
+        "html_url": "https://github.com/venomez-viper/breezeml/blob/42d8b4a4ebb8909b1b22a102b34febeb805ee03e/breezeml/breezeml.py",
+        "license": "MIT",
+        "commit": "42d8b4a4ebb8909b1b22a102b34febeb805ee03e",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "load_iris"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "breezeml.py"
+      },
+      {
+        "repo": "Pankaj-Bashera/ML_Algo_Visualiser",
+        "path": "backend/app/main.py",
+        "html_url": "https://github.com/Pankaj-Bashera/ML_Algo_Visualiser/blob/fe753203c6eb9ee999633c6cc68069806f69ea48/backend/app/main.py",
+        "license": "MIT",
+        "commit": "fe753203c6eb9ee999633c6cc68069806f69ea48",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "main.py"
+      },
+      {
+        "repo": "KatherLab/tabpfnbenchmark",
+        "path": "TabPFN_CommonScript-Top.py",
+        "html_url": "https://github.com/KatherLab/tabpfnbenchmark/blob/7e422876fce060f3136b5de78dbaa86febfc04c8/TabPFN_CommonScript-Top.py",
+        "license": "MIT",
+        "commit": "7e422876fce060f3136b5de78dbaa86febfc04c8",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "TabPFN_CommonScript-Top.py"
+      },
+      {
+        "repo": "baselhusam/ClickML",
+        "path": "pages/3_\ud83d\udcda_StudyML.py",
+        "html_url": "https://github.com/baselhusam/ClickML/blob/ed2fb67db91e488882e48e4b7b5dfe12da44e8d4/pages/3_\ud83d\udcda_StudyML.py",
+        "license": "MIT",
+        "commit": "ed2fb67db91e488882e48e4b7b5dfe12da44e8d4",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "drop_column"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "3_\ud83d\udcda_StudyML.py"
+      },
+      {
+        "repo": "frlinaker/skribe",
+        "path": "examples/quickstart.py",
+        "html_url": "https://github.com/frlinaker/skribe/blob/91ad97486ed31419df3fc49979bb522776e77aee/examples/quickstart.py",
+        "license": "MIT",
+        "commit": "91ad97486ed31419df3fc49979bb522776e77aee",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "fetch_openml"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_join",
+          "drop_column",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "quickstart.py"
+      },
+      {
+        "repo": "abhigupta2000/KisanRakshak",
+        "path": "ML/Model/lgbm.py",
+        "html_url": "https://github.com/abhigupta2000/KisanRakshak/blob/0f3821946701ffcf4e3a0a9d353332f9190cec87/ML/Model/lgbm.py",
+        "license": "MIT",
+        "commit": "0f3821946701ffcf4e3a0a9d353332f9190cec87",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "lgbm.py"
+      },
+      {
+        "repo": "David-Hunt327/Student-Performance-Prediction-System",
+        "path": "Model_prediction.py",
+        "html_url": "https://github.com/David-Hunt327/Student-Performance-Prediction-System/blob/9471771ef239da649decb35c8b82304a60fa196f/Model_prediction.py",
+        "license": "MIT",
+        "commit": "9471771ef239da649decb35c8b82304a60fa196f",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "Model_prediction.py"
+      },
+      {
+        "repo": "rayhanur-rahman/ChronoCTI",
+        "path": "temporal-learner-code/evaluate_relation_heldout.py",
+        "html_url": "https://github.com/rayhanur-rahman/ChronoCTI/blob/4906a0a5e399b6e2aa10435fd6e3894e041e4549/temporal-learner-code/evaluate_relation_heldout.py",
+        "license": "Apache-2.0",
+        "commit": "4906a0a5e399b6e2aa10435fd6e3894e041e4549",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "drop_column",
+          "change_encoding",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "evaluate_relation_heldout.py"
+      },
+      {
+        "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+        "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h20161126.py",
+        "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h20161126.py",
+        "license": "MIT",
+        "commit": "d45eb220eb6a28da69b4781fbc18945e2cb47e21",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "classify-ghosts-v8h20161126.py"
+      },
+      {
+        "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+        "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h20161126.py",
+        "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h20161126.py",
+        "license": "MIT",
+        "commit": "d45eb220eb6a28da69b4781fbc18945e2cb47e21",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "classify-ghosts-v7h20161126.py"
+      },
+      {
+        "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+        "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h220161126.py",
+        "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h220161126.py",
+        "license": "MIT",
+        "commit": "d45eb220eb6a28da69b4781fbc18945e2cb47e21",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "classify-ghosts-v8h220161126.py"
+      },
+      {
+        "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+        "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h220161126.py",
+        "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h220161126.py",
+        "license": "MIT",
+        "commit": "d45eb220eb6a28da69b4781fbc18945e2cb47e21",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "classify-ghosts-v7h220161126.py"
+      },
+      {
+        "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+        "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-20161208v11h.py",
+        "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-20161208v11h.py",
+        "license": "MIT",
+        "commit": "d45eb220eb6a28da69b4781fbc18945e2cb47e21",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "classify-ghosts-20161208v11h.py"
+      },
+      {
+        "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+        "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v10h20161130.py",
+        "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v10h20161130.py",
+        "license": "MIT",
+        "commit": "d45eb220eb6a28da69b4781fbc18945e2cb47e21",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "drop_column",
+          "change_encoding",
+          "change_sampling"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "classify-ghosts-v10h20161130.py"
+      },
+      {
+        "repo": "yairbh/KAYA_MLOps",
+        "path": "src/original_script_karen.py",
+        "html_url": "https://github.com/yairbh/KAYA_MLOps/blob/4bd0793b131d243dcf89f11f4cd6b7253f994951/src/original_script_karen.py",
+        "license": "MIT",
+        "commit": "4bd0793b131d243dcf89f11f4cd6b7253f994951",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "original_script_karen.py"
+      },
+      {
+        "repo": "Cazzy-Aporbo/PearlMind-ML-Journey",
+        "path": "pearl mind_complete.py",
+        "html_url": "https://github.com/Cazzy-Aporbo/PearlMind-ML-Journey/blob/b0845382c1a76343fff92db7ab34ec2cef35b889/pearl mind_complete.py",
+        "license": "MIT",
+        "commit": "b0845382c1a76343fff92db7ab34ec2cef35b889",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_filter_threshold",
+          "change_join",
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "pearl mind_complete.py"
+      },
+      {
+        "repo": "rayhanur-rahman/ChronoCTI",
+        "path": "temporal-learner-code/Utils.py",
+        "html_url": "https://github.com/rayhanur-rahman/ChronoCTI/blob/4906a0a5e399b6e2aa10435fd6e3894e041e4549/temporal-learner-code/Utils.py",
+        "license": "Apache-2.0",
+        "commit": "4906a0a5e399b6e2aa10435fd6e3894e041e4549",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "drop_column",
+          "change_encoding",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "Utils.py"
+      },
+      {
+        "repo": "nibertinvestments/DATA",
+        "path": "code_samples/python/ml_data_science.py",
+        "html_url": "https://github.com/nibertinvestments/DATA/blob/edc6afb2725c92654ddc75aa9495b18227564d32/code_samples/python/ml_data_science.py",
+        "license": "MIT",
+        "commit": "edc6afb2725c92654ddc75aa9495b18227564d32",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "change_encoding",
+          "change_sampling",
+          "coerce_dtype"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "ml_data_science.py"
+      },
+      {
+        "repo": "aofphy/APML2022",
+        "path": "egeaML/egeaML.py",
+        "html_url": "https://github.com/aofphy/APML2022/blob/837e7fc26666373c15d9345de7c5cd33fe4d0dfb/egeaML/egeaML.py",
+        "license": "MIT",
+        "commit": "837e7fc26666373c15d9345de7c5cd33fe4d0dfb",
+        "dataset": {
+          "kind": "sklearn_or_openml",
+          "locator": "sklearn.datasets"
+        },
+        "applicable": [
+          "insert_filter",
+          "change_filter_threshold",
+          "change_join",
+          "change_encoding"
+        ],
+        "qualified_run": false,
+        "adapter": [],
+        "staged_script": "egeaML.py"
+      }
+    ],
+    "next_index": 100,
+    "next_index_b": 100,
+    "next_index_c": 100,
+    "next_index_d": 100,
+    "next_index_e": 100,
+    "next_index_f": 100,
+    "next_index_g": 100
+  }
+}

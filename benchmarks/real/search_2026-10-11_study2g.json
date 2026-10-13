@@ -1,0 +1,502 @@
+[
+  {
+    "repo": "math-a3k/docs_gh_pages_test",
+    "path": "utilmy/zml/source/models/model_gefs.py",
+    "html_url": "https://github.com/math-a3k/docs_gh_pages_test/blob/f7a973afc45b983c45120cb39919d0b6af09f8d3/utilmy/zml/source/models/model_gefs.py"
+  },
+  {
+    "repo": "cov-lineages/pangolin",
+    "path": "pangolin/pangolearn/pangolearn.py",
+    "html_url": "https://github.com/cov-lineages/pangolin/blob/ef3998fa4722739245092644d56686b8e71fae26/pangolin/pangolearn/pangolearn.py"
+  },
+  {
+    "repo": "abhigupta2000/KisanRakshak",
+    "path": "ML/Model/lgbm.py",
+    "html_url": "https://github.com/abhigupta2000/KisanRakshak/blob/0f3821946701ffcf4e3a0a9d353332f9190cec87/ML/Model/lgbm.py"
+  },
+  {
+    "repo": "cov-lineages/pangoLEARN",
+    "path": "pangoLEARN/training/pangoLEARNDecisionTree_v1.py",
+    "html_url": "https://github.com/cov-lineages/pangoLEARN/blob/f14edbd473f0ec1716796d263ec3713bb5bf3c62/pangoLEARN/training/pangoLEARNDecisionTree_v1.py"
+  },
+  {
+    "repo": "cov-lineages/pangoLEARN",
+    "path": "pangoLEARN/training/pangoLEARNRandomForest_v1.py",
+    "html_url": "https://github.com/cov-lineages/pangoLEARN/blob/f14edbd473f0ec1716796d263ec3713bb5bf3c62/pangoLEARN/training/pangoLEARNRandomForest_v1.py"
+  },
+  {
+    "repo": "PoonLab/covizu",
+    "path": "covizu/deprecated/pangorider.py",
+    "html_url": "https://github.com/PoonLab/covizu/blob/1062c57787d92ebb960c78168aae42139c0acb4e/covizu/deprecated/pangorider.py"
+  },
+  {
+    "repo": "Rakesh9100/ML-Project-Drug-Review-Dataset",
+    "path": "main.py",
+    "html_url": "https://github.com/Rakesh9100/ML-Project-Drug-Review-Dataset/blob/1da4f7e5a4a0d65cf57ac3bd7c8a24d712fd841f/main.py"
+  },
+  {
+    "repo": "aineniamh/squirrel",
+    "path": "squirrel/scripts/pangolearn.py",
+    "html_url": "https://github.com/aineniamh/squirrel/blob/005f8306aace443bdc5228f9634d5a7c3724412d/squirrel/scripts/pangolearn.py"
+  },
+  {
+    "repo": "aineniamh/squirrel",
+    "path": "squirrel/pangolearn/pangolearn.py",
+    "html_url": "https://github.com/aineniamh/squirrel/blob/005f8306aace443bdc5228f9634d5a7c3724412d/squirrel/pangolearn/pangolearn.py"
+  },
+  {
+    "repo": "coolsmurfs/Malicious-document-detectation",
+    "path": "ROC.py",
+    "html_url": "https://github.com/coolsmurfs/Malicious-document-detectation/blob/3949d9280fe6a29437068f6c4eb9ff2007aa756c/ROC.py"
+  },
+  {
+    "repo": "Edoar-do/AI4I-Predictive-Maintenance",
+    "path": "mldm_project.py",
+    "html_url": "https://github.com/Edoar-do/AI4I-Predictive-Maintenance/blob/279c6d303c98f713e14df001561cc3e80d2b4d22/mldm_project.py"
+  },
+  {
+    "repo": "RohithYogi/Student-Performance-Prediction",
+    "path": "Model_prediction.py",
+    "html_url": "https://github.com/RohithYogi/Student-Performance-Prediction/blob/7ab64a53718481cdcbd2b917d646cea25b833082/Model_prediction.py"
+  },
+  {
+    "repo": "rachelauryn/FosterCareMobility",
+    "path": "python/classification_rf.py",
+    "html_url": "https://github.com/rachelauryn/FosterCareMobility/blob/10bf7885803e9aa297e02d0ec12e255366659d23/python/classification_rf.py"
+  },
+  {
+    "repo": "rembertdesigns/Programming-Language-Tutorials",
+    "path": "Python-AI.py",
+    "html_url": "https://github.com/rembertdesigns/Programming-Language-Tutorials/blob/95bdecafa77f6a8458190f6c2727c1268d29a299/Python-AI.py"
+  },
+  {
+    "repo": "ahmedmagds/GNUVID",
+    "path": "bin/GNUVID_Training.py",
+    "html_url": "https://github.com/ahmedmagds/GNUVID/blob/c52b4ec65fa89288b600768c80ee7a126b95b029/bin/GNUVID_Training.py"
+  },
+  {
+    "repo": "jcval94/InsideForest",
+    "path": "experiments/benchmark.py",
+    "html_url": "https://github.com/jcval94/InsideForest/blob/62b6ba8891b250ad194e27376b22f3be13c8f184/experiments/benchmark.py"
+  },
+  {
+    "repo": "adgirish/kaggleScape",
+    "path": "data/script600.py",
+    "html_url": "https://github.com/adgirish/kaggleScape/blob/18bede8420ab8d2e4e7c1eaf6f63280e20cccb97/data/script600.py"
+  },
+  {
+    "repo": "mkmagaya/Loacalization_and_Prediction_using_DeepLearning",
+    "path": "models/model.py",
+    "html_url": "https://github.com/mkmagaya/Loacalization_and_Prediction_using_DeepLearning/blob/27b0630d5220c2857a2d6467a4e37cc65881def8/models/model.py"
+  },
+  {
+    "repo": "JieHou828/Econ-441B-Machine-Learning-With-Python",
+    "path": "Code/Week 8/SuperLearner.py",
+    "html_url": "https://github.com/JieHou828/Econ-441B-Machine-Learning-With-Python/blob/73d124210152a3ddf307dcf06523b8d17d2eb50e/Code/Week 8/SuperLearner.py"
+  },
+  {
+    "repo": "sdimeji/my_dashboard_projects",
+    "path": "model.py",
+    "html_url": "https://github.com/sdimeji/my_dashboard_projects/blob/ab08840956c99a49e058ec2f5f2fed853ba1d5ba/model.py"
+  },
+  {
+    "repo": "Arbiansa/webpendat",
+    "path": "knapskudewe.py",
+    "html_url": "https://github.com/Arbiansa/webpendat/blob/4adcd5260c22b8401bd2f0d4ce3834f327598b23/knapskudewe.py"
+  },
+  {
+    "repo": "EvaldoSouza/aprendizado_maquinas_tp4",
+    "path": "knn.py",
+    "html_url": "https://github.com/EvaldoSouza/aprendizado_maquinas_tp4/blob/861bbd1a0939f192794347d592ee4033a0a6a721/knn.py"
+  },
+  {
+    "repo": "guikingoak/Estudos_ML",
+    "path": "site/atvknn.py",
+    "html_url": "https://github.com/guikingoak/Estudos_ML/blob/ad64661a09069c4ec018e2fa3a50df9067806d15/site/atvknn.py"
+  },
+  {
+    "repo": "guikingoak/Estudos_ML",
+    "path": "docs/atvknn.py",
+    "html_url": "https://github.com/guikingoak/Estudos_ML/blob/ad64661a09069c4ec018e2fa3a50df9067806d15/docs/atvknn.py"
+  },
+  {
+    "repo": "EvaldoSouza/aprendizado_maquinas_tp4",
+    "path": "gbte.py",
+    "html_url": "https://github.com/EvaldoSouza/aprendizado_maquinas_tp4/blob/861bbd1a0939f192794347d592ee4033a0a6a721/gbte.py"
+  },
+  {
+    "repo": "MaudGes/PyAnyw_API",
+    "path": "pipeline.py",
+    "html_url": "https://github.com/MaudGes/PyAnyw_API/blob/43585964099d4ef67446a1bb6b5aa9d14c491207/pipeline.py"
+  },
+  {
+    "repo": "JieHou828/Econ-441B-Machine-Learning-With-Python",
+    "path": "Code/Week 4/Resampling.py",
+    "html_url": "https://github.com/JieHou828/Econ-441B-Machine-Learning-With-Python/blob/73d124210152a3ddf307dcf06523b8d17d2eb50e/Code/Week 4/Resampling.py"
+  },
+  {
+    "repo": "davata1/Project-ML",
+    "path": "ml.py",
+    "html_url": "https://github.com/davata1/Project-ML/blob/f5d6ba6920c6c33b7e207747d7f0d6950c2212b5/ml.py"
+  },
+  {
+    "repo": "callmezamm/webpendat",
+    "path": "credit_apps.py",
+    "html_url": "https://github.com/callmezamm/webpendat/blob/e035c3c0993e3e5075cd48f154075e55d4f99a79/credit_apps.py"
+  },
+  {
+    "repo": "sahaj-mithra/predictive-maintenance",
+    "path": "src/main.py",
+    "html_url": "https://github.com/sahaj-mithra/predictive-maintenance/blob/3b92787902c1003651a2d8a5cc68dbb5d6b57cad/src/main.py"
+  },
+  {
+    "repo": "amirhosf/Data-Prediction-for-Adult-Income",
+    "path": "Main.py",
+    "html_url": "https://github.com/amirhosf/Data-Prediction-for-Adult-Income/blob/32551724fcd09809dcee9954f10f7e6777d40f63/Main.py"
+  },
+  {
+    "repo": "tejo30421/Bank_Term_Deposit",
+    "path": "BTD.py",
+    "html_url": "https://github.com/tejo30421/Bank_Term_Deposit/blob/0805dd8e1c094b1ed7ecd24956875acc50a1b7ef/BTD.py"
+  },
+  {
+    "repo": "davata1/Project-ML",
+    "path": "uas.py",
+    "html_url": "https://github.com/davata1/Project-ML/blob/f5d6ba6920c6c33b7e207747d7f0d6950c2212b5/uas.py"
+  },
+  {
+    "repo": "simplymathematics/deckard",
+    "path": "examples/thesis/thesis_figures.py",
+    "html_url": "https://github.com/simplymathematics/deckard/blob/b14387b942df148c0fc1e0d0468c5771c18c4b8a/examples/thesis/thesis_figures.py"
+  },
+  {
+    "repo": "MarcusSilva382/Statathon",
+    "path": "hackaton.py",
+    "html_url": "https://github.com/MarcusSilva382/Statathon/blob/ec5a37e1d822a06c348124540027950ad1034489/hackaton.py"
+  },
+  {
+    "repo": "EvaldoSouza/aprendizado_maquinas_tp4",
+    "path": "modelo_gam.py",
+    "html_url": "https://github.com/EvaldoSouza/aprendizado_maquinas_tp4/blob/861bbd1a0939f192794347d592ee4033a0a6a721/modelo_gam.py"
+  },
+  {
+    "repo": "sanskritiagr/SwasthAI",
+    "path": "disease_predict.py",
+    "html_url": "https://github.com/sanskritiagr/SwasthAI/blob/7f49949c28f1d5510faa75b311274d43e05ca6c9/disease_predict.py"
+  },
+  {
+    "repo": "David-Hunt327/Student-Performance-Prediction-System",
+    "path": "Model_prediction.py",
+    "html_url": "https://github.com/David-Hunt327/Student-Performance-Prediction-System/blob/9471771ef239da649decb35c8b82304a60fa196f/Model_prediction.py"
+  },
+  {
+    "repo": "callmezamm/webpendat",
+    "path": "project_uas.py",
+    "html_url": "https://github.com/callmezamm/webpendat/blob/e035c3c0993e3e5075cd48f154075e55d4f99a79/project_uas.py"
+  },
+  {
+    "repo": "davata1/Project-ML",
+    "path": "learni.py",
+    "html_url": "https://github.com/davata1/Project-ML/blob/f5d6ba6920c6c33b7e207747d7f0d6950c2212b5/learni.py"
+  },
+  {
+    "repo": "lorayc/MachineLearning1",
+    "path": "LY-ML8.py",
+    "html_url": "https://github.com/lorayc/MachineLearning1/blob/9c5ae5c9e54d61ae2aac70a1ab0283ed90fe341f/LY-ML8.py"
+  },
+  {
+    "repo": "khanblackbird/Operating-costs-and-Revenue",
+    "path": "analysis.py",
+    "html_url": "https://github.com/khanblackbird/Operating-costs-and-Revenue/blob/6ce39cab3fb088178e04aeb00a833d0e4007a4a7/analysis.py"
+  },
+  {
+    "repo": "khanblackbird/solid-octo-succotash",
+    "path": "analysis.py",
+    "html_url": "https://github.com/khanblackbird/solid-octo-succotash/blob/853d6bf43d79c36a9b24fa54d6ab01033e0efab1/analysis.py"
+  },
+  {
+    "repo": "Titanic-Project/Titanic-Project",
+    "path": "titanic.py",
+    "html_url": "https://github.com/Titanic-Project/Titanic-Project/blob/2dfb525ebe92348e9bbd683cb2edcc4b3c74e278/titanic.py"
+  },
+  {
+    "repo": "evanhecke/StatsOrderExpansions",
+    "path": "Official.py",
+    "html_url": "https://github.com/evanhecke/StatsOrderExpansions/blob/2c454691bb6d429e4f8d14a24846b93f2605dd12/Official.py"
+  },
+  {
+    "repo": "rayhanur-rahman/ChronoCTI",
+    "path": "temporal-learner-code/evaluate_relation_heldout.py",
+    "html_url": "https://github.com/rayhanur-rahman/ChronoCTI/blob/4906a0a5e399b6e2aa10435fd6e3894e041e4549/temporal-learner-code/evaluate_relation_heldout.py"
+  },
+  {
+    "repo": "sanskritiagr/SwasthAI",
+    "path": "specialist_predict.py",
+    "html_url": "https://github.com/sanskritiagr/SwasthAI/blob/7f49949c28f1d5510faa75b311274d43e05ca6c9/specialist_predict.py"
+  },
+  {
+    "repo": "EvaldoSouza/aprendizado_maquinas_tp4",
+    "path": "random_forest.py",
+    "html_url": "https://github.com/EvaldoSouza/aprendizado_maquinas_tp4/blob/861bbd1a0939f192794347d592ee4033a0a6a721/random_forest.py"
+  },
+  {
+    "repo": "jonxsong/DSC180AB-Capstone",
+    "path": "src/model.py",
+    "html_url": "https://github.com/jonxsong/DSC180AB-Capstone/blob/0e6c99b8de60fde4ff68f1623ee42bde41aaa22f/src/model.py"
+  },
+  {
+    "repo": "cov-lineages/pangoLEARN-training",
+    "path": "pangolearn_training/pangoLEARNDecisionTree_v1.py",
+    "html_url": "https://github.com/cov-lineages/pangoLEARN-training/blob/23b4a3d3191ac2b3c3b6683f301e4cc208537bba/pangolearn_training/pangoLEARNDecisionTree_v1.py"
+  },
+  {
+    "repo": "evanhecke/StatsOrderExpansions",
+    "path": "Officials.py",
+    "html_url": "https://github.com/evanhecke/StatsOrderExpansions/blob/2c454691bb6d429e4f8d14a24846b93f2605dd12/Officials.py"
+  },
+  {
+    "repo": "EvaldoSouza/aprendizado_maquinas_tp4",
+    "path": "arvore_decisao.py",
+    "html_url": "https://github.com/EvaldoSouza/aprendizado_maquinas_tp4/blob/861bbd1a0939f192794347d592ee4033a0a6a721/arvore_decisao.py"
+  },
+  {
+    "repo": "Angel711/AI-Logistics",
+    "path": "IA/modeloP.py",
+    "html_url": "https://github.com/Angel711/AI-Logistics/blob/7ec9ad549ea831f4223a997be5185fffb5650d64/IA/modeloP.py"
+  },
+  {
+    "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+    "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h20161126.py",
+    "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h20161126.py"
+  },
+  {
+    "repo": "Grkila/Diabetes-prediction-using-machine-learning",
+    "path": "main.py",
+    "html_url": "https://github.com/Grkila/Diabetes-prediction-using-machine-learning/blob/0a33a504f9fe136e3b0a465fed5e899ebf9b0f5a/main.py"
+  },
+  {
+    "repo": "ConsSnorlax/ECON442B",
+    "path": "HW8.py",
+    "html_url": "https://github.com/ConsSnorlax/ECON442B/blob/140b9bce403fcfebee8e6cc374eab1ea87d45f15/HW8.py"
+  },
+  {
+    "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+    "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h20161126.py",
+    "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h20161126.py"
+  },
+  {
+    "repo": "harshpala/DIGIFARMER",
+    "path": "ML_api/Model/lgbm.py",
+    "html_url": "https://github.com/harshpala/DIGIFARMER/blob/9b649be61b8e3dd8d806f5c3fe11190b210f2565/ML_api/Model/lgbm.py"
+  },
+  {
+    "repo": "facells/learnipy",
+    "path": "learnipy.py",
+    "html_url": "https://github.com/facells/learnipy/blob/37f083c9fbca24cf4201e278a55e26dd8ff0fab2/learnipy.py"
+  },
+  {
+    "repo": "gasseramr/Ml-excel-Analyzer",
+    "path": "ml_analysis.py",
+    "html_url": "https://github.com/gasseramr/Ml-excel-Analyzer/blob/94058f7ccf0fb3ac8e7fb99b5ff452845bb26c16/ml_analysis.py"
+  },
+  {
+    "repo": "theoportlock/FMT_analysis",
+    "path": "code/anotherrf.py",
+    "html_url": "https://github.com/theoportlock/FMT_analysis/blob/98fde5e82df6d6b865c809ef9213a5b6e09673e5/code/anotherrf.py"
+  },
+  {
+    "repo": "masanpietro/TitanicKaggleSolution",
+    "path": "FinalTitanticSolution.py",
+    "html_url": "https://github.com/masanpietro/TitanicKaggleSolution/blob/79991899fcb2c9291c023c8d314bb2558f1eb7c7/FinalTitanticSolution.py"
+  },
+  {
+    "repo": "nihar-15/AI_Practicals",
+    "path": "NaiveBayesImplemenation.py",
+    "html_url": "https://github.com/nihar-15/AI_Practicals/blob/d6e50a65e9ecb62416e3fb6e127d994d7608e7d3/NaiveBayesImplemenation.py"
+  },
+  {
+    "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+    "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h220161126.py",
+    "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v8h220161126.py"
+  },
+  {
+    "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+    "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h220161126.py",
+    "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v7h220161126.py"
+  },
+  {
+    "repo": "ishanmehta2/NFL-Play-Predictor",
+    "path": "algorithms/PCA.py",
+    "html_url": "https://github.com/ishanmehta2/NFL-Play-Predictor/blob/d3385fc0416250a47721b7887f8f3264891cde0f/algorithms/PCA.py"
+  },
+  {
+    "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+    "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-20161208v11h.py",
+    "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-20161208v11h.py"
+  },
+  {
+    "repo": "sajedjalil/Data-Science-Pipeline-Detector",
+    "path": "dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v10h20161130.py",
+    "html_url": "https://github.com/sajedjalil/Data-Science-Pipeline-Detector/blob/d45eb220eb6a28da69b4781fbc18945e2cb47e21/dataset/ghouls-goblins-and-ghosts-boo/fzhurd/classify-ghosts-v10h20161130.py"
+  },
+  {
+    "repo": "JERRICKGERALD/Data-Mining-Project---Mushroom-Ediblility-Prediction",
+    "path": "Decision_Tree_Lijia_New.py",
+    "html_url": "https://github.com/JERRICKGERALD/Data-Mining-Project---Mushroom-Ediblility-Prediction/blob/7140ad3cfff559c2cd268fc0701a8ceb5d8e214c/Decision_Tree_Lijia_New.py"
+  },
+  {
+    "repo": "yairbh/KAYA_MLOps",
+    "path": "src/original_script_karen.py",
+    "html_url": "https://github.com/yairbh/KAYA_MLOps/blob/4bd0793b131d243dcf89f11f4cd6b7253f994951/src/original_script_karen.py"
+  },
+  {
+    "repo": "ShivamSRS/iterativeRobustHealthDSFramework",
+    "path": "split_fold_form.py",
+    "html_url": "https://github.com/ShivamSRS/iterativeRobustHealthDSFramework/blob/0e8c29514f17a11a38c25dca69f20fec7bf68eeb/split_fold_form.py"
+  },
+  {
+    "repo": "chinarsalmanli/app-defi2",
+    "path": "datadefi2 (1).py",
+    "html_url": "https://github.com/chinarsalmanli/app-defi2/blob/b1e6a386765f8bb0aacf8cb38606300b8f50e992/datadefi2 (1).py"
+  },
+  {
+    "repo": "Cazzy-Aporbo/PearlMind-ML-Journey",
+    "path": "pearl mind_complete.py",
+    "html_url": "https://github.com/Cazzy-Aporbo/PearlMind-ML-Journey/blob/b0845382c1a76343fff92db7ab34ec2cef35b889/pearl mind_complete.py"
+  },
+  {
+    "repo": "daviddiazsolis/c50py",
+    "path": "examples/create_tutorial.py",
+    "html_url": "https://github.com/daviddiazsolis/c50py/blob/36c5a32ca0726e7c5e7ceba0cdff53ccf11c59ee/examples/create_tutorial.py"
+  },
+  {
+    "repo": "ishanmehta2/NFL-Play-Predictor",
+    "path": "algorithms/lstm.py",
+    "html_url": "https://github.com/ishanmehta2/NFL-Play-Predictor/blob/d3385fc0416250a47721b7887f8f3264891cde0f/algorithms/lstm.py"
+  },
+  {
+    "repo": "rayhanur-rahman/ChronoCTI",
+    "path": "temporal-learner-code/Utils.py",
+    "html_url": "https://github.com/rayhanur-rahman/ChronoCTI/blob/4906a0a5e399b6e2aa10435fd6e3894e041e4549/temporal-learner-code/Utils.py"
+  },
+  {
+    "repo": "brianchiunda/musteri-kaybi-tahmini",
+    "path": "churn_prediction.py",
+    "html_url": "https://github.com/brianchiunda/musteri-kaybi-tahmini/blob/f1d057d6a3787d5da8a574d72494644c63d53ffa/churn_prediction.py"
+  },
+  {
+    "repo": "MuhammadFaisalAvicenna/datamining",
+    "path": "streamlit_app.py/tugas.py",
+    "html_url": "https://github.com/MuhammadFaisalAvicenna/datamining/blob/9acdc166fc182008a293bde25c050b88a8759c9f/streamlit_app.py/tugas.py"
+  },
+  {
+    "repo": "chinarsalmanli/app-defi2",
+    "path": "base.py",
+    "html_url": "https://github.com/chinarsalmanli/app-defi2/blob/b1e6a386765f8bb0aacf8cb38606300b8f50e992/base.py"
+  },
+  {
+    "repo": "MKangabire/student_dropout",
+    "path": "notebook/student_dropout.py",
+    "html_url": "https://github.com/MKangabire/student_dropout/blob/81e00c0e32f5c01b2d0c8dbb149897f91564a304/notebook/student_dropout.py"
+  },
+  {
+    "repo": "jerry39213gh/practice",
+    "path": "logitstic_regression.py",
+    "html_url": "https://github.com/jerry39213gh/practice/blob/241ba559f4180da62193a4946ef25e3a1fb69555/logitstic_regression.py"
+  },
+  {
+    "repo": "cov-lineages/cov-support",
+    "path": "cov_support/scripts/pangoLEARNDecisionTree_v1.py",
+    "html_url": "https://github.com/cov-lineages/cov-support/blob/bc97d5bfab930dc181fa7c6d5ad85c716b789821/cov_support/scripts/pangoLEARNDecisionTree_v1.py"
+  },
+  {
+    "repo": "EstefantDiaz/test-mlops",
+    "path": "trabajo_final (2).py",
+    "html_url": "https://github.com/EstefantDiaz/test-mlops/blob/9edfdb0513c53b17b69b2582f08c410207436689/trabajo_final (2).py"
+  },
+  {
+    "repo": "acbueff/D4B",
+    "path": "ml_business_tutorial.py",
+    "html_url": "https://github.com/acbueff/D4B/blob/aec2b2bf037977a607f9e8446a3f8e5768317923/ml_business_tutorial.py"
+  },
+  {
+    "repo": "zakaria-statistics/ai-mlops",
+    "path": "enset/generate_all_labs.py",
+    "html_url": "https://github.com/zakaria-statistics/ai-mlops/blob/1608fdc347f34cb86ce6471fb671c28050112d2d/enset/generate_all_labs.py"
+  },
+  {
+    "repo": "Feb11F/tetes",
+    "path": "sob.py",
+    "html_url": "https://github.com/Feb11F/tetes/blob/10f3fc7d819b13dc8fe707cdabe5f3a75506c2f3/sob.py"
+  },
+  {
+    "repo": "molgenis/dave",
+    "path": "src/main/python/AI_bootcamp_draft.py",
+    "html_url": "https://github.com/molgenis/dave/blob/35cfe524ba3d3bb9c294cf5ca4dae94adf16dba0/src/main/python/AI_bootcamp_draft.py"
+  },
+  {
+    "repo": "vickyjkwan/statistical_learning",
+    "path": "logistic/src/roc_curve.py",
+    "html_url": "https://github.com/vickyjkwan/statistical_learning/blob/a2611d9d7435dc651f62982ce3c02b8c5c3f5bcb/logistic/src/roc_curve.py"
+  },
+  {
+    "repo": "rohitdalvi18/Machine-Learning-Engineering-Portfolio",
+    "path": "K-Nearest Neighbors/KNN.py",
+    "html_url": "https://github.com/rohitdalvi18/Machine-Learning-Engineering-Portfolio/blob/d8c79a7b13f7e14882bbcc59b52b3a7310a91bf8/K-Nearest Neighbors/KNN.py"
+  },
+  {
+    "repo": "nibertinvestments/DATA",
+    "path": "code_samples/python/ml_data_science.py",
+    "html_url": "https://github.com/nibertinvestments/DATA/blob/edc6afb2725c92654ddc75aa9495b18227564d32/code_samples/python/ml_data_science.py"
+  },
+  {
+    "repo": "animesh/scripts",
+    "path": "diffExprML.py",
+    "html_url": "https://github.com/animesh/scripts/blob/7dacd2ea31323acbedb0eb96565694de78db210d/diffExprML.py"
+  },
+  {
+    "repo": "ishanmehta2/NFL-Play-Predictor",
+    "path": "algorithms/Random_Forest.py",
+    "html_url": "https://github.com/ishanmehta2/NFL-Play-Predictor/blob/d3385fc0416250a47721b7887f8f3264891cde0f/algorithms/Random_Forest.py"
+  },
+  {
+    "repo": "JescapsAntwi/Codveda_Submission",
+    "path": "all_levels.py",
+    "html_url": "https://github.com/JescapsAntwi/Codveda_Submission/blob/cb9662d4395de64e936dc1c0add889bb14a432bb/all_levels.py"
+  },
+  {
+    "repo": "amirhosf/Data-Prediction-for-Adult-Income",
+    "path": "Zip_Code_1345359302/Main.py",
+    "html_url": "https://github.com/amirhosf/Data-Prediction-for-Adult-Income/blob/32551724fcd09809dcee9954f10f7e6777d40f63/Zip_Code_1345359302/Main.py"
+  },
+  {
+    "repo": "vedantghavate259/Portfolio",
+    "path": "Smoker Drinker Classification/code.py",
+    "html_url": "https://github.com/vedantghavate259/Portfolio/blob/bf0bf00e7c6e11e3a0f3367c7278b7bb87ca0fd7/Smoker Drinker Classification/code.py"
+  },
+  {
+    "repo": "aofphy/APML2022",
+    "path": "egeaML/egeaML.py",
+    "html_url": "https://github.com/aofphy/APML2022/blob/837e7fc26666373c15d9345de7c5cd33fe4d0dfb/egeaML/egeaML.py"
+  },
+  {
+    "repo": "ishanmehta2/NFL-Play-Predictor",
+    "path": "algorithms/Neural_Network.py",
+    "html_url": "https://github.com/ishanmehta2/NFL-Play-Predictor/blob/d3385fc0416250a47721b7887f8f3264891cde0f/algorithms/Neural_Network.py"
+  },
+  {
+    "repo": "rawatpranjal/applied-science",
+    "path": "ml/1_Examples/neural_network_v4.py",
+    "html_url": "https://github.com/rawatpranjal/applied-science/blob/8b3f165ff7ffe97d216c0a7ede586bb164989e8e/ml/1_Examples/neural_network_v4.py"
+  },
+  {
+    "repo": "sdimeji/my_dashboard_projects",
+    "path": "Lead_scoring_dashboard.py",
+    "html_url": "https://github.com/sdimeji/my_dashboard_projects/blob/ab08840956c99a49e058ec2f5f2fed853ba1d5ba/Lead_scoring_dashboard.py"
+  },
+  {
+    "repo": "timothymayor/Microsoft-HMO-mortgage-DataHack",
+    "path": "data_hack_loan_risk_management.py",
+    "html_url": "https://github.com/timothymayor/Microsoft-HMO-mortgage-DataHack/blob/065afbf96904a5b894e2a467e742aaf4a31fcdba/data_hack_loan_risk_management.py"
+  }
+]
