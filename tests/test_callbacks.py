@@ -227,41 +227,30 @@ class TestGetOrAssignFiresCallbackOnReuse:
         assert len(fired) == 2
         assert fired[1] == (id(obj_a), lid_a)
 
-    def test_callback_fires_for_new_instance_with_preserved_lid(self):
-        """Simulates the pandas-attrs scenario: a new object instance
-        whose attrs already carry a previously-assigned lineage ID.
-        get_or_assign should NOT mint a new lid (returning the existing
-        one), but SHOULD fire the callback so consumers can mirror
-        ``id(new_instance) -> lid``."""
+    def test_assign_id_gives_a_copied_attrs_frame_its_own_lid(self):
+        """pandas copies attrs onto a derived frame, so the copy arrives
+        carrying the parent's lineage id. assign_id must mint a new id
+        for that frame, leave the parent's id alone, and fire the
+        callback RudriQ listens to."""
         from autolineage.core.tracker import UnifiedTracker
 
         class _Attrsy:
-            """Mimics a pandas DataFrame: has an attrs dict that
-            preserves the lineage_id across instances."""
             def __init__(self, attrs):
                 self.attrs = attrs
 
-        shared_attrs = {}
-        first = _Attrsy(shared_attrs)
+        first = _Attrsy({})
         tracker = UnifiedTracker()
-
         fired: list = []
         tracker.register_assign_id_callback(
             lambda obj, lid: fired.append((id(obj), lid))
         )
 
-        lid = tracker.get_or_assign(first, source="seed")
-        assert len(fired) == 1
+        lid = tracker.assign_id(first, source="seed")
         assert fired[0] == (id(first), lid)
 
-        # Second instance with the SAME attrs dict (so the same
-        # _lineage_id key) — simulates pandas returning a fresh
-        # DataFrame from sort_values that preserved attrs.
-        second = _Attrsy(shared_attrs)
-        assert id(second) != id(first)
-        lid2 = tracker.get_or_assign(second, source="reuse")
-        assert lid2 == lid
-        # Callback fired again, this time with the second instance's id.
-        assert len(fired) == 2
-        assert fired[1] == (id(second), lid)
-        assert fired[1][0] != fired[0][0]  # different ids, same lid
+        second = _Attrsy(dict(first.attrs))
+        assert second.attrs["_lineage_id"] == lid
+        lid2 = tracker.assign_id(second, source="derived")
+        assert lid2 != lid
+        assert first.attrs["_lineage_id"] == lid
+        assert fired[-1] == (id(second), lid2)

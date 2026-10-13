@@ -1,9 +1,7 @@
 """Tests for the pd.get_dummies hook and column-set membership analysis.
 
-Covers the two planted-bug categories that previously localized to a
-neighbouring operation (benchmarks/planted_bugs/README.md, cases 3 and
-4): a one-hot encoding of the wrong column, and a label column that was
-never dropped. Both must now localize to the exact operation.
+Covers a one-hot encoding of the wrong column, and a label column that was
+never dropped. Both must localize to the exact operation.
 """
 
 import json

@@ -5,6 +5,18 @@ from functools import wraps
 from . import BaseHookProvider
 
 
+def _path_str(value):
+    """Filesystem path for a str or ``os.PathLike`` (including ``pathlib.Path``)."""
+    if isinstance(value, (str, os.PathLike)):
+        try:
+            text = os.fspath(value)
+        except TypeError:
+            return None
+        if isinstance(text, str):
+            return text
+    return None
+
+
 class PandasIOHooks(BaseHookProvider):
     name = "pandas-io"
     required_package = "pandas"
@@ -47,8 +59,9 @@ class PandasIOHooks(BaseHookProvider):
         @wraps(orig_fn)
         def hooked(filepath_or_buffer, *args, **kwargs):
             result, duration = provider._timed(orig_fn, filepath_or_buffer, *args, **kwargs)
-            if isinstance(filepath_or_buffer, str) and os.path.exists(filepath_or_buffer):
-                abs_path = os.path.abspath(filepath_or_buffer)
+            path = _path_str(filepath_or_buffer)
+            if path and os.path.exists(path):
+                abs_path = os.path.abspath(path)
                 lid = provider._get_or_assign(result, source=fn_name, filepath=abs_path)
                 rec = provider._make_record(
                     category="io", operation=fn_name,
@@ -69,15 +82,17 @@ class PandasIOHooks(BaseHookProvider):
         def hooked(self_df, *args, **kwargs):
             result, duration = provider._timed(orig_fn, self_df, *args, **kwargs)
 
-            # Extract path from positional or keyword args
+            # Extract path from positional or keyword args. pandas accepts
+            # pathlib.Path anywhere it accepts a string.
             path = None
-            if args and isinstance(args[0], str):
-                path = args[0]
-            else:
+            if args:
+                path = _path_str(args[0])
+            if path is None:
                 for key in ('path_or_buf', 'path', 'excel_writer', 'fname'):
-                    if key in kwargs and isinstance(kwargs[key], str):
-                        path = kwargs[key]
-                        break
+                    if key in kwargs:
+                        path = _path_str(kwargs[key])
+                        if path:
+                            break
 
             if path:
                 parent_lid = provider._get_or_assign(self_df, source="untracked")

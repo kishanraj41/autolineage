@@ -6,6 +6,7 @@ behavior deviates from baseline and LOCALIZES which transformation
 caused the problem. No existing tool does this on ML pipeline lineage.
 """
 
+import difflib
 import json
 import os
 from datetime import datetime
@@ -13,6 +14,86 @@ from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Any, Optional, Tuple
 
 from . import TransformationRecord
+
+
+def _occurrence_keys(ops: List[str]) -> List[str]:
+    """``op:n`` keys in sequence order. ``n`` counts that operation only."""
+    counts: Dict[str, int] = {}
+    keys = []
+    for op in ops:
+        counts[op] = counts.get(op, 0) + 1
+        keys.append(f"{op}:{counts[op]}")
+    return keys
+
+
+def _partner_keys(bl_ops: List[str], cur_ops: List[str],
+                  bl_deltas: Dict[str, int], cur_deltas: Dict[str, int]) -> Dict[str, Optional[str]]:
+    """Map each current ``op:n`` key to the baseline key it continues, or None.
+
+    ``SequenceMatcher`` aligns the operation names. An extra filter is then
+    the same name as one already in the baseline, so a matched pair of the
+    same name is swapped when an unmatched neighbour is closer in row delta.
+    An empty baseline sequence keeps the old same-key pairing: fingerprints
+    saved before ``operation_sequence`` existed still compare.
+    """
+    cur_keys = _occurrence_keys(cur_ops)
+    if not bl_ops:
+        return {key: key for key in cur_keys}
+    bl_keys = _occurrence_keys(bl_ops)
+    matcher = difflib.SequenceMatcher(a=bl_ops, b=cur_ops, autojunk=False)
+    cur_to_bl = {index: None for index in range(len(cur_ops))}
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag != "equal":
+            continue
+        for offset, current_index in enumerate(range(j1, j2)):
+            cur_to_bl[current_index] = i1 + offset
+
+    for _ in range(len(cur_ops) + 1):
+        swapped = False
+        for current_index, baseline_index in list(cur_to_bl.items()):
+            if baseline_index is None:
+                continue
+            baseline_delta = bl_deltas.get(bl_keys[baseline_index])
+            current_delta = cur_deltas.get(cur_keys[current_index])
+            if baseline_delta is None or current_delta is None:
+                continue
+            for other_index, other_baseline in list(cur_to_bl.items()):
+                if other_baseline is not None or cur_ops[other_index] != cur_ops[current_index]:
+                    continue
+                other_delta = cur_deltas.get(cur_keys[other_index])
+                if other_delta is None:
+                    continue
+                if abs(other_delta - baseline_delta) + 1e-9 < abs(current_delta - baseline_delta):
+                    cur_to_bl[other_index] = baseline_index
+                    cur_to_bl[current_index] = None
+                    swapped = True
+                    break
+            if swapped:
+                break
+        if not swapped:
+            break
+
+    return {
+        cur_keys[index]: (None if baseline_index is None else bl_keys[baseline_index])
+        for index, baseline_index in cur_to_bl.items()
+    }
+
+
+def _ranking_from_scores(tracker, scores) -> List[Dict[str, Any]]:
+    """Attach the recorded caller line to each scored operation."""
+    ranking = []
+    for idx, score, op, evidence in scores:
+        rec = tracker.records[idx]
+        meta = rec.metadata if isinstance(rec.metadata, dict) else {}
+        ranking.append({
+            "step_index": idx,
+            "operation": op,
+            "score": min(float(score), 1.0),
+            "source_file": meta.get("source_file"),
+            "source_line": meta.get("source_line"),
+            "evidence": evidence,
+        })
+    return ranking
 
 
 @dataclass
@@ -77,6 +158,13 @@ class RunFingerprint:
     columns_added: Dict[str, List[str]] = field(default_factory=dict)
     columns_removed: Dict[str, List[str]] = field(default_factory=dict)
     columns_seen: List[str] = field(default_factory=list)
+    # Rows entering each operation. Together with ``row_deltas`` this is the
+    # row-change *rate*, so a split that stays at 20% is not a suspect just
+    # because the table going into it got smaller. Older fingerprints omit it.
+    rows_before: Dict[str, int] = field(default_factory=dict)
+    # Every value of a metric, in call order. ``metrics`` keeps the last
+    # value so existing callers keep working.
+    metric_runs: Dict[str, List[float]] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -161,6 +249,8 @@ class LineageAnalyzer:
 
             if rec.rows_before is not None and rec.rows_after is not None:
                 fp.row_deltas[key] = rec.rows_after - rec.rows_before
+            if rec.rows_before is not None:
+                fp.rows_before[key] = rec.rows_before
 
             if rec.output_shape and len(rec.output_shape) > 1:
                 fp.col_counts[key] = rec.output_shape[1]
@@ -184,7 +274,9 @@ class LineageAnalyzer:
 
             if rec.category == 'evaluate' and rec.metadata.get('metric_value') is not None:
                 metric_name = rec.metadata.get('metric_name', rec.operation)
-                fp.metrics[metric_name] = rec.metadata['metric_value']
+                value = rec.metadata['metric_value']
+                fp.metric_runs.setdefault(metric_name, []).append(value)
+                fp.metrics[metric_name] = value
 
         fp.columns_seen = sorted(seen)
         return fp
@@ -469,14 +561,42 @@ class LineageAnalyzer:
     def _check_row_deltas(self, bl, cur) -> List[Anomaly]:
         anomalies = []
         threshold = self._thresholds.get('row_delta_pct', 20.0)
+        partners = _partner_keys(
+            bl.operation_sequence, cur.operation_sequence, bl.row_deltas, cur.row_deltas,
+        )
 
         for key, cur_delta in cur.row_deltas.items():
-            if key not in bl.row_deltas:
-                continue
-            bl_delta = bl.row_deltas[key]
             op_name = key.rsplit(':', 1)[0]
-
-            if bl_delta == 0:
+            partner = partners.get(key)
+            if partner is None or partner not in bl.row_deltas:
+                before = cur.rows_before.get(key)
+                if before and cur_delta < 0:
+                    frac = abs(cur_delta) / before * 100
+                    if frac >= threshold / 4:
+                        anomalies.append(Anomaly(
+                            severity="critical" if frac > 50 else "warning",
+                            operation=op_name, step_index=-1,
+                            metric="row_delta", expected=0, actual=cur_delta,
+                            deviation=frac,
+                            message=(
+                                f"New operation '{op_name}' removed {frac:.0f}% of rows "
+                                f"({before:,} -> {before + cur_delta:,})"
+                            ),
+                        ))
+                continue
+            bl_delta = bl.row_deltas[partner]
+            cur_before = cur.rows_before.get(key)
+            bl_before = bl.rows_before.get(partner)
+            if cur_before and bl_before:
+                cur_rate = cur_delta / cur_before
+                bl_rate = bl_delta / bl_before
+                if abs(bl_rate) < 1e-9:
+                    if abs(cur_rate) < 0.01:
+                        continue
+                    pct_change = abs(cur_rate) * 100
+                else:
+                    pct_change = abs((cur_rate - bl_rate) / bl_rate) * 100
+            elif bl_delta == 0:
                 if cur_delta != 0:
                     anomalies.append(Anomaly(
                         severity="warning", operation=op_name, step_index=-1,
@@ -485,8 +605,9 @@ class LineageAnalyzer:
                         message=f"{op_name} changed {cur_delta:+,d} rows (baseline: no change)",
                     ))
                 continue
+            else:
+                pct_change = abs((cur_delta - bl_delta) / abs(bl_delta)) * 100
 
-            pct_change = abs((cur_delta - bl_delta) / abs(bl_delta)) * 100
             if pct_change > threshold:
                 severity = "critical" if pct_change > threshold * 3 else "warning"
                 anomalies.append(Anomaly(
@@ -514,14 +635,31 @@ class LineageAnalyzer:
                 ))
         return anomalies
 
+    def _metric_pairs(self, bl: RunFingerprint, cur: RunFingerprint):
+        """``(label, metric_name, baseline_value, current_value)`` in call order.
+
+        Repeated calls of the same metric are compared occurrence by
+        occurrence. Fingerprints written before ``metric_runs`` existed
+        compare the single stored value.
+        """
+        if bl.metric_runs and cur.metric_runs:
+            for name in bl.metric_runs.keys() & cur.metric_runs.keys():
+                bl_vals = bl.metric_runs[name]
+                cur_vals = cur.metric_runs[name]
+                multi = max(len(bl_vals), len(cur_vals)) > 1
+                for i, (bl_val, cur_val) in enumerate(zip(bl_vals, cur_vals), start=1):
+                    label = f"{name} #{i}" if multi else name
+                    yield label, name, bl_val, cur_val
+            return
+        for name, cur_val in cur.metrics.items():
+            if name in bl.metrics:
+                yield name, name, bl.metrics[name], cur_val
+
     def _check_metrics(self, bl, cur) -> List[Anomaly]:
         anomalies = []
         threshold = self._thresholds.get('metric_drop_pct', 5.0)
 
-        for name, cur_val in cur.metrics.items():
-            if name not in bl.metrics:
-                continue
-            bl_val = bl.metrics[name]
+        for label, name, bl_val, cur_val in self._metric_pairs(bl, cur):
             if bl_val == 0:
                 continue
             pct_change = ((cur_val - bl_val) / abs(bl_val)) * 100
@@ -530,7 +668,7 @@ class LineageAnalyzer:
                     severity="critical" if abs(pct_change) > threshold * 3 else "warning",
                     operation=name, step_index=-1, metric=name,
                     expected=bl_val, actual=cur_val, deviation=abs(pct_change),
-                    message=f"{name} dropped from {bl_val:.4f} to {cur_val:.4f} ({pct_change:+.1f}%)",
+                    message=f"{label} dropped from {bl_val:.4f} to {cur_val:.4f} ({pct_change:+.1f}%)",
                 ))
         return anomalies
 
@@ -542,7 +680,8 @@ class LineageAnalyzer:
             if key not in bl.durations:
                 continue
             bl_dur = bl.durations[key]
-            if bl_dur < 1.0:
+            # A few milliseconds of timer noise is not a pipeline change.
+            if bl_dur < 50.0:
                 continue
             pct_change = ((cur_dur - bl_dur) / bl_dur) * 100
             if pct_change > threshold:
@@ -561,35 +700,37 @@ class LineageAnalyzer:
 
     def localize_root_cause(self, metric_name: str = None,
                             baseline: RunFingerprint = None) -> Optional[RootCause]:
+        self._last_ranking = []
         bl = baseline or self._baseline
         cur = self.fingerprint()
 
-        if metric_name and metric_name in cur.metrics:
-            if bl and metric_name in bl.metrics:
-                metric_bl = bl.metrics[metric_name]
-                metric_cur = cur.metrics[metric_name]
-            else:
-                return self._localize_without_baseline()
-        elif bl:
-            worst_name, worst_drop = None, 0
-            for name, cur_val in cur.metrics.items():
-                if name in bl.metrics and bl.metrics[name] > 0:
-                    drop = (bl.metrics[name] - cur_val) / abs(bl.metrics[name])
-                    if drop > worst_drop:
-                        worst_drop = drop
-                        worst_name = name
-            if worst_name is None:
-                return None
-            metric_name = worst_name
-            metric_bl = bl.metrics[metric_name]
-            metric_cur = cur.metrics[metric_name]
-        else:
+        if not bl:
             return self._localize_without_baseline()
+        selected = self._select_metric_pair(bl, cur, metric_name)
+        if selected is None:
+            if metric_name:
+                return self._localize_without_baseline()
+            fell, rose = self._metric_movements(bl, cur)
+            if fell:
+                # The drop is real but under the 5% warning line. A row-rate
+                # change still has to be named; the warning threshold is for
+                # the anomaly list, not for refusing to point at a line.
+                _drop, name, label, bl_val, cur_val = max(fell)
+                selected = (name, label, bl_val, cur_val, True)
+            elif rose:
+                # A rise is not a row-drop cause. Column changes can still be.
+                selected = ("pipeline", "pipeline", None, None, False)
+            else:
+                return None
+        metric_name, metric_label, metric_bl, metric_cur, metric_fell = selected
 
         # Score each transformation by deviation from baseline
         scores = []
         occurrence: Dict[str, int] = {}
         changes = self._column_set_changes(bl, cur)
+        partners = _partner_keys(
+            bl.operation_sequence, cur.operation_sequence, bl.row_deltas, cur.row_deltas,
+        )
 
         for i, rec in enumerate(self._tracker.records):
             if rec.category == 'evaluate':
@@ -598,6 +739,7 @@ class LineageAnalyzer:
             op = rec.operation
             occurrence[op] = occurrence.get(op, 0) + 1
             key = f"{op}:{occurrence[op]}"
+            partner = partners.get(key)
             score = 0.0
             evidence = {}
 
@@ -621,35 +763,38 @@ class LineageAnalyzer:
                 evidence['columns_missing'] = cols[:10]
                 evidence['n_columns_missing'] = len(cols)
 
-            if key in cur.row_deltas and key in bl.row_deltas:
-                cur_d = cur.row_deltas[key]
-                bl_d = bl.row_deltas[key]
-                if bl_d != 0:
-                    deviation = abs((cur_d - bl_d) / abs(bl_d))
-                    score += deviation * 0.6
-                    evidence['row_delta_baseline'] = bl_d
-                    evidence['row_delta_current'] = cur_d
-                elif cur_d != 0:
-                    score += 0.5
-                    evidence['unexpected_row_change'] = cur_d
+            row_score, row_evidence = self._row_cause_score(key, partner, bl, cur)
+            score += row_score
+            evidence.update(row_evidence)
 
-            if key in cur.col_counts and key in bl.col_counts:
-                if cur.col_counts[key] != bl.col_counts[key]:
+            if partner and key in cur.col_counts and partner in bl.col_counts:
+                if cur.col_counts[key] != bl.col_counts[partner]:
                     score += 0.3
-                    evidence['col_baseline'] = bl.col_counts[key]
+                    evidence['col_baseline'] = bl.col_counts[partner]
                     evidence['col_current'] = cur.col_counts[key]
 
-            if rec.operation not in bl.operation_sequence:
+            if partner is None:
                 score += 0.1
                 evidence['new_operation'] = True
 
             if score > 0:
                 scores.append((i, score, rec.operation, evidence))
 
+        # A metric that did not fall is only localized when a column change
+        # explains it (a leaked label, a wrong one-hot). A row-count shift
+        # on a metric that rose is not a cause.
+        if not metric_fell:
+            structural = (
+                'columns_introduced', 'columns_retained',
+                'columns_missing', 'col_baseline',
+            )
+            scores = [s for s in scores if any(k in s[3] for k in structural)]
+
         if not scores:
             return None
 
         scores.sort(key=lambda x: x[1], reverse=True)
+        self._last_ranking = _ranking_from_scores(self._tracker, scores)
         idx, score, op, evidence = scores[0]
         normalized = min(score, 1.0)
 
@@ -657,9 +802,21 @@ class LineageAnalyzer:
             metric_name=metric_name, metric_baseline=metric_bl,
             metric_actual=metric_cur, root_operation=op,
             root_step_index=idx, impact_score=normalized,
-            explanation=self._explain_root_cause(op, idx, evidence, metric_name, metric_bl, metric_cur),
+            explanation=self._explain_root_cause(op, idx, evidence, metric_label, metric_bl, metric_cur),
             evidence=evidence,
         )
+
+    def ranked_causes(self, metric_name: str = None,
+                      baseline: RunFingerprint = None) -> List[Dict[str, Any]]:
+        """Scored operations, best first.
+
+        The first entry is the operation ``localize_root_cause`` names.
+        ``source_line`` is the line in the caller's file that issued the
+        call, when the hook recorded one. Top-3 localization is membership
+        of the mutated line in the first three entries.
+        """
+        self.localize_root_cause(metric_name, baseline)
+        return list(getattr(self, "_last_ranking", []))
 
     def _localize_without_baseline(self) -> Optional[RootCause]:
         largest_drop_idx, largest_drop_pct = -1, 0
@@ -672,6 +829,7 @@ class LineageAnalyzer:
                     largest_drop_idx = i
 
         if largest_drop_idx < 0 or largest_drop_pct < 20:
+            self._last_ranking = []
             return None
 
         rec = self._tracker.records[largest_drop_idx]
@@ -682,6 +840,13 @@ class LineageAnalyzer:
                     bad_metric = r.metadata.get('metric_name', r.operation)
                     break
 
+        evidence = {
+            'rows_before': rec.rows_before, 'rows_after': rec.rows_after,
+            'drop_percent': largest_drop_pct,
+        }
+        self._last_ranking = _ranking_from_scores(self._tracker, [(
+            largest_drop_idx, largest_drop_pct / 100, rec.operation, evidence,
+        )])
         return RootCause(
             metric_name=bad_metric or "unknown",
             metric_baseline=0, metric_actual=0,
@@ -693,15 +858,133 @@ class LineageAnalyzer:
                 f"({rec.rows_before:,} -> {rec.rows_after:,} rows). "
                 f"This is the most likely cause of downstream metric degradation."
             ),
-            evidence={'rows_before': rec.rows_before, 'rows_after': rec.rows_after,
-                      'drop_percent': largest_drop_pct},
+            evidence=evidence,
         )
+
+    def _select_metric_pair(self, bl: RunFingerprint, cur: RunFingerprint,
+                            metric_name: Optional[str]):
+        """Pick the metric occurrence to explain.
+
+        Returns ``(name, label, baseline, current, fell)``. ``fell`` is
+        true when that occurrence dropped past ``metric_drop_pct``. When a
+        name is requested and none of its calls dropped, the last call is
+        returned with ``fell=False``. When no name is requested and nothing
+        dropped, returns None.
+        """
+        pairs = [p for p in self._metric_pairs(bl, cur) if metric_name is None or p[1] == metric_name]
+        if not pairs:
+            return None
+        threshold = self._thresholds.get('metric_drop_pct', 5.0) / 100.0
+        worst = None
+        worst_drop = 0.0
+        for label, name, bl_val, cur_val in pairs:
+            if not bl_val:
+                continue
+            drop = (bl_val - cur_val) / abs(bl_val)
+            if drop > threshold and drop > worst_drop:
+                worst_drop = drop
+                worst = (name, label, bl_val, cur_val, True)
+        if worst is not None:
+            return worst
+        if metric_name is None:
+            return None
+        label, name, bl_val, cur_val = pairs[-1]
+        return (name, label, bl_val, cur_val, False)
+
+    def _metric_movements(self, bl: RunFingerprint, cur: RunFingerprint):
+        """Drops and whether any metric rose, ignoring moves under 1e-6.
+
+        Each drop is ``(fraction, name, label, baseline, current)``. A rise
+        with no drop is the type-coercion case: a row shift is not the cause.
+        """
+        fell = []
+        rose = False
+        for label, name, bl_val, cur_val in self._metric_pairs(bl, cur):
+            if not isinstance(bl_val, (int, float)) or isinstance(bl_val, bool):
+                continue
+            if isinstance(cur_val, bool) or not isinstance(cur_val, (int, float)):
+                continue
+            if bl_val == 0:
+                continue
+            drop = (bl_val - cur_val) / abs(bl_val)
+            if drop > 1e-6:
+                fell.append((drop, name, label, bl_val, cur_val))
+            elif drop < -1e-6:
+                rose = True
+        return fell, rose
+
+    def _row_cause_score(self, key, partner, bl: RunFingerprint, cur: RunFingerprint):
+        """Score one operation's row change.
+
+        ``partner`` is the baseline key this step continues, or None when
+        the alignment left it unmatched. An unmatched step that removed
+        rows is an insert, including a second filter when the baseline
+        already has one. A matched step is scored by the change in its
+        row-change *rate* when both fingerprints know ``rows_before``, so a
+        split that stays at the same ratio does not outrank the filter that
+        shrank its input. Older fingerprints fall back to the absolute delta.
+        """
+        score = 0.0
+        evidence: Dict[str, Any] = {}
+        cur_d = cur.row_deltas.get(key)
+        if cur_d is None:
+            return score, evidence
+        cur_before = cur.rows_before.get(key) if cur.rows_before else None
+        bl_before = bl.rows_before.get(partner) if partner and bl.rows_before else None
+
+        if partner is None or partner not in bl.row_deltas:
+            if cur_before and cur_d < 0:
+                frac = abs(cur_d) / cur_before
+                if frac >= 0.05:
+                    score += 0.55 + min(frac, 1.0)
+                    evidence['introduced_row_drop'] = cur_d
+                    evidence['rows_before'] = cur_before
+                    evidence['rows_after'] = cur_before + cur_d
+                    evidence['new_operation'] = True
+            return score, evidence
+
+        bl_d = bl.row_deltas.get(partner)
+
+        if cur_before and bl_before:
+            cur_rate = cur_d / cur_before
+            bl_rate = bl_d / bl_before
+            if abs(bl_rate) < 1e-9:
+                if abs(cur_rate) >= 0.05:
+                    score += 0.5
+                    evidence['unexpected_row_change'] = cur_d
+            else:
+                rate_dev = abs((cur_rate - bl_rate) / bl_rate)
+                if rate_dev > 0.20:
+                    score += rate_dev * 0.6
+                    evidence['row_delta_baseline'] = bl_d
+                    evidence['row_delta_current'] = cur_d
+            return score, evidence
+
+        if bl_d == 0:
+            if cur_d != 0:
+                score += 0.5
+                evidence['unexpected_row_change'] = cur_d
+        else:
+            deviation = abs((cur_d - bl_d) / abs(bl_d))
+            score += deviation * 0.6
+            evidence['row_delta_baseline'] = bl_d
+            evidence['row_delta_current'] = cur_d
+        return score, evidence
 
     @staticmethod
     def _explain_root_cause(op, idx, evidence, metric_name, bl_val, cur_val):
-        parts = [f"The most likely cause of {metric_name} degradation "]
-        parts.append(f"(from {bl_val:.4f} to {cur_val:.4f}) ")
-        parts.append(f"is '{op}' at step {idx}. ")
+        if bl_val is None or cur_val is None:
+            parts = [f"The most likely cause is '{op}' at step {idx}. "]
+        else:
+            direction = "drop" if cur_val < bl_val else "increase"
+            parts = [f"The most likely cause of the {metric_name} {direction} "]
+            parts.append(f"(from {bl_val:.4f} to {cur_val:.4f}) ")
+            parts.append(f"is '{op}' at step {idx}. ")
+        if 'introduced_row_drop' in evidence:
+            parts.append(
+                f"It removed {abs(evidence['introduced_row_drop']):,.0f} rows "
+                f"({evidence['rows_before']:,} -> {evidence['rows_after']:,}) "
+                f"and was not in the baseline. ")
         if 'row_delta_baseline' in evidence:
             parts.append(
                 f"Row change was {evidence['row_delta_current']:+,d} "
@@ -726,6 +1009,6 @@ class LineageAnalyzer:
             parts.append(
                 f"{n} column(s) it created in the baseline were never created: "
                 f"{LineageAnalyzer._name_list(evidence['columns_missing'], total=n)}. ")
-        if evidence.get('new_operation'):
+        if evidence.get('new_operation') and 'introduced_row_drop' not in evidence:
             parts.append("This operation was not present in the baseline. ")
         return ''.join(parts)

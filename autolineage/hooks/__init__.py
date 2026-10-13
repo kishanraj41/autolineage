@@ -5,12 +5,72 @@ Every library plugin implements ``BaseHookProvider``.
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
+from functools import lru_cache
+from typing import Dict, Any, Optional, Tuple
 import json
+import os
+import sys
 import time
 
 from ..core.tracker import UnifiedTracker
 from ..core import TransformationRecord
+
+# Package directory, not the repo root: user scripts live next to the
+# repo and must still be stamped with their own file and line.
+_PKG_DIR = os.path.normcase(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
+_STDLIB_DIR = os.path.normcase(os.path.abspath(os.path.dirname(os.__file__)))
+
+
+def _source_stamp_enabled() -> bool:
+    """False when ``AUTOLINEAGE_SOURCE_STAMP=0``.
+
+    Stamping records the caller's file and line. Filter expressions also
+    store a slice of the caller's source. Both stay off when this is set.
+    """
+    return os.environ.get("AUTOLINEAGE_SOURCE_STAMP", "1") != "0"
+
+
+@lru_cache(maxsize=256)
+def _is_library_frame(filename: str) -> bool:
+    """True for frames that are not the caller's script or notebook."""
+    if not filename or filename.startswith("<"):
+        return not filename.startswith("<ipython-input")
+    norm = os.path.normcase(os.path.abspath(filename))
+    if norm.startswith(_PKG_DIR + os.sep):
+        return True
+    parts = set(norm.split(os.sep))
+    if "site-packages" in parts or "dist-packages" in parts:
+        return True
+    if norm.startswith(_STDLIB_DIR + os.sep):
+        return True
+    return False
+
+
+def _caller_source() -> Tuple[Optional[str], Optional[int]]:
+    """First frame outside this package, the stdlib, and installed libraries."""
+    frame = sys._getframe(0)
+    while frame is not None:
+        filename = frame.f_code.co_filename
+        if not _is_library_frame(filename):
+            return os.path.abspath(filename), frame.f_lineno
+        frame = frame.f_back
+    return None, None
+
+
+def _stamp_source(rec: TransformationRecord) -> None:
+    """Record the user line that issued this call, when one is on the stack."""
+    if not _source_stamp_enabled():
+        return
+    meta = rec.metadata if isinstance(rec.metadata, dict) else {}
+    if not isinstance(rec.metadata, dict):
+        rec.metadata = meta
+    if meta.get("source_file") and meta.get("source_line"):
+        return
+    filename, lineno = _caller_source()
+    if filename is None:
+        return
+    meta.setdefault("source_file", filename)
+    meta.setdefault("source_line", lineno)
 
 
 class BaseHookProvider(ABC):
@@ -62,6 +122,7 @@ class BaseHookProvider(ABC):
     def _emit(self, rec: TransformationRecord) -> None:
         """Send a record to the shared tracker. Auto-fills content_hash."""
         if self._tracker is not None:
+            _stamp_source(rec)
             if not rec.content_hash and rec.child_id:
                 node = self._tracker.nodes.get(rec.child_id)
                 if node and node.get('content_hash'):
@@ -72,6 +133,12 @@ class BaseHookProvider(ABC):
         if self._tracker is None:
             return ""
         return self._tracker.get_or_assign(obj, **kwargs)
+
+    def _assign_new(self, obj, **kwargs) -> str:
+        """A fresh lineage id, overwriting one pandas copied from the parent."""
+        if self._tracker is None:
+            return ""
+        return self._tracker.assign_id(obj, **kwargs)
 
     def _get_id(self, obj) -> Optional[str]:
         if self._tracker is None:
