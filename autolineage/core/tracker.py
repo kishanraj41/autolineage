@@ -113,6 +113,9 @@ class UnifiedTracker:
         lid = str(uuid.uuid4())[:12]
 
         if hasattr(obj, 'attrs') and isinstance(getattr(obj, 'attrs', None), dict):
+            # A derived frame can share its parent's attrs mapping. Give this
+            # object its own dict so the new id does not rename the parent.
+            obj.attrs = dict(obj.attrs)
             obj.attrs['_lineage_id'] = lid
         else:
             self._id_to_lid[id(obj)] = lid

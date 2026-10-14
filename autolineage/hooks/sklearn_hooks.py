@@ -12,7 +12,14 @@ _METRIC_FUNCTIONS = [
     'mean_squared_error', 'mean_absolute_error',
     'r2_score', 'explained_variance_score',
     'mean_absolute_percentage_error', 'median_absolute_error', 'max_error',
+    # Returns a report string, not a float. Hooked so the LabelEncoder
+    # calls inside it are not recorded as their own operations.
+    'classification_report',
 ]
+
+_COMPOSITE_CLASSES = frozenset({'Pipeline', 'ColumnTransformer'})
+
+_SEARCH_CLASSES = ('GridSearchCV', 'RandomizedSearchCV')
 
 _ESTIMATOR_MODULES = [
     ('sklearn.ensemble', [
@@ -61,9 +68,32 @@ class SklearnHooks(BaseHookProvider):
 
     def __init__(self):
         super().__init__()
-        # Depth counter: track at depth 0 (user) and 1 (Pipeline internals).
-        # Skip depth >= 2 (e.g. DecisionTree inside RandomForest).
+        # ``_estimator_depth`` counts plain estimators currently on the
+        # stack. Their internals (a tree inside a forest, a LabelEncoder
+        # inside a metric) are not recorded. Composites (Pipeline,
+        # ColumnTransformer) do not increment it, so their direct steps
+        # are recorded. ``_suppress`` is set for the body of a search fit
+        # so cross-validation folds stay out of the graph.
         self._hook_depth = 0
+        self._estimator_depth = 0
+        self._suppress = False
+
+    def _enter(self, *, composite: bool = False) -> bool:
+        """Return True when this call should be recorded.
+
+        The caller must invoke ``_exit(composite=...)`` on the same path.
+        """
+        if self._suppress or self._estimator_depth >= 1:
+            return False
+        self._hook_depth += 1
+        if not composite:
+            self._estimator_depth += 1
+        return True
+
+    def _exit(self, *, composite: bool = False) -> None:
+        self._hook_depth = max(0, self._hook_depth - 1)
+        if not composite:
+            self._estimator_depth = max(0, self._estimator_depth - 1)
 
     def install(self, tracker) -> int:
         self._tracker = tracker
@@ -71,6 +101,7 @@ class SklearnHooks(BaseHookProvider):
         count += self._hook_train_test_split()
         count += self._hook_estimator_methods()
         count += self._hook_preprocessor_methods()
+        count += self._hook_search()
         count += self._hook_metrics()
         return count
 
@@ -78,10 +109,14 @@ class SklearnHooks(BaseHookProvider):
         import importlib
         for key, orig in self._originals.items():
             try:
-                parts = key.rsplit('.', 1)
-                if len(parts) == 2:
-                    mod = importlib.import_module(parts[0])
-                    setattr(mod, parts[1], orig)
+                module_path, attr = key.rsplit('.', 1)
+                try:
+                    owner = importlib.import_module(module_path)
+                except Exception:
+                    # Class method key: ``sklearn.ensemble.RandomForestClassifier.fit``
+                    mod_path, class_name = module_path.rsplit('.', 1)
+                    owner = getattr(importlib.import_module(mod_path), class_name)
+                setattr(owner, attr, orig)
             except Exception:
                 pass
         self._originals.clear()
@@ -163,13 +198,12 @@ class SklearnHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(self_est, X, y=None, **kwargs):
-            if provider._hook_depth >= 1:
+            if not provider._enter():
                 return orig_fn(self_est, X, y, **kwargs)
-            provider._hook_depth += 1
             try:
                 result, duration = provider._timed(orig_fn, self_est, X, y, **kwargs)
             finally:
-                provider._hook_depth -= 1
+                provider._exit()
 
             params = {}
             try:
@@ -201,16 +235,15 @@ class SklearnHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(self_est, X, **kwargs):
-            # Predict hooks use stricter guard: depth >= 1 blocks nested predicts.
-            # This prevents RandomForest.predict from recording all N inner
-            # DecisionTree.predict_proba calls. User-level predict is depth 0.
-            if provider._hook_depth >= 1:
+            # Nested predicts (each tree inside a forest) are not recorded.
+            # A classifier called by a Pipeline still is: the pipeline is a
+            # composite and does not set ``_estimator_depth``.
+            if not provider._enter():
                 return orig_fn(self_est, X, **kwargs)
-            provider._hook_depth += 1
             try:
                 result, duration = provider._timed(orig_fn, self_est, X, **kwargs)
             finally:
-                provider._hook_depth -= 1
+                provider._exit()
 
             parent_ids = [provider._get_or_assign(X, source="predict_input")]
             est_lid = provider._get_id(self_est)
@@ -234,13 +267,12 @@ class SklearnHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(self_est, X, y, **kwargs):
-            if provider._hook_depth >= 1:
+            if not provider._enter():
                 return orig_fn(self_est, X, y, **kwargs)
-            provider._hook_depth += 1
             try:
                 result, duration = provider._timed(orig_fn, self_est, X, y, **kwargs)
             finally:
-                provider._hook_depth -= 1
+                provider._exit()
             rec = provider._make_record(
                 category="evaluate", operation=f"{class_name}.score",
                 parameters={'score_value': float(result)},
@@ -281,19 +313,19 @@ class SklearnHooks(BaseHookProvider):
 
     def _make_preprocess_fit_hook(self, class_name, orig_fn):
         provider = self
+        composite = class_name in _COMPOSITE_CLASSES
 
         @wraps(orig_fn)
         def hooked(self_t, X, y=None, **kwargs):
-            if provider._hook_depth >= 1:
+            if not provider._enter(composite=composite):
                 return orig_fn(self_t, X, y, **kwargs) if y is not None else orig_fn(self_t, X, **kwargs)
-            provider._hook_depth += 1
             try:
                 if y is not None:
                     result, duration = provider._timed(orig_fn, self_t, X, y, **kwargs)
                 else:
                     result, duration = provider._timed(orig_fn, self_t, X, **kwargs)
             finally:
-                provider._hook_depth -= 1
+                provider._exit(composite=composite)
 
             parent_lid = provider._get_or_assign(X, source="preprocess_input")
             est_lid = provider._get_or_assign(self_t, source=f"{class_name}.fit")
@@ -309,19 +341,19 @@ class SklearnHooks(BaseHookProvider):
 
     def _make_preprocess_transform_hook(self, class_name, method_name, orig_fn):
         provider = self
+        composite = class_name in _COMPOSITE_CLASSES
 
         @wraps(orig_fn)
         def hooked(self_t, X, y=None, **kwargs):
-            if provider._hook_depth >= 1:
+            if not provider._enter(composite=composite):
                 return orig_fn(self_t, X, y, **kwargs) if y is not None else orig_fn(self_t, X, **kwargs)
-            provider._hook_depth += 1
             try:
                 if y is not None:
                     result, duration = provider._timed(orig_fn, self_t, X, y, **kwargs)
                 else:
                     result, duration = provider._timed(orig_fn, self_t, X, **kwargs)
             finally:
-                provider._hook_depth -= 1
+                provider._exit(composite=composite)
 
             parent_lid = provider._get_or_assign(X, source="transform_input")
             child_lid = provider._get_or_assign(result, source=f"{class_name}.{method_name}")
@@ -337,6 +369,70 @@ class SklearnHooks(BaseHookProvider):
                 rows_before=X.shape[0] if hasattr(X, 'shape') else None,
                 rows_after=result.shape[0] if hasattr(result, 'shape') else None,
                 duration_ms=duration)
+            provider._emit(rec)
+            return result
+        return hooked
+
+    # --- Parameter search ---
+
+    def _hook_search(self) -> int:
+        try:
+            import sklearn.model_selection as ms
+        except ImportError:
+            return 0
+        count = 0
+        for class_name in _SEARCH_CLASSES:
+            cls = getattr(ms, class_name, None)
+            if cls is None or not hasattr(cls, 'fit'):
+                continue
+            key = f"sklearn.model_selection.{class_name}.fit"
+            if key in self._originals:
+                continue
+            orig = getattr(cls, 'fit')
+            self._originals[key] = orig
+            setattr(cls, 'fit', self._make_search_fit_hook(class_name, orig))
+            count += 1
+        return count
+
+    def _make_search_fit_hook(self, class_name, orig_fn):
+        provider = self
+
+        @wraps(orig_fn)
+        def hooked(self_search, X, y=None, **kwargs):
+            if provider._suppress or provider._estimator_depth >= 1:
+                return orig_fn(self_search, X, y, **kwargs)
+            provider._suppress = True
+            try:
+                result, duration = provider._timed(orig_fn, self_search, X, y, **kwargs)
+            finally:
+                provider._suppress = False
+
+            best_score = getattr(self_search, 'best_score_', None)
+            try:
+                best_score = float(best_score) if best_score is not None else None
+            except (TypeError, ValueError):
+                best_score = None
+            params = provider._safe_params({
+                'best_params': getattr(self_search, 'best_params_', None),
+                'best_score': best_score,
+                'scoring': getattr(self_search, 'scoring', None),
+                'cv': kwargs.get('cv', getattr(self_search, 'cv', None)),
+            })
+            parent_ids = []
+            if X is not None:
+                parent_ids.append(provider._get_or_assign(X, source="search_X"))
+            if y is not None:
+                parent_ids.append(provider._get_or_assign(y, source="search_y"))
+            est_lid = provider._get_or_assign(self_search, source=f"{class_name}.fit")
+            rec = provider._make_record(
+                category="train", operation=f"{class_name}.fit",
+                parent_ids=parent_ids, child_id=est_lid,
+                parameters=params,
+                input_shape=tuple(X.shape) if hasattr(X, 'shape') else None,
+                rows_before=X.shape[0] if hasattr(X, 'shape') else None,
+                duration_ms=duration,
+                metadata={'best_score': best_score,
+                          'best_params': params.get('best_params')})
             provider._emit(rec)
             return result
         return hooked
@@ -364,25 +460,33 @@ class SklearnHooks(BaseHookProvider):
             def make_hook(fn_name, orig_fn):
                 @wraps(orig_fn)
                 def hooked(y_true, y_pred, *args, **kwargs):
-                    # Block internal LabelEncoder calls triggered by metrics
-                    if provider._hook_depth >= 1:
+                    # Recording this call sets estimator depth so a
+                    # LabelEncoder used inside the metric is not its own node.
+                    if not provider._enter():
                         return orig_fn(y_true, y_pred, *args, **kwargs)
-                    provider._hook_depth += 1
                     try:
                         result, duration = provider._timed(
                             orig_fn, y_true, y_pred, *args, **kwargs)
                     finally:
-                        provider._hook_depth -= 1
+                        provider._exit()
+                    numeric = result if isinstance(result, (int, float)) else None
+                    if numeric is None:
+                        try:
+                            import numpy as np
+                            if isinstance(result, np.floating):
+                                numeric = float(result)
+                        except Exception:
+                            numeric = None
                     rec = provider._make_record(
                         category="evaluate", operation=fn_name,
                         parameters=provider._safe_params({
                             'metric': fn_name,
-                            'value': float(result) if isinstance(result, (int, float)) else str(result)[:100],
+                            'value': numeric if numeric is not None else str(result)[:100],
                         }),
                         rows_before=len(y_true) if hasattr(y_true, '__len__') else None,
                         duration_ms=duration,
                         metadata={'metric_name': fn_name,
-                                  'metric_value': float(result) if isinstance(result, (int, float)) else None})
+                                  'metric_value': numeric})
                     provider._emit(rec)
                     return result
                 return hooked

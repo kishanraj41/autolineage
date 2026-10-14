@@ -1,8 +1,57 @@
 """Pandas DataFrame transformation hook provider. 30+ methods."""
 
+import linecache
+import sys
 from functools import wraps
 from typing import Dict, Any, Callable, Optional
-from . import BaseHookProvider
+from . import BaseHookProvider, _is_library_frame, _source_stamp_enabled
+
+
+def _direct_caller():
+    """Frame that called the function which called us.
+
+    Both helpers below are invoked directly by a hook, so this is the
+    hook's caller: getframe(0) is this function, getframe(1) is the
+    helper, and that helper's f_back is the hook. One more f_back is
+    the code that invoked the hook.
+    """
+    helper = sys._getframe(1)
+    hook = helper.f_back
+    if hook is None:
+        return None
+    return hook.f_back
+
+
+def _called_from_library() -> bool:
+    frame = _direct_caller()
+    if frame is None:
+        return True
+    return _is_library_frame(frame.f_code.co_filename)
+
+
+def _user_source_line() -> Optional[str]:
+    if not _source_stamp_enabled():
+        return None
+    frame = _direct_caller()
+    if frame is None:
+        return None
+    if _is_library_frame(frame.f_code.co_filename):
+        return None
+    line = linecache.getline(frame.f_code.co_filename, frame.f_lineno).strip()
+    return line[:300] if line else None
+
+
+def _mapper_name(arg) -> str:
+    if isinstance(arg, dict):
+        items = list(arg.items())[:8]
+        text = str(dict(items))
+        if len(arg) > 8:
+            text = text[:-1] + ", ...}"
+        return text[:200]
+    name = getattr(arg, "__name__", None)
+    if name:
+        return str(name)[:80]
+    return str(arg)[:80]
 
 _TRANSFORM_METHODS: Dict[str, Optional[Callable]] = {
     'dropna': lambda a, kw: {'axis': kw.get('axis', 0), 'how': kw.get('how', 'any'), 'subset': kw.get('subset')},
@@ -97,6 +146,14 @@ class PandasTransformHooks(BaseHookProvider):
         setattr(pd.DataFrame, '__getitem__', self._make_getitem_hook(orig_gi))
         count += 1
 
+        orig_si = self._save_original(pd.DataFrame, '__setitem__')
+        setattr(pd.DataFrame, '__setitem__', self._make_setitem_hook(orig_si))
+        count += 1
+
+        orig_map = self._save_original(pd.Series, 'map')
+        setattr(pd.Series, 'map', self._make_series_map_hook(orig_map))
+        count += 1
+
         return count
 
     def uninstall(self) -> None:
@@ -108,6 +165,8 @@ class PandasTransformHooks(BaseHookProvider):
         self._restore_original(pd.DataFrame, 'merge')
         self._restore_original(pd.DataFrame, 'groupby')
         self._restore_original(pd.DataFrame, '__getitem__')
+        self._restore_original(pd.DataFrame, '__setitem__')
+        self._restore_original(pd.Series, 'map')
         if 'pd.merge' in self._originals:
             pd.merge = self._originals['pd.merge']
         if 'pd.concat' in self._originals:
@@ -129,6 +188,13 @@ class PandasTransformHooks(BaseHookProvider):
             if provider._hook_depth >= 1:
                 return orig_fn(self_df, *args, **kwargs)
             provider._hook_depth += 1
+            rows_before = len(self_df) if hasattr(self_df, '__len__') else None
+            cols_before = provider._cols(self_df)
+            shape_before = tuple(self_df.shape) if hasattr(self_df, 'shape') else None
+            inplace = bool(kwargs.get('inplace'))
+            # Read the id before an in-place call. Afterwards the frame
+            # carries the child id, and the parent id would be lost.
+            parent_lid = provider._get_or_assign(self_df, source="untracked") if inplace else None
             try:
                 result, duration = provider._timed(orig_fn, self_df, *args, **kwargs)
             finally:
@@ -136,32 +202,36 @@ class PandasTransformHooks(BaseHookProvider):
             import pandas as pd
             if isinstance(result, (pd.DataFrame, pd.Series)):
                 target = result
-                if isinstance(result, pd.Series):
-                    try:
-                        target = result.to_frame()
-                    except Exception:
-                        return result
+            elif inplace and isinstance(self_df, pd.DataFrame):
+                # inplace=True returns None and mutates the frame in place.
+                target = self_df
+            else:
+                return result
+            if parent_lid is None:
                 parent_lid = provider._get_or_assign(self_df, source="untracked")
-                child_lid = provider._get_or_assign(target, source=method_name)
-                params = {}
-                if param_extractor:
-                    try:
-                        params = param_extractor(args, kwargs)
-                    except Exception:
-                        pass
-                added, removed = provider._col_diff(
-                    self_df.columns if hasattr(self_df, 'columns') else None,
-                    target.columns if hasattr(target, 'columns') else None)
-                rec = provider._make_record(
-                    category="transform", operation=method_name,
-                    parent_ids=[parent_lid], child_id=child_lid,
-                    parameters=provider._safe_params(params),
-                    input_shape=tuple(self_df.shape), output_shape=tuple(target.shape),
-                    input_columns=provider._cols(self_df),
-                    output_columns=provider._cols(target),
-                    columns_added=added, columns_removed=removed,
-                    rows_before=len(self_df), rows_after=len(target), duration_ms=duration)
-                provider._emit(rec)
+            child_lid = provider._assign_new(target, source=method_name)
+            params = {}
+            if param_extractor:
+                try:
+                    params = param_extractor(args, kwargs)
+                except Exception:
+                    pass
+            if inplace:
+                params = {**params, 'inplace': True}
+            added, removed = provider._col_diff(cols_before, provider._cols(target))
+            rec = provider._make_record(
+                category="transform", operation=method_name,
+                parent_ids=[parent_lid], child_id=child_lid,
+                parameters=provider._safe_params(params),
+                input_shape=shape_before,
+                output_shape=tuple(target.shape) if hasattr(target, 'shape') else None,
+                input_columns=cols_before,
+                output_columns=provider._cols(target),
+                columns_added=added, columns_removed=removed,
+                rows_before=rows_before,
+                rows_after=len(target) if hasattr(target, '__len__') else None,
+                duration_ms=duration)
+            provider._emit(rec)
             return result
         return hooked
 
@@ -183,7 +253,7 @@ class PandasTransformHooks(BaseHookProvider):
             import pandas as pd
             if isinstance(result, pd.DataFrame) and isinstance(data, (pd.DataFrame, pd.Series)):
                 parent_lid = provider._get_or_assign(data, source="untracked")
-                child_lid = provider._get_or_assign(result, source="get_dummies")
+                child_lid = provider._assign_new(result, source="get_dummies")
                 input_cols = provider._cols(data)
                 if input_cols is None and isinstance(data, pd.Series):
                     input_cols = [str(data.name)] if data.name is not None else None
@@ -235,7 +305,7 @@ class PandasTransformHooks(BaseHookProvider):
                     parent_ids.append(provider._get_or_assign(left, source="untracked"))
                 if isinstance(right, pd.DataFrame):
                     parent_ids.append(provider._get_or_assign(right, source="untracked"))
-                child_lid = provider._get_or_assign(result, source="merge")
+                child_lid = provider._assign_new(result, source="merge")
                 params = {k: kwargs[k] for k in ('on', 'how', 'left_on', 'right_on') if k in kwargs}
                 left_cols = provider._cols(left)
                 added, removed = provider._col_diff(left_cols, result.columns)
@@ -273,7 +343,7 @@ class PandasTransformHooks(BaseHookProvider):
                     n_inputs += 1
                     if isinstance(obj, pd.DataFrame):
                         parent_ids.append(provider._get_or_assign(obj, source="untracked"))
-                child_lid = provider._get_or_assign(result, source="concat")
+                child_lid = provider._assign_new(result, source="concat")
                 rec = provider._make_record(
                     category="transform", operation="concat",
                     parent_ids=parent_ids, child_id=child_lid,
@@ -304,17 +374,14 @@ class PandasTransformHooks(BaseHookProvider):
             result, duration = provider._timed(orig_fn, self_gb, *args, **kwargs)
             import pandas as pd
             target = result
-            if isinstance(result, pd.Series):
-                try:
-                    target = result.to_frame()
-                except Exception:
-                    return result
-            if isinstance(target, pd.DataFrame):
+            if not isinstance(result, (pd.DataFrame, pd.Series)):
+                return result
+            if isinstance(target, (pd.DataFrame, pd.Series)):
                 parent_df = getattr(self_gb, '_autolineage_parent', None)
                 parent_lid = ""
                 if parent_df is not None:
                     parent_lid = provider._get_or_assign(parent_df, source="untracked")
-                child_lid = provider._get_or_assign(target, source=f"groupby.{agg_name}")
+                child_lid = provider._assign_new(target, source=f"groupby.{agg_name}")
                 by_keys = getattr(self_gb, 'keys', None)
                 rec = provider._make_record(
                     category="transform", operation=f"groupby.{agg_name}",
@@ -346,16 +413,93 @@ class PandasTransformHooks(BaseHookProvider):
             import pandas as pd
             if isinstance(result, pd.DataFrame):
                 parent_lid = provider._get_or_assign(self_df, source="untracked")
-                child_lid = provider._get_or_assign(result, source="select")
+                child_lid = provider._assign_new(result, source="select")
                 added, removed = provider._col_diff(self_df.columns, result.columns)
+                is_select = isinstance(key, (list, pd.Index))
+                params = {}
+                if not is_select:
+                    expr = _user_source_line()
+                    if not expr:
+                        try:
+                            if isinstance(key, pd.Series) and str(key.dtype) == 'bool':
+                                expr = f"boolean mask, {int(key.sum())} of {len(key)} rows"
+                        except Exception:
+                            expr = None
+                    if expr:
+                        params['expr'] = expr
                 rec = provider._make_record(
                     category="transform",
-                    operation="select" if isinstance(key, (list, pd.Index)) else "filter",
+                    operation="select" if is_select else "filter",
                     parent_ids=[parent_lid], child_id=child_lid,
+                    parameters=provider._safe_params(params),
                     input_shape=tuple(self_df.shape), output_shape=tuple(result.shape),
                     input_columns=provider._cols(self_df), output_columns=provider._cols(result),
                     columns_added=added, columns_removed=removed,
                     rows_before=len(self_df), rows_after=len(result))
                 provider._emit(rec)
+            return result
+        return hooked
+
+    def _make_setitem_hook(self, orig_fn):
+        provider = self
+
+        @wraps(orig_fn)
+        def hooked(self_df, key, value):
+            if provider._hook_depth >= 1 or not isinstance(key, str) or _called_from_library():
+                return orig_fn(self_df, key, value)
+            parent_lid = provider._get_or_assign(self_df, source="untracked")
+            provider._hook_depth += 1
+            rows_before = len(self_df)
+            cols_before = provider._cols(self_df)
+            shape_before = tuple(self_df.shape)
+            try:
+                result = orig_fn(self_df, key, value)
+            finally:
+                provider._hook_depth -= 1
+            import pandas as pd
+            if not isinstance(self_df, pd.DataFrame):
+                return result
+            child_lid = provider._assign_new(self_df, source="assign")
+            added, removed = provider._col_diff(cols_before, provider._cols(self_df))
+            rec = provider._make_record(
+                category="transform", operation="assign",
+                parent_ids=[parent_lid], child_id=child_lid,
+                parameters=provider._safe_params({'column': key}),
+                input_shape=shape_before, output_shape=tuple(self_df.shape),
+                input_columns=cols_before, output_columns=provider._cols(self_df),
+                columns_added=added, columns_removed=removed,
+                rows_before=rows_before, rows_after=len(self_df))
+            provider._emit(rec)
+            return result
+        return hooked
+
+    def _make_series_map_hook(self, orig_fn):
+        provider = self
+
+        @wraps(orig_fn)
+        def hooked(self_s, arg, *args, **kwargs):
+            if provider._hook_depth >= 1 or _called_from_library():
+                return orig_fn(self_s, arg, *args, **kwargs)
+            provider._hook_depth += 1
+            try:
+                result, duration = provider._timed(orig_fn, self_s, arg, *args, **kwargs)
+            finally:
+                provider._hook_depth -= 1
+            import pandas as pd
+            if not isinstance(result, pd.Series):
+                return result
+            parent_lid = provider._get_or_assign(self_s, source="untracked")
+            child_lid = provider._assign_new(result, source="map")
+            rec = provider._make_record(
+                category="transform", operation="map",
+                parent_ids=[parent_lid], child_id=child_lid,
+                parameters=provider._safe_params({
+                    'func': _mapper_name(arg),
+                    'column': None if self_s.name is None else str(self_s.name),
+                }),
+                input_shape=(len(self_s),), output_shape=(len(result),),
+                rows_before=len(self_s), rows_after=len(result),
+                duration_ms=duration)
+            provider._emit(rec)
             return result
         return hooked
