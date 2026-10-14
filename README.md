@@ -124,7 +124,7 @@ from autolineage.auto import get_tracker
 get_tracker().visualize()       # opens HTML graph in your browser
 ```
 
-> **Why first?** `import autolineage.auto` patches framework methods at import time. If your script or notebook does `from sklearn.metrics import f1_score` (or `from pandas import merge`, etc.) *before* this line, AutoLineage rebinds that name in `__main__` to the tracked version and warns you that it did. Names imported early inside *other* modules can't be rebound and still bypass tracking, so putting `import autolineage.auto` at the top remains the clean fix. Set `AUTOLINEAGE_REBIND_EARLY_IMPORTS=0` to keep early imports untouched.
+> **Why first?** `import autolineage.auto` patches framework methods at import time. If your script or notebook does `from sklearn.metrics import f1_score` (or `from pandas import merge`, etc.) *before* this line, AutoLineage rebinds that name in `__main__` to the tracked version and warns you that it did. Names imported early inside *other* modules can't be rebound and still bypass tracking, so putting `import autolineage.auto` at the top remains the clean fix. Set `AUTOLINEAGE_REBIND_EARLY_IMPORTS=0` to keep early imports untouched. Set `AUTOLINEAGE_SOURCE_STAMP=0` to keep the caller's file, line, and filter expression out of records and fingerprints.
 
 ### 2. Visualize the lineage
 

@@ -2,9 +2,20 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
-## v0.7.0 (2026-10-11)
+## v0.7.1 (2026-10-14)
 
-Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in the analyzer, which takes planted-bug localization from 3/5 to 5/5 exact (25/25 across five seeds); early-bound imports in scripts and notebooks are now rebound and tracked instead of silently missed. Upgrade note: fingerprints saved by 0.6.x still load, but `concat:N` keys may shift (see Changed), so re-record any baseline you compare against.
+### Fixed
+- Derived pandas frames no longer keep the parent's lineage id. pandas copies `attrs` onto the result, so `get_or_assign` was returning the parent's id and the graph collapsed to one node. A result that is a new object now gets `assign_id`, which replaces that copied id. In-place calls and `__setitem__` read the parent id before the call and assign a fresh one after it. `assign_id` still fires the RudriQ callback.
+- An inserted filter is blamed even when the baseline already contains a filter. Operation sequences are aligned with `difflib.SequenceMatcher`, and an unmatched current step that removed rows is treated as inserted. Occurrence keys are no longer compared to the wrong partner after an insert.
+- `__setitem__` and `Series.map` decide "called from the library" by the caller's filename, the same rule as source stamping. A user module named `pandas_utils` is no longer skipped. `Series.map` records the mapped series, not a throwaway `to_frame()` copy.
+
+### Changed
+- Duration anomalies ignore baselines under 50 ms. The previous floor was 1 ms, which treated timer noise as a pipeline change.
+- `AUTOLINEAGE_SOURCE_STAMP=0` turns off caller file and line on records, and turns off storing the caller's source text on a filter. The default remains on.
+
+## v0.7.0 (2026-10-10)
+
+Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in the analyzer; early-bound imports in scripts and notebooks are now rebound and tracked instead of silently missed. The synthetic planted-bug script is a regression test under `tests/regression/planted_bugs/` and is not a reported result. Upgrade note: fingerprints saved by 0.6.x still load, but `concat:N` keys may shift (see Changed), so re-record any baseline you compare against.
 
 ### Added
 - Project logo and brand assets in `docs/brand/` (mark, lockups, icons, favicon, social preview), shown in the README header.
@@ -13,7 +24,8 @@ Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in
 - `tests/test_otel.py`: 8 tests (span per operation under one run span, lineage/shape/metric attributes, shutdown idempotent and final, pre-enable operations not exported, attribute capping and OTel-valid types, callback unregister). Skipped when the extra is not installed.
 - Early-bound imports are rebound instead of only warned about. A hooked module-level function imported into `__main__` before the hooks were installed (`from sklearn.metrics import f1_score`, `from sklearn.model_selection import train_test_split`, `from pandas import merge`, `get_dummies`, `read_csv`, ...) is rebound to the tracked version after installation, so those calls are recorded; one warning lists every name rebound. `uninstall_all()` restores the original binding unless the user reassigned the name in the meantime. Set `AUTOLINEAGE_REBIND_EARLY_IMPORTS=0` to keep the previous warn-only behaviour. Previously the warning covered sklearn metrics only and the calls went unrecorded; worse, the untracked call's internal pandas/sklearn operations (`filter`, `concat`, `LabelEncoder.fit`) were recorded as if the user had made them. Scope: `__main__` only (scripts and notebooks); names bound early inside other modules are not touched.
 - `tests/test_early_binding.py`: 12 tests (metrics, aliased imports, `train_test_split`, pandas module functions, single warning, uninstall restore, user reassignment preserved, reinstall, opt-out, unrelated and private names untouched).
-- `benchmarks/planted_bugs/run_seeds.py`: runs all five planted-bug cases over seeds 0-4 (seed controls the synthetic data, the split and the sampling step) and writes `results_multiseed.json`. Result: detection 25/25, exact localization 25/25, impact score identical on every seed. `pipeline.py` takes an optional seed argument; seed 0 reproduces the published single-seed numbers exactly.
+- `tests/regression/planted_bugs/`: the synthetic pipeline, kept as a regression test that each case still names the operation the bug was written into. It is not a benchmark result.
+- `benchmarks/real/`: the held-out evaluation. The protocol, manifest, and search logs are the selection record. Published rates are the one held-out run in `benchmarks/real/heldout_results/`, also reported in `paper.md`. Development rates are not published.
 - `pd.get_dummies` is now a hooked operation (`operation="get_dummies"`, pandas hook count 64 -> 65, total 288 -> 289). The record carries the encoded columns, the dummy columns created, and the `columns`/`prefix`/`drop_first`/`dummy_na`/`dtype` parameters. Internal pandas calls made by `get_dummies` (`concat`, `__getitem__`, `drop`) are swallowed by the reentrancy guard rather than recorded as separate operations.
 - Column-set membership in the analyzer. `RunFingerprint` gains `output_columns`, `columns_added`, `columns_removed` (per `op:occurrence` key) and `columns_seen` (whole run). `detect_anomalies()` emits three new anomaly metrics, each attributed to a single operation: `columns_introduced` (columns the baseline never saw), `columns_retained` (columns the baseline deliberately removed that this run never removes — the target-leakage signature, always critical), and `columns_missing` (columns the baseline created that this run never creates). `localize_root_cause()` credits each of these 0.4 (`LineageAnalyzer.MEMBERSHIP_WEIGHT`) to the operation where the change originated, never to downstream operations that inherit it, and the explanation names the columns. Disable with `thresholds={'column_membership': False}`. Frames wider than `LineageAnalyzer.MAX_TRACKED_COLUMNS` (5000) are not stored. Fingerprints written by earlier versions load unchanged; the membership checks are a no-op against them.
 - Every pandas transform record now populates `input_columns` / `output_columns` (previously always `None`).
@@ -21,7 +33,7 @@ Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in
 
 ### Changed
 - `pd.merge` and `pd.concat` hooks now honour the same reentrancy depth guard as the DataFrame method hooks. Previously a `concat` issued internally by another pandas call (e.g. inside `get_dummies`) was recorded as a top-level operation; it is not any more, so the `concat:N` keys of a fingerprint recorded with 0.6.3 may not line up with one recorded now for the same script.
-- `benchmarks/planted_bugs`: localization is now exact on 5 of 5 cases (was 3 of 5); the README records the before/after. The benchmark harness is also fixed for pandas 3.0, where string columns are `str` dtype rather than `object` and the old `dtype == object` filter crashed `StandardScaler`.
+- The synthetic pipeline's harness is fixed for pandas 3.0, where string columns are `str` dtype rather than `object` and the old `dtype == object` filter crashed `StandardScaler`.
 - `docs/quickstart.md` rewritten for the current API.
 - README, RELEASE_NOTES and the JOSS paper described the 84.7 µs overhead figure as coming from a 37-operation pipeline. It comes from `paper/microbenchmark_v2.py`, which times one hooked call (`df.dropna()` on a 50-row DataFrame); the description now says so. The figure itself is unchanged.
 - Release workflow: runs in a `pypi` environment for PyPI trusted publishing, refuses to publish when the tag, `pyproject.toml` and `__version__` disagree, and runs `twine check --strict` before upload.
@@ -41,7 +53,7 @@ Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in
 - `examples/quickstart.ipynb`: a Colab notebook that installs the package, tracks a pipeline, plants a one-line bug and shows the analyzer localizing it. Badge in the README opens it directly.
 - `examples/pipeline.py`: the 22-line script from the quickstart recording.
 - `docs/hero.tape`, `docs/quickstart.tape`, `docs/quickstart_browser.py`: the recordings are reproducible.
-- JOSS paper draft (`paper.md`, `paper.bib`), `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `benchmarks/planted_bugs` (shipped on `main` in July, first included in a release here).
+- JOSS paper draft (`paper.md`, `paper.bib`), `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and the synthetic pipeline now at `tests/regression/planted_bugs` (shipped on `main` in July, first included in a release here).
 
 ### Notes
 - No changes to the `autolineage` package code since v0.6.2. Safe to upgrade.
