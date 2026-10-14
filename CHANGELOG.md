@@ -2,7 +2,7 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
-## v0.7.1 (2026-10-13)
+## v0.7.1 (2026-10-14)
 
 ### Fixed
 - Derived pandas frames no longer keep the parent's lineage id. pandas copies `attrs` onto the result, so `get_or_assign` was returning the parent's id and the graph collapsed to one node. A result that is a new object now gets `assign_id`, which replaces that copied id. In-place calls and `__setitem__` read the parent id before the call and assign a fresh one after it. `assign_id` still fires the RudriQ callback.
@@ -13,7 +13,7 @@ All notable changes to AutoLineage will be documented in this file.
 - Duration anomalies ignore baselines under 50 ms. The previous floor was 1 ms, which treated timer noise as a pipeline change.
 - `AUTOLINEAGE_SOURCE_STAMP=0` turns off caller file and line on records, and turns off storing the caller's source text on a filter. The default remains on.
 
-## v0.7.0 (2026-10-11)
+## v0.7.0 (2026-10-10)
 
 Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in the analyzer; early-bound imports in scripts and notebooks are now rebound and tracked instead of silently missed. The synthetic planted-bug script is a regression test under `tests/regression/planted_bugs/` and is not a reported result. Upgrade note: fingerprints saved by 0.6.x still load, but `concat:N` keys may shift (see Changed), so re-record any baseline you compare against.
 
