@@ -2,7 +2,7 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
-## v0.7.1 (2026-10-14)
+## v0.7.1 (2026-10-15)
 
 ### Fixed
 - Derived pandas frames no longer keep the parent's lineage id. pandas copies `attrs` onto the result, so `get_or_assign` was returning the parent's id and the graph collapsed to one node. A result that is a new object now gets `assign_id`, which replaces that copied id. In-place calls and `__setitem__` read the parent id before the call and assign a fresh one after it. `assign_id` still fires the RudriQ callback.
