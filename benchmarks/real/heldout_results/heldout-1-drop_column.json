@@ -1,0 +1,11 @@
+{
+  "fault": "drop_column",
+  "status": "not_applicable",
+  "mutated_line": null,
+  "detected": null,
+  "top1": null,
+  "top3": null,
+  "slot": "heldout-1",
+  "repo": "Devanik21/Harmonic-Resonance-Forest",
+  "path": "HRF Codes/hrf_conference.py"
+}

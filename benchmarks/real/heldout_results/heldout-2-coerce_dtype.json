@@ -1,0 +1,33 @@
+{
+  "fault": "coerce_dtype",
+  "status": "scored",
+  "mutated_line": 95,
+  "detected": true,
+  "top1": false,
+  "top3": false,
+  "false_positive": false,
+  "coverage": 0.25,
+  "framework_coverage": 0.36363636363636365,
+  "constructor_lines": [
+    339,
+    343,
+    345,
+    363
+  ],
+  "overhead_s": -8.4739274000749,
+  "hooked_duration_ms": 2581.4907010644674,
+  "baseline_largest_row_drop": false,
+  "baseline_last_changed_step": false,
+  "baseline_random": false,
+  "random_guess_line": 151,
+  "largest_row_drop_line": 357,
+  "last_changed_line": null,
+  "ranked_lines": [
+    357,
+    315,
+    315
+  ],
+  "slot": "heldout-2",
+  "repo": "nazaninzareirad/SVM-paper",
+  "path": "visuals2.py"
+}

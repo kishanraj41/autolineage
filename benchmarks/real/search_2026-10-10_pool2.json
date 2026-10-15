@@ -1,0 +1,502 @@
+[
+  {
+    "repo": "skorch-dev/skorch",
+    "path": "examples/optuna/skorch_example.py",
+    "html_url": "https://github.com/skorch-dev/skorch/blob/195afc0361a2b3aaf2ec0a4504a2a6ea8ef29cbb/examples/optuna/skorch_example.py"
+  },
+  {
+    "repo": "skorch-dev/skorch",
+    "path": "examples/benchmarks/mnist.py",
+    "html_url": "https://github.com/skorch-dev/skorch/blob/195afc0361a2b3aaf2ec0a4504a2a6ea8ef29cbb/examples/benchmarks/mnist.py"
+  },
+  {
+    "repo": "KimGraatrud/FYS-STK4155-Projects",
+    "path": "Project_2/src/utils.py",
+    "html_url": "https://github.com/KimGraatrud/FYS-STK4155-Projects/blob/79ba3c2cc98c87c9d85b206f9a70b31eb374f39f/Project_2/src/utils.py"
+  },
+  {
+    "repo": "maulvi-zm/ffnn-from-scratch",
+    "path": "src/utils.py",
+    "html_url": "https://github.com/maulvi-zm/ffnn-from-scratch/blob/7dea413488cbf84e65cef78a35731b3e4dd09408/src/utils.py"
+  },
+  {
+    "repo": "DhafinFawwaz/Feedforward-Neural-Network",
+    "path": "src/lib/Utils.py",
+    "html_url": "https://github.com/DhafinFawwaz/Feedforward-Neural-Network/blob/12e8f49f104e4835db5d950812ee568a557e69af/src/lib/Utils.py"
+  },
+  {
+    "repo": "mrsergazinov/tabular-dl-goes-fourier",
+    "path": "train_eval.py",
+    "html_url": "https://github.com/mrsergazinov/tabular-dl-goes-fourier/blob/7766b60e245163bbe7026af39941f090b313d0cc/train_eval.py"
+  },
+  {
+    "repo": "Thanvik931/NeuroCloak",
+    "path": "dataset taken to train the model/scripts/fetch_openml_credit_g.py",
+    "html_url": "https://github.com/Thanvik931/NeuroCloak/blob/70441f40770559be19eefd489ac39b0f1449ae2a/dataset taken to train the model/scripts/fetch_openml_credit_g.py"
+  },
+  {
+    "repo": "itdxer/neupy",
+    "path": "examples/mlp/mnist_mlp.py",
+    "html_url": "https://github.com/itdxer/neupy/blob/317ed4204b5239e8be2b94a95fe3157c5f9edc65/examples/mlp/mnist_mlp.py"
+  },
+  {
+    "repo": "emlearn/emlearn",
+    "path": "examples/trees_voting.py",
+    "html_url": "https://github.com/emlearn/emlearn/blob/578d89dcd97e3eb47f993571b9854fb6c22a2f73/examples/trees_voting.py"
+  },
+  {
+    "repo": "itdxer/neupy",
+    "path": "examples/cnn/mnist_cnn.py",
+    "html_url": "https://github.com/itdxer/neupy/blob/317ed4204b5239e8be2b94a95fe3157c5f9edc65/examples/cnn/mnist_cnn.py"
+  },
+  {
+    "repo": "lasso-net/lassonet",
+    "path": "examples/mnist_classif.py",
+    "html_url": "https://github.com/lasso-net/lassonet/blob/f2bf7d21274b21519dddc52e759a137b1aa868c4/examples/mnist_classif.py"
+  },
+  {
+    "repo": "fnnx-ai/falcon",
+    "path": "benchmarks/run.py",
+    "html_url": "https://github.com/fnnx-ai/falcon/blob/9f120a93840b5923aeb2a99303e3d127f95a9344/benchmarks/run.py"
+  },
+  {
+    "repo": "Devanik21/Harmonic-Resonance-Forest",
+    "path": "HRF Codes/hrf_eeg.py",
+    "html_url": "https://github.com/Devanik21/Harmonic-Resonance-Forest/blob/356df370276efe14797bcbae413967da6c4b3b39/HRF Codes/hrf_eeg.py"
+  },
+  {
+    "repo": "Quandela/HybridAIQuantum-Challenge",
+    "path": "src/solal/main.py",
+    "html_url": "https://github.com/Quandela/HybridAIQuantum-Challenge/blob/2c920e6790e9fc5caddb76522305f398f8958948/src/solal/main.py"
+  },
+  {
+    "repo": "thatipamula-jashwanth/smart-knn",
+    "path": "benchmarks/class_set_2.py",
+    "html_url": "https://github.com/thatipamula-jashwanth/smart-knn/blob/35ea3f6303bb8662911055e1ae3dad1b51e33396/benchmarks/class_set_2.py"
+  },
+  {
+    "repo": "thatipamula-jashwanth/smart-knn",
+    "path": "benchmarks/Class_Set_1.py",
+    "html_url": "https://github.com/thatipamula-jashwanth/smart-knn/blob/35ea3f6303bb8662911055e1ae3dad1b51e33396/benchmarks/Class_Set_1.py"
+  },
+  {
+    "repo": "Devanik21/Harmonic-Resonance-Forest",
+    "path": "HRF-Engine/HRF 21D/hrf_eeg.py",
+    "html_url": "https://github.com/Devanik21/Harmonic-Resonance-Forest/blob/356df370276efe14797bcbae413967da6c4b3b39/HRF-Engine/HRF 21D/hrf_eeg.py"
+  },
+  {
+    "repo": "erent8/opencv-doc-TR",
+    "path": "05-Makine-Ogrenmesi/04-ann-karakter-tanima.py",
+    "html_url": "https://github.com/erent8/opencv-doc-TR/blob/3823fd80b78fc2c5d6e570b8b12230367daee2fc/05-Makine-Ogrenmesi/04-ann-karakter-tanima.py"
+  },
+  {
+    "repo": "ktakita1011/MiniKaggle",
+    "path": "tool/sample_make_titanic_competition.py",
+    "html_url": "https://github.com/ktakita1011/MiniKaggle/blob/1cff52bd29e61f2d71e84cf5cb96257851dea7f9/tool/sample_make_titanic_competition.py"
+  },
+  {
+    "repo": "fastmachinelearning/hls4ml-live-demo",
+    "path": "race-ic-pynq/convert.py",
+    "html_url": "https://github.com/fastmachinelearning/hls4ml-live-demo/blob/6fb53227913b38d35f66d269b1352e73ec7dadca/race-ic-pynq/convert.py"
+  },
+  {
+    "repo": "os-hxfan/BayesNN_FPGA",
+    "path": "Hardware_Artifact/converter/keras/train.py",
+    "html_url": "https://github.com/os-hxfan/BayesNN_FPGA/blob/0f95ef5e63e9246099bb262345ab10e25d26dae9/Hardware_Artifact/converter/keras/train.py"
+  },
+  {
+    "repo": "thearch-user/AI",
+    "path": "nn.py",
+    "html_url": "https://github.com/thearch-user/AI/blob/755b46df4cf75c47d3ddb86de646a0199b07c2ec/nn.py"
+  },
+  {
+    "repo": "thearch-user/AI",
+    "path": "nn2.py",
+    "html_url": "https://github.com/thearch-user/AI/blob/755b46df4cf75c47d3ddb86de646a0199b07c2ec/nn2.py"
+  },
+  {
+    "repo": "marcelovca90/auto-ml-evaluation",
+    "path": "common.py",
+    "html_url": "https://github.com/marcelovca90/auto-ml-evaluation/blob/95df52082a847062facc9cbe99488ba6ed04004b/common.py"
+  },
+  {
+    "repo": "fastmachinelearning/hls4ml-live-demo",
+    "path": "webcam-ic-pynq/convert.py",
+    "html_url": "https://github.com/fastmachinelearning/hls4ml-live-demo/blob/6fb53227913b38d35f66d269b1352e73ec7dadca/webcam-ic-pynq/convert.py"
+  },
+  {
+    "repo": "WeightedAI/semicart",
+    "path": "benchmark.py",
+    "html_url": "https://github.com/WeightedAI/semicart/blob/461b5c1b7cbc3f585ba31d6d2ce3a113cd4d0532/benchmark.py"
+  },
+  {
+    "repo": "LinkedInLearning/responsible-ai-algorithm-design-3806106",
+    "path": "src/04_04_solution.py",
+    "html_url": "https://github.com/LinkedInLearning/responsible-ai-algorithm-design-3806106/blob/253358de645d4281b4187cc3c6c3b78136ea3b23/src/04_04_solution.py"
+  },
+  {
+    "repo": "LinkedInLearning/responsible-ai-algorithm-design-3806106",
+    "path": "src/03_04_solution.py",
+    "html_url": "https://github.com/LinkedInLearning/responsible-ai-algorithm-design-3806106/blob/253358de645d4281b4187cc3c6c3b78136ea3b23/src/03_04_solution.py"
+  },
+  {
+    "repo": "nyk510/gradient-boosted-decision-tree",
+    "path": "mnist.py",
+    "html_url": "https://github.com/nyk510/gradient-boosted-decision-tree/blob/ac2667014d6c93dfd045ccb08eb9ce37dcc6e1ef/mnist.py"
+  },
+  {
+    "repo": "emredeveloper/ai-data-handbook",
+    "path": "Machine Learning/mlp-ensemble.py",
+    "html_url": "https://github.com/emredeveloper/ai-data-handbook/blob/b769771eb88f05209b53a4006d6c63e9fe2b6477/Machine Learning/mlp-ensemble.py"
+  },
+  {
+    "repo": "LinkedInLearning/responsible-ai-algorithm-design-3806106",
+    "path": "src/04_03_challenge.py",
+    "html_url": "https://github.com/LinkedInLearning/responsible-ai-algorithm-design-3806106/blob/253358de645d4281b4187cc3c6c3b78136ea3b23/src/04_03_challenge.py"
+  },
+  {
+    "repo": "walkieq/RNN_HLS",
+    "path": "rnn_using_Intel_FPGA/t0_hls4ml_dnn.py",
+    "html_url": "https://github.com/walkieq/RNN_HLS/blob/1cde9e831dbfe204380b518242c51c411fc7e5fa/rnn_using_Intel_FPGA/t0_hls4ml_dnn.py"
+  },
+  {
+    "repo": "LinkedInLearning/responsible-ai-algorithm-design-3806106",
+    "path": "src/02_04_solution.py",
+    "html_url": "https://github.com/LinkedInLearning/responsible-ai-algorithm-design-3806106/blob/253358de645d4281b4187cc3c6c3b78136ea3b23/src/02_04_solution.py"
+  },
+  {
+    "repo": "LinkedInLearning/responsible-ai-algorithm-design-3806106",
+    "path": "src/01_04_solution.py",
+    "html_url": "https://github.com/LinkedInLearning/responsible-ai-algorithm-design-3806106/blob/253358de645d4281b4187cc3c6c3b78136ea3b23/src/01_04_solution.py"
+  },
+  {
+    "repo": "LinkedInLearning/responsible-ai-algorithm-design-3806106",
+    "path": "src/02_03_challenge.py",
+    "html_url": "https://github.com/LinkedInLearning/responsible-ai-algorithm-design-3806106/blob/253358de645d4281b4187cc3c6c3b78136ea3b23/src/02_03_challenge.py"
+  },
+  {
+    "repo": "AJunnnnn/NJUPT-AI-labreport",
+    "path": "\u6a21\u5f0f\u8bc6\u522b/main.py",
+    "html_url": "https://github.com/AJunnnnn/NJUPT-AI-labreport/blob/f01f548cd8f7490f8692fdf772831aae8dc1fdd1/\u6a21\u5f0f\u8bc6\u522b/main.py"
+  },
+  {
+    "repo": "rsln-s/Importance-of-Kernel-Bandwidth-in-Quantum-Machine-Learning",
+    "path": "code/utils.py",
+    "html_url": "https://github.com/rsln-s/Importance-of-Kernel-Bandwidth-in-Quantum-Machine-Learning/blob/3c0717742c505c66cca4559a0c8b3da1b95ca4fc/code/utils.py"
+  },
+  {
+    "repo": "Devanik21/Harmonic-Resonance-Forest",
+    "path": "HRF Codes/hrf_conference.py",
+    "html_url": "https://github.com/Devanik21/Harmonic-Resonance-Forest/blob/356df370276efe14797bcbae413967da6c4b3b39/HRF Codes/hrf_conference.py"
+  },
+  {
+    "repo": "sanjay-dutta/Computer-Vision-Practice",
+    "path": "MNIST/mnist.py",
+    "html_url": "https://github.com/sanjay-dutta/Computer-Vision-Practice/blob/3c582d9f22a9c94c0bc3ac1f7c09f404f436333b/MNIST/mnist.py"
+  },
+  {
+    "repo": "saxenaakansha30/30-days-ml-challenge",
+    "path": "day_3.py",
+    "html_url": "https://github.com/saxenaakansha30/30-days-ml-challenge/blob/b357cb42f3f16b5011f786a925ad39708ac7bea2/day_3.py"
+  },
+  {
+    "repo": "kevinjose06/ML-Lab-Programs",
+    "path": "KNN.py",
+    "html_url": "https://github.com/kevinjose06/ML-Lab-Programs/blob/7a0bbbb3e8187cb76d015546bced195bddd738f2/KNN.py"
+  },
+  {
+    "repo": "LaubachLab/i-rocket",
+    "path": "benchmarks/benchmark_aeon_reference.py",
+    "html_url": "https://github.com/LaubachLab/i-rocket/blob/4fe1254e70b048f7dc6ca8301f532f7aebaff2c8/benchmarks/benchmark_aeon_reference.py"
+  },
+  {
+    "repo": "takapy0210/geek_blog",
+    "path": "luigi/sample_luigi.py",
+    "html_url": "https://github.com/takapy0210/geek_blog/blob/8f3aa53e2eb06ca01ec4ec43d0f8c41bb3317971/luigi/sample_luigi.py"
+  },
+  {
+    "repo": "pwhofman/efficient-credal-prediction",
+    "path": "eval_tabular.py",
+    "html_url": "https://github.com/pwhofman/efficient-credal-prediction/blob/9481efa39c7e364bca0ae604db145bb180a28bbf/eval_tabular.py"
+  },
+  {
+    "repo": "Satin21/Linear-Algebra-and-optimization-for-machine-learning",
+    "path": "Final/1a.py",
+    "html_url": "https://github.com/Satin21/Linear-Algebra-and-optimization-for-machine-learning/blob/42d0686c92135307e22bba2c6907dbb7c9efce6a/Final/1a.py"
+  },
+  {
+    "repo": "fr0g1299/MNIST-dimensionality_reduction",
+    "path": "main.py",
+    "html_url": "https://github.com/fr0g1299/MNIST-dimensionality_reduction/blob/0eeb116ccc33349b174d8b3ce6ec76ef1dd42b6c/main.py"
+  },
+  {
+    "repo": "laudv/ocscore",
+    "path": "mnist_example.py",
+    "html_url": "https://github.com/laudv/ocscore/blob/7ca82f7c96955aef44ccc5a1ccf76b48645613d7/mnist_example.py"
+  },
+  {
+    "repo": "micahtracht/MNIST",
+    "path": "kmeans.py",
+    "html_url": "https://github.com/micahtracht/MNIST/blob/d678aa5182e592a1ad8fc49c785155824b8b5098/kmeans.py"
+  },
+  {
+    "repo": "crsullivan13/581-Team25",
+    "path": "regressions.py",
+    "html_url": "https://github.com/crsullivan13/581-Team25/blob/1bd56b7430b4e1c7e82d85168427cbbd72e5ff14/regressions.py"
+  },
+  {
+    "repo": "inaccel/heflow",
+    "path": "examples/sklearn/train.py",
+    "html_url": "https://github.com/inaccel/heflow/blob/feb50a1a05e94ced86e3378afea84c14ecde8aaf/examples/sklearn/train.py"
+  },
+  {
+    "repo": "Majeed7/RKHS-ExactSHAP",
+    "path": "hsic_fs.py",
+    "html_url": "https://github.com/Majeed7/RKHS-ExactSHAP/blob/f74de21548ae23fabd467d7dcae3b3fe5ea76428/hsic_fs.py"
+  },
+  {
+    "repo": "BondMachineHQ/ml-zedboard",
+    "path": "main.py",
+    "html_url": "https://github.com/BondMachineHQ/ml-zedboard/blob/ad80e21c979a97e83f7d339b30137c5b0464e883/main.py"
+  },
+  {
+    "repo": "biquality-learn/biquality-learn",
+    "path": "examples/plot_reweighting_vs_noise_model.py",
+    "html_url": "https://github.com/biquality-learn/biquality-learn/blob/3f3f1609cd45983aa5d83bef91505db77fabc263/examples/plot_reweighting_vs_noise_model.py"
+  },
+  {
+    "repo": "leonjyentub/MachineLearning2025",
+    "path": "07_CNN_from_Scratch.py",
+    "html_url": "https://github.com/leonjyentub/MachineLearning2025/blob/6ec974b2e642e49e2d7308b612457142c944a990/07_CNN_from_Scratch.py"
+  },
+  {
+    "repo": "aishwarya22237/AIML-projects",
+    "path": "aishu.py",
+    "html_url": "https://github.com/aishwarya22237/AIML-projects/blob/bfff25ef0c9367c92781e57b4ab7a2edd09cdc60/aishu.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpInBounds/FT_LOAN_3F_IB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpInBounds/FT_LOAN_3F_IB.py"
+  },
+  {
+    "repo": "pwhofman/efficient-credal-prediction",
+    "path": "eval_active_learning.py",
+    "html_url": "https://github.com/pwhofman/efficient-credal-prediction/blob/9481efa39c7e364bca0ae604db145bb180a28bbf/eval_active_learning.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpInBounds/FT_HIGGS_3F_IB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpInBounds/FT_HIGGS_3F_IB.py"
+  },
+  {
+    "repo": "mmills6060/Northeastern-Masters-in-Computer-Science",
+    "path": "CS_6140/assignment3q2.py",
+    "html_url": "https://github.com/mmills6060/Northeastern-Masters-in-Computer-Science/blob/1523fc69606c7dfa931329ea748d149740075355/CS_6140/assignment3q2.py"
+  },
+  {
+    "repo": "aruncbhusal/rbm",
+    "path": "main.py",
+    "html_url": "https://github.com/aruncbhusal/rbm/blob/0ca02c8890fff694b666ee5d92d4ae120d403419/main.py"
+  },
+  {
+    "repo": "nazaninzareirad/SVM-paper",
+    "path": "visuals2.py",
+    "html_url": "https://github.com/nazaninzareirad/SVM-paper/blob/ff772fe679d9129ce8b3d57d91c591365fd9e327/visuals2.py"
+  },
+  {
+    "repo": "likithyadav128-tech/handwritten-digit-recognizer",
+    "path": "train_model.py",
+    "html_url": "https://github.com/likithyadav128-tech/handwritten-digit-recognizer/blob/7a9a7349866c1e73bf61f27093365a086826b0fc/train_model.py"
+  },
+  {
+    "repo": "vedantchavan004/MLOps-Pipeline",
+    "path": "train.py",
+    "html_url": "https://github.com/vedantchavan004/MLOps-Pipeline/blob/fdb9d15653cb1a9b309ac54b64c78661f9d2533e/train.py"
+  },
+  {
+    "repo": "tommasofioravanti/sq-learn",
+    "path": "benchmarks/bench_hist_gradient_boosting_adult.py",
+    "html_url": "https://github.com/tommasofioravanti/sq-learn/blob/d04b60b0a1dca93026781b31abd70bcc9f6d7371/benchmarks/bench_hist_gradient_boosting_adult.py"
+  },
+  {
+    "repo": "crcrpar/benchmark-runner-ci",
+    "path": "examples/skorch_simple.py",
+    "html_url": "https://github.com/crcrpar/benchmark-runner-ci/blob/81cee4b32587b79037c8eef37c4fafd491800e88/examples/skorch_simple.py"
+  },
+  {
+    "repo": "Cippppy/SmartPokedex",
+    "path": "examples/knn.py",
+    "html_url": "https://github.com/Cippppy/SmartPokedex/blob/e7a3474ab07e7fd5384d2131b99156dbed1dede3/examples/knn.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpInBounds/FT_CovType_3F_IB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpInBounds/FT_CovType_3F_IB.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpInBounds/SAINT_LOAN_3F_IB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpInBounds/SAINT_LOAN_3F_IB.py"
+  },
+  {
+    "repo": "sanjay-dutta/Computer-Vision-Practice",
+    "path": "MNIST/mnist_dataaugmentation.py",
+    "html_url": "https://github.com/sanjay-dutta/Computer-Vision-Practice/blob/3c582d9f22a9c94c0bc3ac1f7c09f404f436333b/MNIST/mnist_dataaugmentation.py"
+  },
+  {
+    "repo": "LucasTonanez/naive-bayes-mnist-gaussian",
+    "path": "train.py",
+    "html_url": "https://github.com/LucasTonanez/naive-bayes-mnist-gaussian/blob/9c211a78de246238b674a9b8c215df982e68a601/train.py"
+  },
+  {
+    "repo": "Satin21/Linear-Algebra-and-optimization-for-machine-learning",
+    "path": "Hans/main_final.py",
+    "html_url": "https://github.com/Satin21/Linear-Algebra-and-optimization-for-machine-learning/blob/42d0686c92135307e22bba2c6907dbb7c9efce6a/Hans/main_final.py"
+  },
+  {
+    "repo": "JonathanWenger/pycalib",
+    "path": "figures/ece_logloss_example/logloss_ece.py",
+    "html_url": "https://github.com/JonathanWenger/pycalib/blob/2ec97e02374d10b57b6a33d9ee9fddcfa09c11a7/figures/ece_logloss_example/logloss_ece.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerSize/FT_LOAN_3F_OOB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerSize/FT_LOAN_3F_OOB.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpInBounds/SAINT_HIGGS_3F_IB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpInBounds/SAINT_HIGGS_3F_IB.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerPosition/LOAN_FT_FI.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerPosition/LOAN_FT_FI.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerSize/FT_LOAN_1F_OOB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerSize/FT_LOAN_1F_OOB.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpInBounds/TabNet_LOAN_3F_IB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpInBounds/TabNet_LOAN_3F_IB.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerSize/FT_LOAN_2F_OOB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerSize/FT_LOAN_2F_OOB.py"
+  },
+  {
+    "repo": "DavidZap/Dimensionality-Reduction-ML-2",
+    "path": "app.py",
+    "html_url": "https://github.com/DavidZap/Dimensionality-Reduction-ML-2/blob/b950e0f22b8aea68feb3bf1c01e7964342b57a66/app.py"
+  },
+  {
+    "repo": "maxtcurie/Artificial_Intelligence",
+    "path": "Method/RCN/RCN.py",
+    "html_url": "https://github.com/maxtcurie/Artificial_Intelligence/blob/66f0da568ebfd8c558ee8d9ef01599dcdfa463fb/Method/RCN/RCN.py"
+  },
+  {
+    "repo": "resort3779/Artificial-Neural-Networks",
+    "path": "temp1.py",
+    "html_url": "https://github.com/resort3779/Artificial-Neural-Networks/blob/0b051598a78ee20dd16e23fbf8c40e56fa47e363/temp1.py"
+  },
+  {
+    "repo": "os1ma/gradio-mnist-sample",
+    "path": "train/train.py",
+    "html_url": "https://github.com/os1ma/gradio-mnist-sample/blob/7a3912a17bb8f067750900cab5ac2d0321fbf892/train/train.py"
+  },
+  {
+    "repo": "usrbinomarbash/Python",
+    "path": "Machine Learning/Projects/handwriting.py",
+    "html_url": "https://github.com/usrbinomarbash/Python/blob/409020c010891938a3fd01c2b6dab2916740dd88/Machine Learning/Projects/handwriting.py"
+  },
+  {
+    "repo": "kevinjose06/ML-Lab-Programs",
+    "path": "Logistic regression.py",
+    "html_url": "https://github.com/kevinjose06/ML-Lab-Programs/blob/7a0bbbb3e8187cb76d015546bced195bddd738f2/Logistic regression.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerSize/FT_HIGGS_3F_OOB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerSize/FT_HIGGS_3F_OOB.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerPosition/SYN10_FT_FI.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerPosition/SYN10_FT_FI.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerPosition/HIGGS_FT_FI.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerPosition/HIGGS_FT_FI.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerSize/FT_HIGGS_2F_OOB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerSize/FT_HIGGS_2F_OOB.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpTriggerSize/FT_HIGGS_1F_OOB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpTriggerSize/FT_HIGGS_1F_OOB.py"
+  },
+  {
+    "repo": "NCThanh0608/KNN",
+    "path": "KNN.py",
+    "html_url": "https://github.com/NCThanh0608/KNN/blob/bb5b84e510052487f80ee6e36724d6e6d490ae97/KNN.py"
+  },
+  {
+    "repo": "TortueSagace/versatile_evasion_attacks",
+    "path": "vea/attacks/header.py",
+    "html_url": "https://github.com/TortueSagace/versatile_evasion_attacks/blob/5e88e33c185dd2bb4efd33e98f1d8338a9a26f2e/vea/attacks/header.py"
+  },
+  {
+    "repo": "kuroshum/blog_code",
+    "path": "Vim_config/mnist_tensorflow_Complete.py",
+    "html_url": "https://github.com/kuroshum/blog_code/blob/bad4806be0d7a31a27fec5c2da0f2bff8e285d09/Vim_config/mnist_tensorflow_Complete.py"
+  },
+  {
+    "repo": "qrzou/FML-bench",
+    "path": "ml_tasks/Fairness_fairlearn/train_eval_baseline.py",
+    "html_url": "https://github.com/qrzou/FML-bench/blob/d336651ebea50c622c256f02ded82b68b4451fdc/ml_tasks/Fairness_fairlearn/train_eval_baseline.py"
+  },
+  {
+    "repo": "AbhigyanRanjan0505/py-alphab-detector",
+    "path": "detection.py",
+    "html_url": "https://github.com/AbhigyanRanjan0505/py-alphab-detector/blob/bbba79bace7dfcb240f8ea920999137b5d232d61/detection.py"
+  },
+  {
+    "repo": "kmlst/Data-Valuation-Using-DU-Shapley",
+    "path": "utils.py",
+    "html_url": "https://github.com/kmlst/Data-Valuation-Using-DU-Shapley/blob/7a0cff918d88b2cd42fc884a2d5adfae577f1284/utils.py"
+  },
+  {
+    "repo": "bartpleiter/tabular-backdoors",
+    "path": "ExpInBounds/SAINT_CovType_3F_IB.py",
+    "html_url": "https://github.com/bartpleiter/tabular-backdoors/blob/6a494fdc912ae06276efdac95f5144bab836b903/ExpInBounds/SAINT_CovType_3F_IB.py"
+  },
+  {
+    "repo": "Hiragi14/feedback-alignment-numpy",
+    "path": "train.py",
+    "html_url": "https://github.com/Hiragi14/feedback-alignment-numpy/blob/d986cd6cce7dca17d6d095f5b38fc8b55343967b/train.py"
+  },
+  {
+    "repo": "Hiragi14/mlp_numpy",
+    "path": "train.py",
+    "html_url": "https://github.com/Hiragi14/mlp_numpy/blob/0bd56fb65f90c125c11c702af18d89376dee2446/train.py"
+  },
+  {
+    "repo": "parthrastogicoder/NLP_EMOTION_CLASSIFIER",
+    "path": "neuralnet.py",
+    "html_url": "https://github.com/parthrastogicoder/NLP_EMOTION_CLASSIFIER/blob/4d0518641792bf16cc11c9dc3cc00e7a66706124/neuralnet.py"
+  },
+  {
+    "repo": "hls4ml-finn-mlperftiny/CIFAR10",
+    "path": "hls4ml/convert.py",
+    "html_url": "https://github.com/hls4ml-finn-mlperftiny/CIFAR10/blob/18f838c7d2fb047fe9d32272e5db0e13e1a66ebc/hls4ml/convert.py"
+  }
+]

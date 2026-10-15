@@ -57,3 +57,7 @@ cleanup.sh
 # Datasets (too large; users download)
 paper/data/
 *.parquet
+
+# Real-benchmark cache and dev runs. The manifest, skip log, and protocol stay.
+benchmarks/real/cache/
+benchmarks/real/dev_results/
