@@ -7,8 +7,15 @@
   "top3": true,
   "false_positive": false,
   "coverage": 0.3333333333333333,
-  "overhead_s": 216.5515175999608,
-  "hooked_duration_ms": 1056.1454012058675,
+  "framework_coverage": 0.5454545454545454,
+  "constructor_lines": [
+    339,
+    343,
+    345,
+    363
+  ],
+  "overhead_s": 3.490757600404322,
+  "hooked_duration_ms": 1484.352899249643,
   "baseline_largest_row_drop": true,
   "baseline_last_changed_step": true,
   "baseline_random": false,

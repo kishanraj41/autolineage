@@ -4,8 +4,7 @@
 "AutoLineage: Zero-Code End-to-End Data Lineage for Machine Learning Pipelines"
 
 ## Authors
-- Kishan Raj Vandhavasi (corresponding author)
-- Goutham Kumar (co-author pending consent)
+- Kishan Raj VG (kishanraj41)
 
 ## Target Venue
 arXiv (cs.SE + cs.LG) as first submission.
@@ -274,7 +273,7 @@ Table 2 from comparison_2026.md goes here.
 | T2 | Competitor comparison | 6 | comparison_2026.md | READY |
 | T3 | Credit Card operations | 5.2 | Credit Card run | PENDING output |
 | T4 | PySpark operations | 5.3 | PySpark run | PENDING |
-| T5 | Case study timing | 5.4 | Kishan + Goutham session | PENDING |
+| T5 | Case study timing | 5.4 | Kishan | PENDING |
 | T6 | Benchmark results | 5.5 | benchmark_results_v2.json | READY |
 | T7 | Anomaly detection triggered | 5.6 | Planted-bug run | PENDING |
 
@@ -287,6 +286,5 @@ Before I write the LaTeX:
 2. PySpark pipeline output (skip for now, can add later)
 3. Case study completed templates (both P1 and P2)
 4. Machine specs: CPU model, RAM, OS, Python/pandas/sklearn versions
-5. Confirmation Goutham consents to being an author
 
 Once I have these, I write the paper in one pass (~2 days).

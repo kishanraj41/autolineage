@@ -8,7 +8,7 @@ tags:
   - reproducibility
   - data engineering
 authors:
-  - name: Kishan Raj Vandhavasi Goutham Kumar
+  - name: Kishan Raj VG
     orcid: 0009-0007-6488-5855
     affiliation: 1
 affiliations:
@@ -137,27 +137,28 @@ unchanged, and 4 crashed. The rate is the other 2 faults, both planted in
 AutoLineage flagged an anomaly on both scored faults. The mutated line was the
 first ranked cause for 1 of the 2, so top-1 and top-3 are both 1/2. On that fault
 the largest-row-drop baseline and the last-changed-step baseline named the same
-line. On the other fault the ranked list was empty, and both of those baselines
-missed it as well. A seeded random choice among pipeline lines named neither.
-Neither unmutated rerun of a scored fault raised a warning or a critical anomaly.
-Mean coverage of pipeline-call lines on the two scored runs was 0.29.
+line. On the other fault the three ranked lines were other steps in the script,
+and both of those baselines missed the mutated line as well. A seeded random
+choice among pipeline lines named neither. Neither unmutated rerun of a scored
+fault raised a warning or a critical anomaly. Mean coverage of pipeline-call
+lines on the two scored runs was 0.29 (0.33 and 0.25). Mean framework-call
+coverage on the same runs was 0.45 (0.55 and 0.36). Framework-call coverage
+leaves subscript assignments out, and it keeps `fit`, `predict`,
+`predict_proba`, `score`, and `astype` only when the receiver comes from
+pandas or scikit-learn.
 
-The protocol mean on those two runs was 164 seconds (217 and 111). It was
-confounded by a blocking `plt.show()`. The script calls that once per
-configuration, and the scoring run did not set a non-interactive matplotlib
-backend. Qualification did. The operations AutoLineage recorded on those two
-runs took 1.1 and 1.5 seconds. A third run of the same script, kept out of
-the rate because the mutation left the metrics unchanged, was 50 seconds
-faster with hooks on.
+Wall-clock overhead on the two scored runs was 3.5 seconds and −8.5 seconds.
+The mean is −2.5 seconds. Overhead is hooks-on wall time minus hooks-off wall
+time, and scoring set `MPLBACKEND=Agg`. The operations AutoLineage recorded
+on those runs took 1.5 and 2.6 seconds.
 
-With `MPLBACKEND=Agg` and the OpenML files already cached, wall time on this
-one script is not a single number. Four alternating runs in one session took
-19.2, 19.1, 19.1, and 19.0 seconds (hooks off, on, off, on). Three alternating
-pairs in a later session took 39.6 and 32.3, 37.2 and 31.0, and 34.6 and 30.6
-seconds. Three more pairs after that took 57.3 and 47.9, 55.0 and 49.4, and
-53.9 and 55.1 seconds. Each pair is hooks off, then hooks on. The 164 second
-mean is the protocol average. It is separate from the per-call microbenchmark
-above, 84.7 microseconds for one small `dropna`.
+With the OpenML files already cached, wall time on this one script is not a
+single number. Four alternating runs in one session took 19.2, 19.1, 19.1,
+and 19.0 seconds (hooks off, on, off, on). Three alternating pairs in a later
+session took 39.6 and 32.3, 37.2 and 31.0, and 34.6 and 30.6 seconds. Three
+more pairs after that took 57.3 and 47.9, 55.0 and 49.4, and 53.9 and 55.1
+seconds. Each pair is hooks off, then hooks on. These sessions sit beside the
+per-call microbenchmark above, 84.7 microseconds for one small `dropna`.
 
 The synthetic script previously used as a benchmark is a regression test under
 `tests/regression/planted_bugs/`. It is not a result. A companion preprint
