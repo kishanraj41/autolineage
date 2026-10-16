@@ -52,7 +52,10 @@ def main(argv=None) -> int:
                 print(f"resume {slot['slot']} {fault}", flush=True)
                 continue
             print(f"score {slot['slot']} {fault}", flush=True)
-            result = evaluate(script, fault, case_id=f"{slot['slot']}:{fault}")
+            result = evaluate(
+                script, fault, case_id=f"{slot['slot']}:{fault}",
+                keep_dir=OUT / "mutated",
+            )
             result["slot"] = slot["slot"]
             result["repo"] = slot.get("repo")
             result["path"] = slot.get("path")

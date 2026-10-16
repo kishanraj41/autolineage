@@ -78,15 +78,27 @@ The re-score is the JSON files directly in `heldout_results/`. The
 scripts, the fault list, and the measures are the same in both. The
 scored rates match. On `visuals2.py` both runs record
 `change_encoding` at line 345 and `change_filter_threshold` at line 71.
-The runner deletes the mutated copy, so the source texts are not
-stored. Applying the mutator to the cached script reproduces those
-lines. The outcomes differ: the first run crashes on `change_encoding`
-and records no metric change for `change_filter_threshold`; the
-re-score does the reverse. Neither is inside the rate. The site did
-not move. The first run did not set `MPLBACKEND=Agg`. The re-score
-did. `visuals2.py` calls `plt.show()` once per configuration, so
-wall-clock is not compared across the two runs. The paper quotes the
-re-score.
+The runner used to delete the mutated copy. It now keeps one under
+`heldout_results/mutated/`. The copies there for these two runs were
+regenerated from the cached script with that mutator, because the
+originals were already gone. The line 71 copy reads `loss[loss < 1] = 0`.
+Stderr and exit codes for these two runs were not saved.
+
+`MPLBACKEND=Agg` is a harness change between the runs. The first run
+did not set it. The re-score did. `visuals2.py` calls `plt.show()` once
+per configuration. That is why `change_encoding` crashed on the first
+run and finished on the re-score.
+
+Line 71 is a different failure. The re-score's unmutated hooked run
+exceeded the 600 s limit: 0 s recorded, wall gap +550 s. Cause not
+captured. The mutated run still has coverage, so the row is not the
+mutation breaking. The first run of `loss[loss < 1] = 0` finished with
+no metric change and 1.2 s recorded. The paper quotes the re-score.
+
+Future scoring runs save stderr, the exit code, and the wall time of
+every subprocess. A clean hooked run that does not finish is retried
+once before the case is classified. That failure is a harness failure.
+It is not a result about the mutation.
 
 ## Faults
 
@@ -305,9 +317,14 @@ Rules fixed now:
 - A hit must contain at least two applicable faults from the catalogue.
   Fewer than two is `too_few_fault_sites` and is counted.
 - The unmutated script must finish in 5 minutes with `MPLBACKEND=Agg`.
-  Scoring sets that variable. The locked run did not. A qualification
-  timeout kills the process tree. Waiting on the child's pipes does not,
-  which is how one follow-up script hung the selector.
+  Scoring sets that variable. The first held-out run did not. The
+  re-score did. That difference is recorded in the Splits section.
+  A qualification timeout kills the process tree. Waiting on the
+  child's pipes does not, which is how one follow-up script hung the
+  selector. A scoring timeout is status `crash`, not `no_metric_change`.
+  The scorer saves stderr, the exit code, and the wall time of every
+  subprocess. A clean hooked run that fails is retried once before the
+  case is classified.
 - Development and held-out are split before any mutation is scored.
   The library may change on the development split only.
 - Overhead is the median wall-clock difference of three hooked runs and
