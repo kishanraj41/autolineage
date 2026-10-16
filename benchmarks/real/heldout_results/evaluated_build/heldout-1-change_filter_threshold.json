@@ -1,0 +1,22 @@
+{
+  "fault": "change_filter_threshold",
+  "status": "crash",
+  "mutated_line": 458,
+  "detected": null,
+  "top1": null,
+  "top3": null,
+  "false_positive": null,
+  "coverage": 0.0,
+  "overhead_s": -442.10108370007947,
+  "hooked_duration_ms": 0,
+  "baseline_largest_row_drop": null,
+  "baseline_last_changed_step": null,
+  "baseline_random": null,
+  "random_guess_line": 96,
+  "largest_row_drop_line": null,
+  "last_changed_line": null,
+  "ranked_lines": [],
+  "slot": "heldout-1",
+  "repo": "Devanik21/Harmonic-Resonance-Forest",
+  "path": "HRF Codes/hrf_conference.py"
+}

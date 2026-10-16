@@ -68,9 +68,25 @@ numbers are not published. It cannot move into the held-out split.
 
 Dev slots may be run as often as needed, and the library may change
 because of what they show. Held-out slots are executed by
-`run_heldout.py`, once, after that stops. That script is locked. It
-refuses to run. Whatever that one run produces is the result in the paper,
-including a weak one.
+`run_heldout.py` after that stops. That script is locked. It refuses
+to run.
+
+The held-out set was scored once on the evaluated build and re-scored
+unchanged after the v0.7.1 lineage-ID fix. Both runs are in
+`heldout_results/`. The first run is `heldout_results/evaluated_build/`.
+The re-score is the JSON files directly in `heldout_results/`. The
+scripts, the fault list, and the measures are the same in both. The
+scored rates match. On `visuals2.py` both runs record
+`change_encoding` at line 345 and `change_filter_threshold` at line 71.
+The runner deletes the mutated copy, so the source texts are not
+stored. Applying the mutator to the cached script reproduces those
+lines. The outcomes differ: the first run crashes on `change_encoding`
+and records no metric change for `change_filter_threshold`; the
+re-score does the reverse. Neither is inside the rate. The site did
+not move. The first run did not set `MPLBACKEND=Agg`. The re-score
+did. `visuals2.py` calls `plt.show()` once per configuration, so
+wall-clock is not compared across the two runs. The paper quotes the
+re-score.
 
 ## Faults
 
@@ -211,9 +227,10 @@ left alone. `RF.py`'s `t.join()` is therefore not applicable.
 
 ## Study 2 (11 October 2026)
 
-Written after `heldout_results/` was locked. That run stays the published
-result. Nothing in this section changes it, and those three scripts are not
-reused as Study 2 held-out. No Study 2 script has been scored.
+Written after `heldout_results/` was locked. Both held-out runs stay
+the published record. Nothing in this section changes them, and those
+three scripts are not reused as Study 2 held-out. No Study 2 script
+has been scored.
 
 Query, as sent to `GET /search/code`, saved as
 `search_2026-10-11_study2.json` before any hit from it is judged:

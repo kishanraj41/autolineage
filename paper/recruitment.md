@@ -226,6 +226,6 @@ Zoom: free tier works (40-min sessions fine)
 
 Before you run any session, read this consent statement to each participant:
 
-> "I'm going to screen-record this session for research purposes. The recording will only be used by me and my co-author to analyze your debugging steps and won't be published or shared. Your name will appear in the paper's acknowledgments unless you prefer to stay anonymous. You can stop at any time. Do you consent?"
+> "I'm going to screen-record this session for research purposes. The recording will only be used by me to analyze your debugging steps and won't be published or shared. Your name will appear in the paper's acknowledgments unless you prefer to stay anonymous. You can stop at any time. Do you consent?"
 
 Wait for verbal "yes" before starting the recording.

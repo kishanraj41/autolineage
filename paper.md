@@ -102,7 +102,7 @@ operation where a bare column-count change is inherited by every operation downs
 Published detection and localization numbers come only from the held-out half of the
 corpus in `benchmarks/real/`. The protocol was frozen on 10 October 2026, before any
 script in that corpus was scored, and is the file `benchmarks/real/PROTOCOL.md`.
-The per-case records of the one held-out run are in `benchmarks/real/heldout_results/`.
+The held-out set was scored once on the evaluated build and re-scored unchanged after the v0.7.1 lineage-ID fix; both runs are in `benchmarks/real/heldout_results/`. The first run is `evaluated_build/`. The re-score is the other JSON files in that directory. The scripts, the fault list, and the measures were the same. The scored rates match.
 
 A case is a public Python script that already trains a scikit-learn model on pandas
 data, plus one fault inserted by an AST mutation. The script and the dataset are the
@@ -113,7 +113,7 @@ submission.
 For each planted fault that changes a recorded metric, the paper reports detection
 (any warning or critical anomaly), top-1 and top-3 localization of the mutated line,
 false positives on an unmutated rerun, the share of pipeline calls that produced a
-record, and wall-clock overhead. The same cases are scored against three baselines:
+record, and recorded operation time. The same cases are scored against three baselines:
 the largest row drop, the last step whose rows changed, and a seeded random choice
 among the script's pipeline lines. Faults with no site in the script, faults that do
 not change a metric, and runs that crash are counted beside the rate and are not
@@ -125,14 +125,18 @@ were added in that file before each search was scored. The development set has f
 slots, and the library was allowed to change against those slots. All three searches
 are exhausted. Four development scripts and three held-out scripts finished an
 unmutated run; the rest of the planned slots did not qualify, and that shortfall is
-recorded in the protocol. The held-out scripts were mutated once, after development
-stopped. That run was not used to change the library.
+recorded in the protocol. The held-out scripts were mutated after development
+stopped. Neither run was used to change the library.
 
-Of 27 mutations, 20 had no site in the script, 1 left every recorded metric
-unchanged, and 4 crashed. The rate is the other 2 faults, both planted in
-`nazaninzareirad/SVM-paper` `visuals2.py`. `Devanik21/Harmonic-Resonance-Forest`
-`hrf_conference.py` crashed on every applicable mutation. `duckyies/Fuzzy-knn`
-`fknn.py` had no applicable mutation.
+| Outcome | n | In the rate | What it is |
+| --- | ---: | --- | --- |
+| No site | 20 | no | The fault pattern is absent. All 9 mutations of `duckyies/Fuzzy-knn` `fknn.py`, 6 of `hrf_conference.py`, and 5 of `visuals2.py`. |
+| Script crash | 3 | no | `Devanik21/Harmonic-Resonance-Forest` `hrf_conference.py` crashed on every applicable mutation, on both runs. |
+| No-effect mutation | 1 | no | On the re-score, `change_encoding` in `nazaninzareirad/SVM-paper` `visuals2.py` flips `OneHotEncoder(handle_unknown="ignore")` to `"error"`. Every recorded metric stayed inside the scoring tolerance. That is a property of the catalogue on this script. |
+| Harness limit | 1 | no | On the re-score, `change_filter_threshold` rewrote `loss[loss < 0] = 0` inside a numpy training loop, and the run crashed. The edit is a subscript comparison, which is what the mutator searches for, and it is not a dataframe row filter. |
+| Scored | 2 | yes | `change_sampling` and `coerce_dtype` in `visuals2.py`. Both changed a recorded metric. |
+
+Both runs name the same lines in `visuals2.py`. `change_encoding` is line 345 on both, flipping `OneHotEncoder(handle_unknown="ignore")` to `"error"`. `change_filter_threshold` is line 71 on both, rewriting `loss[loss < 0] = 0` to `loss[loss < 1] = 0`. The runner deletes the mutated copy when the case returns, so the two source texts are not stored. The line in each result file is the same number, and applying the mutator to the cached script reproduces those two edits. The mutator walks calls in source order and keeps the first match, so the same script yields the same site. The outcomes still differ. On the first run `change_encoding` crashed and `change_filter_threshold` left every recorded metric unchanged. On the re-score those outcomes are reversed. A crash means the clean run or the mutated run did not finish. The first run did not set `MPLBACKEND=Agg`. The re-score did. `visuals2.py` calls `plt.show()` once per configuration. The site did not move. The outcome did.
 
 AutoLineage flagged an anomaly on both scored faults. The mutated line was the
 first ranked cause for 1 of the 2, so top-1 and top-3 are both 1/2. On that fault
@@ -147,18 +151,7 @@ leaves subscript assignments out, and it keeps `fit`, `predict`,
 `predict_proba`, `score`, and `astype` only when the receiver comes from
 pandas or scikit-learn.
 
-Wall-clock overhead on the two scored runs was 3.5 seconds and −8.5 seconds.
-The mean is −2.5 seconds. Overhead is hooks-on wall time minus hooks-off wall
-time, and scoring set `MPLBACKEND=Agg`. The operations AutoLineage recorded
-on those runs took 1.5 and 2.6 seconds.
-
-With the OpenML files already cached, wall time on this one script is not a
-single number. Four alternating runs in one session took 19.2, 19.1, 19.1,
-and 19.0 seconds (hooks off, on, off, on). Three alternating pairs in a later
-session took 39.6 and 32.3, 37.2 and 31.0, and 34.6 and 30.6 seconds. Three
-more pairs after that took 57.3 and 47.9, 55.0 and 49.4, and 53.9 and 55.1
-seconds. Each pair is hooks off, then hooks on. These sessions sit beside the
-per-call microbenchmark above, 84.7 microseconds for one small `dropna`.
+On the two scored faults, hooked and unhooked wall time differed by less than the run-to-run variance (n = 1 per condition); recorded operation time was 1.5 s and 2.6 s.
 
 The synthetic script previously used as a benchmark is a regression test under
 `tests/regression/planted_bugs/`. It is not a result. A companion preprint
