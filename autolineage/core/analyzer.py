@@ -296,6 +296,11 @@ class LineageAnalyzer:
         return [str(c) for c in cols]
 
     def load_baseline(self, path: str) -> bool:
+        """Load a baseline fingerprint from a JSON file written by :meth:`save_fingerprint`.
+
+        A history file uses its last entry. Returns ``True`` if a baseline was
+        loaded and ``False`` if the file is missing or unreadable.
+        """
         try:
             with open(path, 'r') as f:
                 data = json.load(f)
@@ -308,9 +313,15 @@ class LineageAnalyzer:
             return False
 
     def set_baseline(self, fp: RunFingerprint) -> None:
+        """Use ``fp`` as the baseline for later comparisons."""
         self._baseline = fp
 
     def save_fingerprint(self, path: str, append: bool = True) -> None:
+        """Write the current run's fingerprint to ``path`` as JSON.
+
+        With ``append=True`` the file is a history list and the newest entry is
+        added at the end; only the last 50 entries are kept.
+        """
         fp = self.fingerprint()
         history = []
         if append and os.path.exists(path):
@@ -331,6 +342,14 @@ class LineageAnalyzer:
     # ------------------------------------------------------------------
 
     def detect_anomalies(self, baseline: RunFingerprint = None) -> List[Anomaly]:
+        """Compare the current run with a baseline and return the anomalies found.
+
+        Checks operation sequence, row-change rates, column counts and column
+        sets, metrics, and durations. ``baseline`` overrides the one set with
+        :meth:`set_baseline` or :meth:`load_baseline`. Without any baseline only
+        within-run checks are applied. Each :class:`Anomaly` has a
+        ``severity`` of ``'info'``, ``'warning'`` or ``'critical'``.
+        """
         bl = baseline or self._baseline
         if bl is None:
             return self._detect_self_anomalies()
@@ -700,6 +719,13 @@ class LineageAnalyzer:
 
     def localize_root_cause(self, metric_name: str = None,
                             baseline: RunFingerprint = None) -> Optional[RootCause]:
+        """Name the operation most likely to have caused a metric change.
+
+        ``metric_name`` picks the metric (default: the metric with the largest relative drop).
+        Returns a :class:`RootCause`, or ``None`` when nothing can be named.
+        Without a baseline it falls back to the largest row drop in the run.
+        The scoring is a fixed heuristic; see the paper and ``PROTOCOL.md``.
+        """
         self._last_ranking = []
         bl = baseline or self._baseline
         cur = self.fingerprint()

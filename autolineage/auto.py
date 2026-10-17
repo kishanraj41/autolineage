@@ -51,6 +51,7 @@ def start_tracking() -> UnifiedTracker:
 
 
 def stop_tracking() -> None:
+    """Remove all hooks and discard the global tracker. Safe to call twice."""
     state = _get_state()
     if not state.initialized:
         return
@@ -67,6 +68,7 @@ def get_tracker() -> Optional[UnifiedTracker]:
 
 
 def get_summary():
+    """Return :meth:`UnifiedTracker.get_summary` for the global tracker, or ``None``."""
     t = _get_state().unified_tracker
     return t.get_summary() if t else None
 

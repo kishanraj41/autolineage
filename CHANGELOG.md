@@ -2,6 +2,14 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
+## Unreleased
+
+### Documentation
+- `docs/api.md`: API reference for the public surface (`autolineage.auto`, `UnifiedTracker`, `TransformationRecord`, `LineageAnalyzer` and its thresholds, visualisation, OpenTelemetry, hook providers).
+- Docstrings on every public tracker, analyzer and registry method that lacked one.
+- `paper.md` restructured to the current JOSS sections (state of the field, software design, research impact statement, AI usage disclosure); mlinspect, Vamsa and noWorkflow cited.
+- README: localization described as a ranked heuristic, per-call overhead stated as machine-dependent, related research tools named, project history noted.
+
 ## v0.7.1 (2026-10-15)
 
 ### Fixed
