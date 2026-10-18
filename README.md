@@ -260,7 +260,7 @@ Per-call cost of one hooked operation (`df.dropna()` on a 50-row DataFrame, medi
 | With AutoLineage | 348.2 µs | ± 9.0 µs |
 | **Overhead** | **84.7 µs / op** | **[78, 91]** |
 
-These numbers come from one session on one machine. A later session on the same laptop measured about 206 µs per call with a baseline that was also twice as slow, so treat per-call overhead as roughly 0.1–0.2 ms and rerun `paper/microbenchmark_v2.py` on your own hardware. Evaluation on real third-party scripts is in [`benchmarks/real/`](benchmarks/real/) (small so far: 2 scorable faults on the held-out set).
+These numbers come from one session on the machine named above. A later session of the same script measured a median overhead of 216 µs, and the uninstrumented baseline in that session was about twice as slow. The machine for that session is not recorded with the trials, so rerun `paper/microbenchmark_v2.py` on your own hardware. Evaluation on real third-party scripts is in [`benchmarks/real/`](benchmarks/real/) (small so far: 2 scorable faults on the held-out set).
 
 At production data scales (≥10⁵ rows), end-to-end overhead becomes indistinguishable from baseline variance because framework computation dominates wall-clock time. See `paper/scaling_results.csv` for the full scaling study.
 

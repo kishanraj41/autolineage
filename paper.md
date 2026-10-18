@@ -95,10 +95,11 @@ inserted. Operations are scored by a fixed weighted blend: row-change-rate devia
 column-count change is inherited by every later operation. The weights are a
 heuristic, not a learned model.
 
-Per-call overhead depends on the machine and session. For a small `dropna`, one laptop
-measured 84.7 µs per hooked call in one interleaved benchmark and about 206 µs in a
-later session in which the uninstrumented baseline was also twice as slow
-(`paper/microbenchmark_v2.py`).
+Per-call overhead depends on the machine and session. For a small `dropna`, the
+committed run of `paper/microbenchmark_v2.py` measured a median of 84.7 µs per
+hooked call (95% CI [78, 91]). A later session of the same script measured a
+median of 216 µs, and the uninstrumented baseline in that session was about
+twice as slow. The machine for the later session is not recorded with the trials.
 
 # Research impact statement
 
@@ -108,14 +109,16 @@ exists today.
 It is the measurement layer for the author's research on localizing faults in ML
 pipelines, and a companion preprint [@vg2026autolineage] describes the hooking method.
 `benchmarks/real/` is a reproducible reference analysis. Public GitHub scripts that
-already train scikit-learn models receive single faults by AST mutation, under a
-protocol frozen before scoring (`PROTOCOL.md`). On the held-out half, 2 of 27 mutations
-produced a scorable metric change; 20 had no site in the script, 1 changed no metric,
-and 4 crashed. AutoLineage flagged both scorable faults and ranked the mutated line
-first for 1 of the 2. Neither unmutated rerun raised a warning or critical anomaly.
-Mean coverage of pipeline lines was 0.29. These numbers are too small to support
-accuracy claims; the corpus and scorer are published so that larger studies can reuse
-them.
+already train scikit-learn models receive one planted fault each, under a protocol
+frozen before scoring. The held-out set was scored once and re-scored after the
+v0.7.1 lineage-ID fix; both runs are in `benchmarks/real/heldout_results/`. Of 27
+mutations, 20 had no site, 1 left the recorded metric unchanged, 3 crashed inside
+`hrf_conference.py`, and 1 is a harness limit: on the re-score the unmutated hooked
+run exceeded 600 s while the mutated run still finished. AutoLineage flagged both
+scorable faults and ranked the mutated line first for 1 of the 2. Neither unmutated
+rerun raised a warning or a critical anomaly. Mean coverage of pipeline-call lines
+was 0.29. These counts are too small for an accuracy claim. The corpus and scorer
+are published so a larger study can reuse them.
 
 The RudriQ project integrates `AutoLineage` through its post-record and `assign_id`
 callbacks, and several changes in versions 0.6–0.7 were made for that integration.
@@ -124,13 +127,13 @@ External adoption and citations are not yet established.
 # AI usage disclosure
 
 Generative AI was used in developing this software and paper. Anthropic's Claude,
-mainly through Claude Code, was used to review diffs, write and extend tests, draft
-docstrings, documentation and parts of this paper, and propose refactors. Commits with
-substantial AI contribution carry a `Co-Authored-By: Claude` trailer. The author
-decided the problem framing, the hooking architecture, the localization scoring, and
-the benchmark protocol and selection rules; wrote or reviewed every change before
-merging; ran the test suite and benchmarks; and checked reported numbers against the
-per-case result files.
+through Claude Code, and Cursor were used to review diffs, write and extend tests,
+draft docstrings, documentation and parts of this paper, and propose refactors.
+Commits with that help carry a `Co-Authored-By` trailer naming Claude or Cursor.
+The author decided the problem framing, the hooking architecture, the localization
+scoring, and the benchmark protocol and selection rules; wrote or reviewed every
+change before merging; ran the test suite and benchmarks; and checked reported
+numbers against the per-case result files.
 
 # Limitations
 
