@@ -182,13 +182,11 @@ Adding XGBoost or LightGBM would follow the sklearn pattern; ~200 LoC each.
 - Proves cross-framework — same architecture, different library
 - Table 4: operation counts
 
-### 5.4 Case study: debugging with lineage (N=2)
-- **Planted bug**: filter removes 99.99% of fraud cases
-- **Manual (P1)**: X minutes, Y steps, detection method = print(df.shape)
-- **AutoLineage (P2)**: Z minutes, W steps, detection method =
-  analyzer.localize_root_cause()
-- Qualitative: trace output made row drop (284K -> ~30) immediately visible
-- Honest limitation: N=2, illustrative not statistical
+### 5.4 Case study
+There is no case-study result. The author is one person, Kishan Raj
+Goutham Kumar. An earlier outline split that name into a manual
+participant and an AutoLineage participant. Those timings are not
+written.
 
 ### 5.5 Overhead benchmark
 - Standardized pipeline (50K rows, 37 operations)
@@ -273,7 +271,7 @@ Table 2 from comparison_2026.md goes here.
 | T2 | Competitor comparison | 6 | comparison_2026.md | READY |
 | T3 | Credit Card operations | 5.2 | Credit Card run | PENDING output |
 | T4 | PySpark operations | 5.3 | PySpark run | PENDING |
-| T5 | Case study timing | 5.4 | Kishan | PENDING |
+| T5 | Case study | 5.4 | Not a result. One author. | — |
 | T6 | Benchmark results | 5.5 | benchmark_results_v2.json | READY |
 | T7 | Anomaly detection triggered | 5.6 | Planted-bug run | PENDING |
 
@@ -284,7 +282,6 @@ Table 2 from comparison_2026.md goes here.
 Before I write the LaTeX:
 1. Credit Card pipeline output (clean trace, v3-fixed)
 2. PySpark pipeline output (skip for now, can add later)
-3. Case study completed templates (both P1 and P2)
-4. Machine specs: CPU model, RAM, OS, Python/pandas/sklearn versions
+3. Machine specs: CPU model, RAM, OS, Python/pandas/sklearn versions
 
 Once I have these, I write the paper in one pass (~2 days).

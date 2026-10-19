@@ -1,7 +1,7 @@
-"""The held-out split. One run, after development stops.
+"""The held-out split.
 
-``LOCKED`` stays true until the dev set is frozen. The numbers this file
-prints, whatever they are, are the ones that go in the paper.
+``LOCKED`` stays true. ``evaluated_build/`` is the first run. The JSON
+files beside it are the v0.7.1 re-score. The paper quotes the re-score.
 """
 
 from __future__ import annotations
@@ -21,7 +21,8 @@ from benchmarks.real.score import summarize
 MANIFEST = ROOT / "benchmarks" / "real" / "manifest.json"
 OUT = ROOT / "benchmarks" / "real" / "heldout_results"
 
-# The one held-out run is in heldout_results/. Leave this true.
+# evaluated_build/ is the first held-out run. The JSON files in this
+# directory are the v0.7.1 re-score. Leave this true.
 LOCKED = True
 
 
@@ -51,7 +52,10 @@ def main(argv=None) -> int:
                 print(f"resume {slot['slot']} {fault}", flush=True)
                 continue
             print(f"score {slot['slot']} {fault}", flush=True)
-            result = evaluate(script, fault, case_id=f"{slot['slot']}:{fault}")
+            result = evaluate(
+                script, fault, case_id=f"{slot['slot']}:{fault}",
+                keep_dir=OUT / "mutated",
+            )
             result["slot"] = slot["slot"]
             result["repo"] = slot.get("repo")
             result["path"] = slot.get("path")

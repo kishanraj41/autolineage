@@ -1,21 +1,12 @@
 """
-Case Study: Debugging a Planted Data Quality Bug
+Demo pipeline with a planted data-quality bug.
 
-This is the pipeline BOTH participants will debug.
-One participant (P1) uses AutoLineage. The other (P2) uses only print statements.
+The author is Kishan Raj Goutham Kumar. This file is not a two-person
+study. USE_AUTOLINEAGE turns the library on or off for a demo run.
 
-The pipeline has a PLANTED BUG: an overly aggressive Amount filter removes
-99.99% of transactions, making the model useless. The task is to find why.
+The planted bug is an Amount filter that removes 99.99% of transactions.
+Expected runtime is under a minute. Expected F1 is near zero.
 
-Expected runtime: <1 minute (bug causes very small training set)
-Expected output: F1 = 0.0000 or near-zero
-
-Usage:
-    # Environment A (P1 - WITH AutoLineage):
-    python paper/case_study_pipeline.py
-
-    # Environment B (P2 - WITHOUT AutoLineage):
-    # Comment out the two 'import autolineage' lines at top
     python paper/case_study_pipeline.py
 """
 

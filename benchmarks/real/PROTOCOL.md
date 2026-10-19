@@ -68,9 +68,37 @@ numbers are not published. It cannot move into the held-out split.
 
 Dev slots may be run as often as needed, and the library may change
 because of what they show. Held-out slots are executed by
-`run_heldout.py`, once, after that stops. That script is locked. It
-refuses to run. Whatever that one run produces is the result in the paper,
-including a weak one.
+`run_heldout.py` after that stops. That script is locked. It refuses
+to run.
+
+The held-out set was scored once on the evaluated build and re-scored
+unchanged after the v0.7.1 lineage-ID fix. Both runs are in
+`heldout_results/`. The first run is `heldout_results/evaluated_build/`.
+The re-score is the JSON files directly in `heldout_results/`. The
+scripts, the fault list, and the measures are the same in both. The
+scored rates match. On `visuals2.py` both runs record
+`change_encoding` at line 345 and `change_filter_threshold` at line 71.
+The runner used to delete the mutated copy. It now keeps one under
+`heldout_results/mutated/`. The copies there for these two runs were
+regenerated from the cached script with that mutator, because the
+originals were already gone. The line 71 copy reads `loss[loss < 1] = 0`.
+Stderr and exit codes for these two runs were not saved.
+
+`MPLBACKEND=Agg` is a harness change between the runs. The first run
+did not set it. The re-score did. `visuals2.py` calls `plt.show()` once
+per configuration. That is why `change_encoding` crashed on the first
+run and finished on the re-score.
+
+Line 71 is a different failure. The re-score's unmutated hooked run
+exceeded the 600 s limit: 0 s recorded, wall gap +550 s. Cause not
+captured. The mutated run still has coverage, so the row is not the
+mutation breaking. The first run of `loss[loss < 1] = 0` finished with
+no metric change and 1.2 s recorded. The paper quotes the re-score.
+
+Future scoring runs save stderr, the exit code, and the wall time of
+every subprocess. A clean hooked run that does not finish is retried
+once before the case is classified. That failure is a harness failure.
+It is not a result about the mutation.
 
 ## Faults
 
@@ -211,9 +239,10 @@ left alone. `RF.py`'s `t.join()` is therefore not applicable.
 
 ## Study 2 (11 October 2026)
 
-Written after `heldout_results/` was locked. That run stays the published
-result. Nothing in this section changes it, and those three scripts are not
-reused as Study 2 held-out. No Study 2 script has been scored.
+Written after `heldout_results/` was locked. Both held-out runs stay
+the published record. Nothing in this section changes them, and those
+three scripts are not reused as Study 2 held-out. No Study 2 script
+has been scored.
 
 Query, as sent to `GET /search/code`, saved as
 `search_2026-10-11_study2.json` before any hit from it is judged:
@@ -288,9 +317,14 @@ Rules fixed now:
 - A hit must contain at least two applicable faults from the catalogue.
   Fewer than two is `too_few_fault_sites` and is counted.
 - The unmutated script must finish in 5 minutes with `MPLBACKEND=Agg`.
-  Scoring sets that variable. The locked run did not. A qualification
-  timeout kills the process tree. Waiting on the child's pipes does not,
-  which is how one follow-up script hung the selector.
+  Scoring sets that variable. The first held-out run did not. The
+  re-score did. That difference is recorded in the Splits section.
+  A qualification timeout kills the process tree. Waiting on the
+  child's pipes does not, which is how one follow-up script hung the
+  selector. A scoring timeout is status `crash`, not `no_metric_change`.
+  The scorer saves stderr, the exit code, and the wall time of every
+  subprocess. A clean hooked run that fails is retried once before the
+  case is classified.
 - Development and held-out are split before any mutation is scored.
   The library may change on the development split only.
 - Overhead is the median wall-clock difference of three hooked runs and

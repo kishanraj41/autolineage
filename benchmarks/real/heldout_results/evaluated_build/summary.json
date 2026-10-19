@@ -1,0 +1,21 @@
+{
+  "n_cases": 27,
+  "n_scored": 2,
+  "n_not_applicable": 20,
+  "n_no_metric_change": 1,
+  "n_crash": 4,
+  "detection": 1.0,
+  "top1": 0.5,
+  "top3": 0.5,
+  "false_positive_rate": 0.0,
+  "baseline_largest_row_drop": 0.5,
+  "baseline_last_changed_step": 0.5,
+  "baseline_random": 0.0,
+  "mean_coverage": 0.29166666666666663,
+  "mean_overhead_s": 163.56871034996584,
+  "scripts": [
+    "heldout-1",
+    "heldout-2",
+    "heldout-3"
+  ]
+}

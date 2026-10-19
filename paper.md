@@ -108,17 +108,28 @@ exists today.
 
 It is the measurement layer for the author's research on localizing faults in ML
 pipelines, and a companion preprint [@vg2026autolineage] describes the hooking method.
+The synthetic script previously used as a benchmark is a regression test under
+`tests/regression/planted_bugs/`. It is not a result.
+
 `benchmarks/real/` is a reproducible reference analysis. Public GitHub scripts that
-already train scikit-learn models receive one planted fault each, under a protocol
-frozen before scoring. The held-out set was scored once and re-scored after the
-v0.7.1 lineage-ID fix; both runs are in `benchmarks/real/heldout_results/`. Of 27
-mutations, 20 had no site, 1 left the recorded metric unchanged, 3 crashed inside
-`hrf_conference.py`, and 1 is a harness limit: on the re-score the unmutated hooked
-run exceeded 600 s while the mutated run still finished. AutoLineage flagged both
-scorable faults and ranked the mutated line first for 1 of the 2. Neither unmutated
-rerun raised a warning or a critical anomaly. Mean coverage of pipeline-call lines
-was 0.29. These counts are too small for an accuracy claim. The corpus and scorer
-are published so a larger study can reuse them.
+already train scikit-learn models receive one planted fault each. The protocol
+(`benchmarks/real/PROTOCOL.md`) was frozen on 10 October 2026, before scoring. The
+held-out set was scored once on the evaluated build and re-scored after the v0.7.1
+lineage-ID fix. The first run is
+`benchmarks/real/heldout_results/evaluated_build/`; the re-score is the other JSON
+files in that directory. The scripts, the fault list, and the measures were the same,
+and the scored rates match. Of 27 mutations, 20 had no site. On the re-score, 1 left
+the recorded metric unchanged (`change_encoding` at line 345 of `visuals2.py`; the
+first run of that edit crashed, and that run did not set `MPLBACKEND=Agg`), 3 crashed
+inside `hrf_conference.py`, and 1 is a harness limit: the unmutated hooked run
+exceeded the 600 s limit on the re-score; cause not captured. That mutation is line
+71, `loss[loss < 1] = 0`. AutoLineage flagged both scorable faults and ranked the
+mutated line first for 1 of the 2. Neither unmutated rerun raised a warning or a
+critical anomaly. Mean coverage of pipeline-call lines was 0.29. On the two scored
+faults, hooked and unhooked wall time differed by less than the run-to-run variance
+(n = 1 per condition); recorded operation time was 1.5 s and 2.6 s. These counts are
+too small for an accuracy claim. The corpus and scorer are published so a larger
+study can reuse them.
 
 The RudriQ project integrates `AutoLineage` through its post-record and `assign_id`
 callbacks, and several changes in versions 0.6–0.7 were made for that integration.
