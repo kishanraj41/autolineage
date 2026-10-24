@@ -8,7 +8,7 @@ Docstrings are the source of truth, for example `help(autolineage.LineageAnalyze
 
 | Call | What it does |
 |---|---|
-| `import autolineage.auto` | Installs hooks for every installed framework (pandas, scikit-learn, PySpark) and starts a global tracker. Put it before your other imports. |
+| `import autolineage.auto` | Installs hooks for every installed framework (pandas, scikit-learn, PySpark) and starts a global tracker. Put it before your other imports. A `multiprocessing` or `multiprocess` child started afterwards is recorded into that tracker when the child is joined. |
 | `start_tracking() -> UnifiedTracker` | The same thing, called explicitly. Safe to call repeatedly; returns the global tracker. |
 | `stop_tracking() -> None` | Removes the hooks and discards the global tracker. |
 | `get_tracker() -> UnifiedTracker \| None` | Returns the global tracker, or `None` when tracking is off. |
