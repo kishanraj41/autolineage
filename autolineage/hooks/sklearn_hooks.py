@@ -60,6 +60,8 @@ _PREPROCESSOR_CLASSES = [
     ('sklearn.feature_selection', 'SelectKBest'),
     ('sklearn.feature_selection', 'VarianceThreshold'),
     ('sklearn.decomposition', 'PCA'),
+    ('sklearn.feature_extraction.text', 'CountVectorizer'),
+    ('sklearn.feature_extraction.text', 'TfidfVectorizer'),
 ]
 
 
