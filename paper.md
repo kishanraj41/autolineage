@@ -74,8 +74,8 @@ The central decision is how to observe a pipeline. Decorators and wrapper classe
 require editing every pipeline, which excludes the exploratory notebooks and inherited
 code where silent bugs are common. A DataFrame subclass breaks as soon as a library
 returns a plain pandas object. `AutoLineage` instead monkey-patches framework methods at
-import time. The trade-off is version sensitivity and single-process scope in exchange
-for zero-configuration capture. Hooked methods call other hooked methods internally, so
+import time. The trade-off is version sensitivity, and capture that stops at the
+machine boundary, in exchange for zero-configuration capture. Hooked methods call other hooked methods internally, so
 a depth counter maintained in a `finally` block records a node only for the outermost
 call. This reduces a 24-step pipeline from 152 raw records to the 24 operations the
 user wrote.
@@ -150,8 +150,9 @@ numbers against the per-case result files.
 
 `AutoLineage` detects structural drift in row counts, columns, and end metrics, not
 shape-preserving semantic bugs such as a unit error that rescales a column. It assumes
-a single dominant root cause. Coverage is pandas, scikit-learn, and PySpark in a single
-process; PyTorch, TensorFlow, Polars, and distributed execution are out of scope.
+a single dominant root cause. Coverage is pandas, scikit-learn, and PySpark. A child
+process started with `multiprocessing` or `multiprocess` is recorded when it is joined.
+PyTorch, TensorFlow, Polars, and distributed execution are out of scope.
 
 # Acknowledgements
 

@@ -58,10 +58,14 @@ class HookRegistry:
 
         if self._installed:
             self._handle_early_imports()
+            from .process_hooks import install_process_capture
+            install_process_capture(tracker)
         return results
 
     def uninstall_all(self) -> None:
         """Remove every installed hook and restore the original framework methods."""
+        from .process_hooks import uninstall_process_capture
+        uninstall_process_capture()
         self._restore_rebound()
         for provider in reversed(self._installed):
             try:
@@ -117,6 +121,39 @@ class HookRegistry:
                 found[id(orig)] = (orig, current, f"{owner_path}.{name}")
         return found
 
+    def rebind_module(self, module) -> List[Tuple[str, str]]:
+        """Point a module's early ``from module import name`` bindings at the hooks.
+
+        Returns ``(local name, public name)`` for each one changed. No warning.
+        """
+        if module is None:
+            return []
+        hooked = self._hooked_functions()
+        if not hooked:
+            return []
+        apply = self._rebind_enabled()
+        leaked: List[Tuple[str, str]] = []
+        try:
+            items = list(vars(module).items())
+        except Exception:
+            return []
+        for attr, val in items:
+            if attr.startswith("_"):
+                continue
+            entry = hooked.get(id(val))
+            if entry is None or val is not entry[0]:
+                continue
+            orig, replacement, public = entry
+            leaked.append((attr, public))
+            if not apply:
+                continue
+            try:
+                setattr(module, attr, replacement)
+            except Exception:
+                continue
+            self._rebound.append((module, attr, orig, replacement))
+        return leaked
+
     def _handle_early_imports(self) -> None:
         """Find patched functions that ``__main__`` imported before the hooks
         were installed (``from sklearn.metrics import f1_score`` at the top
@@ -125,28 +162,10 @@ class HookRegistry:
         lineage. Emits a warning listing what happened either way.
         """
         main = sys.modules.get("__main__")
-        if main is None:
-            return
-        hooked = self._hooked_functions()
-        if not hooked:
-            return
-
-        rebind = self._rebind_enabled()
-        leaked: List[Tuple[str, str]] = []
-        for attr, val in list(vars(main).items()):
-            if attr.startswith("_"):
-                continue
-            entry = hooked.get(id(val))
-            if entry is None or val is not entry[0]:
-                continue
-            orig, replacement, public = entry
-            leaked.append((attr, public))
-            if rebind:
-                setattr(main, attr, replacement)
-                self._rebound.append((main, attr, orig, replacement))
-
+        leaked = self.rebind_module(main)
         if not leaked:
             return
+        rebind = self._rebind_enabled()
         names = ", ".join(f"{local} (= {public})" for local, public in sorted(leaked))
         if rebind:
             warnings.warn(

@@ -10,6 +10,7 @@ to the wrapped versions automatically.
 """
 
 import atexit
+import os
 import sys
 from typing import Optional
 
@@ -41,7 +42,9 @@ def start_tracking() -> UnifiedTracker:
     installed = state.registry.install_all(state.unified_tracker)
 
     total = sum(c for _, c in installed)
-    if total > 0:
+    quiet = os.environ.get("AUTOLINEAGE_QUIET", "").strip().lower() in (
+        "1", "true", "yes", "on")
+    if total > 0 and not quiet:
         active = [n for n, c in installed if c > 0]
         print(f"AutoLineage: {total} hooks installed across {len(active)} "
               f"frameworks ({', '.join(active)})")
