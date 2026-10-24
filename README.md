@@ -196,7 +196,7 @@ Every tracked operation becomes a span (`pandas-transforms.merge`, `sklearn.f1_s
 
 **pandas (65 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
 
-**scikit-learn (175 hooks):** `train_test_split`, estimator `fit` / `predict` / `predict_proba` / `score` across 30+ classes (RandomForest, LogisticRegression, DecisionTree, SVC, KNN, GradientBoosting, etc.), 18 preprocessor classes, 15 metric functions.
+**scikit-learn (227 hooks):** `train_test_split`, estimator `fit` / `predict` / `predict_proba` / `score` across 30+ classes (RandomForest, LogisticRegression, DecisionTree, SVC, KNN, GradientBoosting, etc.), 18 preprocessor classes, 15 metric functions, and the construction of each hooked class (its parameters and the line that built it).
 
 **PySpark (49 hooks):** DataFrame transforms, `groupBy` + aggregations, join variants, reader / writer methods, actions.
 
