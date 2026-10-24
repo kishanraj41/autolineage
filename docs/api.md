@@ -47,6 +47,7 @@ Extension points, for integrations and hook providers:
 A dataclass with one instance per operation.
 
 - **Fields:** `id`, `library`, `category`, `operation`, `parent_ids`, `child_id`, `parameters`, `input_shape`, `output_shape`, `input_columns`, `output_columns`, `columns_added`, `columns_removed`, `rows_before`, `rows_after`, `duration_ms`, `content_hash`, `metadata`, `timestamp`. When source stamping is on, `metadata` contains `source_file` and `source_line`.
+- **Categories:** `io`, `transform`, `preprocess`, `split`, `train`, `predict`, `evaluate`, `action` (PySpark), and `configure` (an estimator or preprocessor constructed in user code; `parameters` holds `get_params(deep=False)`).
 - **Properties:** `row_delta`, `col_delta`.
 - **Method:** `to_dict()`.
 

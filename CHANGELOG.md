@@ -4,6 +4,9 @@ All notable changes to AutoLineage will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Estimator and preprocessor construction is recorded. Calling `OneHotEncoder(handle_unknown="ignore")`, `Pipeline(...)`, `GridSearchCV(...)` or any other hooked scikit-learn class from user code adds one `configure` record (`<Class>.__init__`) with `get_params(deep=False)` and the caller's line. Constructions made inside scikit-learn (`clone` in a search, the trees of a forest) are not recorded, and classes without their own `__init__` (LabelEncoder) are left alone. On the three development scripts that run offline, pipeline-line coverage went from 26/54 to 42/54 lines; the held-out set was not used to choose or measure this change.
+
 ### Documentation
 - `docs/api.md`: API reference for the public surface (`autolineage.auto`, `UnifiedTracker`, `TransformationRecord`, `LineageAnalyzer` and its thresholds, visualisation, OpenTelemetry, hook providers).
 - Docstrings on every public tracker, analyzer and registry method that lacked one.

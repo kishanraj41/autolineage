@@ -1,8 +1,9 @@
 """Scikit-learn hook provider. Hooks the complete ML lifecycle."""
 
+import sys
 from functools import wraps
 from typing import Dict, Any, List, Optional
-from . import BaseHookProvider
+from . import BaseHookProvider, _is_library_frame
 
 _METRIC_FUNCTIONS = [
     'accuracy_score', 'balanced_accuracy_score',
@@ -103,6 +104,7 @@ class SklearnHooks(BaseHookProvider):
         count += self._hook_preprocessor_methods()
         count += self._hook_search()
         count += self._hook_metrics()
+        count += self._hook_constructors()
         return count
 
     def uninstall(self) -> None:
@@ -435,6 +437,74 @@ class SklearnHooks(BaseHookProvider):
                           'best_params': params.get('best_params')})
             provider._emit(rec)
             return result
+        return hooked
+
+    # --- Construction (estimator configuration) ---
+
+    def _hook_constructors(self) -> int:
+        """Record each estimator or preprocessor the user constructs.
+
+        One ``configure`` record per constructor call made from user code,
+        with ``get_params(deep=False)`` and the caller's line. Constructions
+        made by scikit-learn itself (``clone`` inside a search, the trees of
+        a forest) are skipped: the frame that called ``__init__`` is checked,
+        and only a non-library frame produces a record. Classes that do not
+        define their own ``__init__`` (LabelEncoder) are left alone, because
+        scikit-learn reads parameter names from ``cls.__init__``.
+        """
+        import importlib
+        targets = []
+        for module_path, class_names in _ESTIMATOR_MODULES:
+            targets.extend((module_path, name) for name in class_names)
+        targets.extend(_PREPROCESSOR_CLASSES)
+        targets.extend(('sklearn.model_selection', name) for name in _SEARCH_CLASSES)
+
+        count = 0
+        for module_path, class_name in targets:
+            try:
+                cls = getattr(importlib.import_module(module_path), class_name, None)
+            except ImportError:
+                continue
+            if cls is None or '__init__' not in cls.__dict__:
+                continue
+            key = f"{module_path}.{class_name}.__init__"
+            if key in self._originals:
+                continue
+            orig = cls.__dict__['__init__']
+            self._originals[key] = orig
+            setattr(cls, '__init__', self._make_init_hook(class_name, orig))
+            count += 1
+        return count
+
+    def _make_init_hook(self, class_name, orig_fn):
+        provider = self
+
+        @wraps(orig_fn)
+        def hooked(self_est, *args, **kwargs):
+            orig_fn(self_est, *args, **kwargs)
+            # Only the class the user named is recorded: a subclass calling
+            # super().__init__ would otherwise add a second record.
+            if type(self_est).__name__ != class_name:
+                return None
+            if provider._suppress or provider._estimator_depth >= 1:
+                return None
+            try:
+                caller = sys._getframe(1).f_code.co_filename
+            except ValueError:
+                return None
+            if _is_library_frame(caller):
+                return None
+            params = {}
+            try:
+                params = provider._safe_params(self_est.get_params(deep=False))
+            except Exception:
+                pass
+            rec = provider._make_record(
+                category="configure", operation=f"{class_name}.__init__",
+                parameters=params,
+                metadata={'estimator_type': class_name})
+            provider._emit(rec)
+            return None
         return hooked
 
     # --- Metrics ---
