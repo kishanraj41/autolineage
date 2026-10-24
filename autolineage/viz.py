@@ -202,6 +202,7 @@ def to_dot(tracker, *, rankdir: str = "TB") -> str:
 # ---------------------------------------------------------------------------
 
 def to_mermaid(tracker) -> str:
+    """Return the lineage graph in Mermaid ``graph TD`` format, for Markdown."""
     nodes, edges = _build_graph(tracker)
     out: List[str] = []
     out.append("graph TD")

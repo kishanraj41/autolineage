@@ -139,6 +139,50 @@ def test_metric_eps_ignores_noise():
     assert metric_changed({}, {}) is False
 
 
+def test_subprocess_log_is_saved(tmp_path):
+    from benchmarks.real.run_case import _run
+    script = tmp_path / "s.py"
+    script.write_text("import sys\nsys.stderr.write('from-script\\n')\n", encoding="utf-8")
+    work = tmp_path / "work"
+    work.mkdir()
+    report = _run(script, work, 30, tag="plain", hooks=False)
+    assert report["exit_code"] == 0
+    assert "from-script" in report["stderr"]
+    assert report["subprocess_wall_s"] >= 0
+
+
+def test_clean_failure_is_retried_once(tmp_path, monkeypatch):
+    from benchmarks.real import run_case
+    script = tmp_path / "pipe.py"
+    script.write_text(FIXTURE, encoding="utf-8")
+    calls = []
+
+    def fake_run(script, work, timeout, *, tag, **kwargs):
+        calls.append(tag)
+        if tag == "clean" and calls.count("clean") == 1:
+            return {
+                "status": "crash", "error": "timeout", "wall_s": 600.0,
+                "metrics": {}, "records": [], "anomalies": [], "ranking": [],
+                "stderr": "timed out", "exit_code": None, "subprocess_wall_s": 600.0,
+            }
+        return {
+            "status": "ok", "error": "", "wall_s": 0.2,
+            "metrics": {"accuracy_score": 1.0}, "records": [], "anomalies": [],
+            "ranking": [], "stderr": "", "exit_code": 0, "subprocess_wall_s": 0.2,
+        }
+
+    monkeypatch.setattr(run_case, "_run", fake_run)
+    result = run_case.evaluate(
+        script, "change_filter_threshold", case_id="t:change_filter_threshold",
+        keep_dir=tmp_path / "kept",
+    )
+    assert calls.count("clean") == 2
+    assert result["process_logs"]["clean"][0]["stderr"] == "timed out"
+    assert result["process_logs"]["clean"][1]["status"] == "ok"
+    kept = (tmp_path / "kept" / "t-change_filter_threshold.py").read_text(encoding="utf-8")
+    assert "> 100" in kept
+
+
 def _report(script, *, metrics, anomalies=None, ranking=None, records=None):
     return {
         "status": "ok",

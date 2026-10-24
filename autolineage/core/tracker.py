@@ -110,6 +110,14 @@ class UnifiedTracker:
 
     def assign_id(self, obj, *, source: str = "unknown",
                   filepath: str = None) -> str:
+        """Give ``obj`` a new lineage ID and register it as a graph node.
+
+        DataFrames carry the ID in ``obj.attrs['_lineage_id']`` (in a copy of
+        ``attrs``, so a parent that shares the mapping keeps its own ID); other
+        objects are keyed by ``id(obj)``. ``source`` and ``filepath`` describe
+        where the object came from (for example ``'read_csv'`` and the path).
+        Fires the ``assign_id`` callbacks and returns the new ID.
+        """
         lid = str(uuid.uuid4())[:12]
 
         if hasattr(obj, 'attrs') and isinstance(getattr(obj, 'attrs', None), dict):
@@ -154,6 +162,7 @@ class UnifiedTracker:
         return lid
 
     def get_id(self, obj) -> Optional[str]:
+        """Return the lineage ID already attached to ``obj``, or ``None``."""
         if hasattr(obj, 'attrs') and isinstance(getattr(obj, 'attrs', None), dict):
             lid = obj.attrs.get('_lineage_id')
             if lid:
@@ -161,6 +170,12 @@ class UnifiedTracker:
         return self._id_to_lid.get(id(obj))
 
     def get_or_assign(self, obj, **kwargs) -> str:
+        """Return ``obj``'s lineage ID, assigning a new one if it has none.
+
+        Keyword arguments are passed to :meth:`assign_id`. When the object
+        already has an ID the ``assign_id`` callbacks still fire, so consumers
+        that key on object identity see every new instance.
+        """
         lid = self.get_id(obj)
         if lid is None:
             lid = self.assign_id(obj, **kwargs)
@@ -181,6 +196,10 @@ class UnifiedTracker:
     # ------------------------------------------------------------------
 
     def record(self, rec: TransformationRecord) -> None:
+        """Append one :class:`TransformationRecord` and fire the post-record callbacks.
+
+        Hook providers call this; user code normally does not.
+        """
         self.records.append(rec)
         self._fire_post_record_callbacks(rec)
 
@@ -189,6 +208,7 @@ class UnifiedTracker:
     # ------------------------------------------------------------------
 
     def get_chain(self, lid: str) -> List[TransformationRecord]:
+        """Return every record upstream of lineage ID ``lid``, oldest first."""
         chain: List[TransformationRecord] = []
         visited: set = set()
         self._walk_back(lid, chain, visited)
@@ -205,6 +225,12 @@ class UnifiedTracker:
                     self._walk_back(pid, chain, visited)
 
     def get_summary(self) -> Dict[str, Any]:
+        """Return counts for the current run.
+
+        Keys: ``total_records``, ``total_nodes``, ``by_library`` (operation
+        counts per library), ``total_rows_filtered``, ``total_column_changes``
+        and ``libraries_tracked``.
+        """
         by_library: Dict[str, Dict[str, int]] = {}
         total_rows_removed = 0
         total_cols_changed = 0
@@ -235,6 +261,12 @@ class UnifiedTracker:
         }
 
     def get_full_graph(self) -> Dict[str, Any]:
+        """Return the lineage graph as plain data.
+
+        ``nodes`` maps lineage ID to node metadata, ``edges`` is the list of
+        records as dictionaries, and ``file_mappings`` maps file paths to the
+        lineage ID of the frame read from them.
+        """
         return {
             'nodes': self.nodes,
             'edges': [r.to_dict() for r in self.records],

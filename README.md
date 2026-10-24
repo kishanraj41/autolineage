@@ -19,7 +19,7 @@ One import. Every pandas, scikit-learn and PySpark operation tracked, anomalies 
 
 <p align="center"><img src="https://raw.githubusercontent.com/kishanraj41/autolineage/main/docs/screenshots/autolineage-hero.gif" alt="AutoLineage catching an F1 collapse and localizing the cause to a single filter operation" width="760"></p>
 
-> **Your model's F1 dropped from 0.97 to 0.00 and nothing crashed.** No exception, no error, just a silently broken pipeline. AutoLineage records the complete path from `read_csv` to `f1_score`, then tells you the exact operation that caused the regression. No decorators, no config.
+> **Your model's F1 dropped from 0.97 to 0.00 and nothing crashed.** No exception, no error, just a silently broken pipeline. AutoLineage records the complete path from `read_csv` to `f1_score`, then ranks the operations most likely to have caused the regression. No decorators, no config.
 
 ```python
 import autolineage.auto        # that's the whole setup
@@ -61,7 +61,7 @@ The script in the recording is [`examples/pipeline.py`](https://github.com/kisha
 
 ## Why AutoLineage?
 
-ML pipelines fail silently. A model whose F1 drops from 0.97 to 0.00 invites hours of `print(df.shape)` debugging. Existing tools either require explicit instrumentation (MLflow), track only files (DVC), or cover only a single stage (Evidently, Arize). **No existing tool records the complete path from `read_csv` through `f1_score` in one graph automatically — and then tells you which operation caused a metric to drop.**
+ML pipelines fail silently. A model whose F1 drops from 0.97 to 0.00 invites hours of `print(df.shape)` debugging. Experiment trackers need explicit logging (MLflow), data-version tools track files (DVC), and drift monitors cover one stage (Evidently, Arize). Research tools such as [mlinspect](https://github.com/stefan-grafberger/mlinspect) also patch pandas and scikit-learn, but inspect a single run against declared checks. AutoLineage's focus is the cross-run question: **between a good run and a bad one, which operation changed the data and the metric?**
 
 AutoLineage closes that gap.
 
@@ -74,7 +74,7 @@ AutoLineage closes that gap.
 | Cross-framework | **pandas + sklearn + PySpark** | — | — | Spark only | pandas only |
 | End-to-end trace | **Yes** | No | No | No | No |
 | Anomaly detection | **Yes** | No | Drift only | No | No |
-| Root-cause localization | **Yes** | No | No | No | No |
+| Root-cause localization (ranked heuristic) | **Yes** | No | No | No | No |
 | Interactive visualization | **Yes** | Web UI | Web UI | Web UI | No |
 
 ---
@@ -260,6 +260,8 @@ Per-call cost of one hooked operation (`df.dropna()` on a 50-row DataFrame, medi
 | With AutoLineage | 348.2 µs | ± 9.0 µs |
 | **Overhead** | **84.7 µs / op** | **[78, 91]** |
 
+These numbers come from one session on the machine named above. A later session of the same script measured a median overhead of 216 µs, and the uninstrumented baseline in that session was about twice as slow. The machine for that session is not recorded with the trials, so rerun `paper/microbenchmark_v2.py` on your own hardware. Evaluation on real third-party scripts is in [`benchmarks/real/`](benchmarks/real/) (small so far: 2 scorable faults on the held-out set).
+
 At production data scales (≥10⁵ rows), end-to-end overhead becomes indistinguishable from baseline variance because framework computation dominates wall-clock time. See `paper/scaling_results.csv` for the full scaling study.
 
 ---
@@ -271,6 +273,16 @@ At production data scales (≥10⁵ rows), end-to-end overhead becomes indisting
 - **Import order matters outside `__main__`.** A hooked function imported by name *before* the hooks are installed is rebound automatically in your script or notebook, but not inside other modules you import (a helper module that does `from sklearn.metrics import f1_score` first keeps the untracked reference). Put `import autolineage.auto` first to avoid both cases.
 - **C-extension code is invisible.** Operations that execute entirely in compiled code without re-entering Python (e.g., certain numpy reductions) are not captured.
 - **Python-only.** R, Julia, Java are out of scope.
+
+---
+
+## Documentation
+
+- [Quickstart](docs/quickstart.md)
+- [API reference](docs/api.md)
+- [Changelog](CHANGELOG.md)
+
+Project history: first tagged 2026-01-27 (`v0.1.0-day1`) and first released on PyPI on 2026-02-17 (0.1.0). `main` was reinitialised on 2026-04-19 at v0.3.0 to adopt the plugin architecture; the earlier tags are kept in the repository.
 
 ---
 
@@ -294,7 +306,7 @@ See `autolineage/hooks/pandas_io.py` for the smallest working example (~110 LoC)
 git clone https://github.com/kishanraj41/autolineage
 cd autolineage
 pip install -e ".[dev]"
-pytest tests/                      # 103 tests (8 skip without the otel extra)
+pytest tests/                      # some OpenTelemetry tests skip without the otel extra
 python examples/anomaly_demo.py    # full end-to-end demo
 ```
 

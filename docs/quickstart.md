@@ -3,6 +3,7 @@
 The shortest path is the README: it opens with a one-import example, the install line, and a 30-second Colab notebook you can run without installing anything.
 
 - README: https://github.com/kishanraj41/autolineage#readme
+- API reference: [docs/api.md](api.md)
 - Colab notebook: https://colab.research.google.com/github/kishanraj41/autolineage/blob/main/examples/quickstart.ipynb
 
 ## Install

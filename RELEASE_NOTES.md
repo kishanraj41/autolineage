@@ -102,7 +102,7 @@ The most common AutoLineage user mistake is writing `from sklearn.metrics import
 
 ### Paper
 
-The v4 manuscript (`paper/autolineage.tex`) addresses every concern raised in the previous review round:
+The v4 manuscript was removed from the repository. It reported superseded figures, including a 100% recall claim. The held-out numbers are in `paper.md`. What that draft contained:
 
 - Hook counts synced to released code (64 / 175 / 49) throughout
 - New §5.6 documenting the early-import failure mode and its mitigation

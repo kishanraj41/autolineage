@@ -35,16 +35,19 @@ class TransformationRecord:
     timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
 
     def to_dict(self) -> Dict[str, Any]:
+        """Return the record as a plain dictionary."""
         return asdict(self)
 
     @property
     def row_delta(self) -> Optional[int]:
+        """Rows after minus rows before, or ``None`` if either is unknown."""
         if self.rows_before is not None and self.rows_after is not None:
             return self.rows_after - self.rows_before
         return None
 
     @property
     def col_delta(self) -> Optional[int]:
+        """Columns added minus columns removed, or ``None`` if neither changed."""
         added = len(self.columns_added) if self.columns_added else 0
         removed = len(self.columns_removed) if self.columns_removed else 0
         if added or removed:

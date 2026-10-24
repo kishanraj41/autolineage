@@ -26,6 +26,7 @@ _KEY_ALIASES = {"pd": "pandas"}
 
 
 class HookRegistry:
+    """Discovers the hook providers and installs or removes them together."""
     _globally_installed: set = set()
 
     def __init__(self):
@@ -60,6 +61,7 @@ class HookRegistry:
         return results
 
     def uninstall_all(self) -> None:
+        """Remove every installed hook and restore the original framework methods."""
         self._restore_rebound()
         for provider in reversed(self._installed):
             try:
@@ -74,6 +76,7 @@ class HookRegistry:
 
     @property
     def installed_providers(self) -> List[str]:
+        """Names of the hook providers that are currently installed."""
         return [p.name for p in self._installed]
 
     # ------------------------------------------------------------------
