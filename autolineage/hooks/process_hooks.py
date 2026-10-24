@@ -72,7 +72,9 @@ def _patch(process_cls) -> None:
         os.close(fd)
         self._al_path = path
         with _LOCK:
-            _PENDING[path] = True
+            # The pid is the collector. A forked child inherits this map and
+            # must not delete the file in its own atexit.
+            _PENDING[path] = os.getpid()
         self._target = _child_entry
         self._args = (
             target,
@@ -112,6 +114,10 @@ def _patch(process_cls) -> None:
 def _child_entry(target, args, kwargs, path):
     from autolineage.auto import _get_state, start_tracking
 
+    # Fork copies the parent's pending-file map. Drop it so this process
+    # cannot collect, or delete, a file that belongs to its parent.
+    with _LOCK:
+        _PENDING.clear()
     tracker = start_tracking()
     registry = _get_state().registry
     if registry is not None:
@@ -177,6 +183,9 @@ def _collect(path) -> None:
     if not path:
         return
     with _LOCK:
+        owner = _PENDING.get(path)
+        if owner is not None and owner != os.getpid():
+            return
         pending = path in _PENDING
         _PENDING.pop(path, None)
     if _TRACKER is None:
