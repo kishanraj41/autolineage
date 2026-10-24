@@ -59,7 +59,7 @@ class HookRegistry:
         if self._installed:
             self._handle_early_imports()
             from .process_hooks import install_process_capture
-            install_process_capture(tracker)
+            install_process_capture(tracker, self)
         return results
 
     def uninstall_all(self) -> None:

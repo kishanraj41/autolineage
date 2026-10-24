@@ -22,15 +22,17 @@ from functools import wraps
 _QUIET = "AUTOLINEAGE_QUIET"
 _LOCK = threading.Lock()
 _TRACKER = None
+_REGISTRY = None
 _PATCHED = []
 _PENDING = {}
 _ATEXIT = False
 
 
-def install_process_capture(tracker) -> None:
+def install_process_capture(tracker, registry) -> None:
     """Record later child processes into ``tracker`` when they are joined."""
-    global _TRACKER, _ATEXIT
+    global _TRACKER, _REGISTRY, _ATEXIT
     _TRACKER = tracker
+    _REGISTRY = registry
     for mod_name in ("multiprocessing", "multiprocess"):
         try:
             mod = __import__(mod_name, fromlist=["Process"])
@@ -46,13 +48,14 @@ def install_process_capture(tracker) -> None:
 
 def uninstall_process_capture() -> None:
     """Restore ``Process`` and stop accepting child records."""
-    global _TRACKER
+    global _TRACKER, _REGISTRY
     for cls, orig_init, orig_start, orig_join in _PATCHED:
         cls.__init__ = orig_init
         cls.start = orig_start
         cls.join = orig_join
     _PATCHED.clear()
     _TRACKER = None
+    _REGISTRY = None
 
 
 def _patch(process_cls) -> None:
@@ -112,14 +115,11 @@ def _patch(process_cls) -> None:
 
 
 def _child_entry(target, args, kwargs, path):
-    from autolineage.auto import _get_state, start_tracking
-
     # Fork copies the parent's pending-file map. Drop it so this process
     # cannot collect, or delete, a file that belongs to its parent.
     with _LOCK:
         _PENDING.clear()
-    tracker = start_tracking()
-    registry = _get_state().registry
+    tracker, registry = _child_tracker()
     if registry is not None:
         _rebind_loaded_user_modules(registry)
     before = len(tracker.records)
@@ -130,6 +130,21 @@ def _child_entry(target, args, kwargs, path):
 
 
 _child_entry._autolineage_child = True
+
+
+def _child_tracker():
+    """The tracker the hooks are writing to in this process.
+
+    A fork inherits the parent's hooks, and those hooks close over the
+    parent's tracker. ``start_tracking`` would build a second, empty one
+    and the file would go out blank. A spawned child has no tracker yet,
+    so it installs hooks in the normal way.
+    """
+    if _TRACKER is not None:
+        return _TRACKER, _REGISTRY
+    from autolineage.auto import _get_state, start_tracking
+    tracker = start_tracking()
+    return tracker, _get_state().registry
 
 
 def _rebind_loaded_user_modules(registry) -> None:
