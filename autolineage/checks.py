@@ -195,11 +195,10 @@ def _jsonable_record(rec: TransformationRecord) -> Dict[str, Any]:
 def capture_run(script: str, contract: Optional[Dict[str, Any]] = None
                 ) -> Tuple[List[TransformationRecord], Optional[str]]:
     """Run ``script`` with tracking on. Returns records and an error string."""
-    from .auto import get_tracker, start_tracking, stop_tracking
-
     import sys
     previous = os.environ.get("AUTOLINEAGE_QUIET")
     os.environ["AUTOLINEAGE_QUIET"] = "1"
+    from .auto import get_tracker, start_tracking, stop_tracking
     set_contract(contract)
     stop_tracking()
     start_tracking()

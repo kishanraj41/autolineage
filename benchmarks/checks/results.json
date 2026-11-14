@@ -1,0 +1,98 @@
+[
+  {
+    "id": "repro_003",
+    "check": "row_conservation",
+    "result": "caught",
+    "localized": true,
+    "fault_line": 5,
+    "lines": [
+      5
+    ],
+    "messages": [
+      "rows 16 -> 20, baseline 16 -> 16"
+    ]
+  },
+  {
+    "id": "repro_001",
+    "check": "null_rate_after_coerce",
+    "result": "caught",
+    "localized": true,
+    "fault_line": 4,
+    "lines": [
+      4
+    ],
+    "messages": [
+      "null fraction 0.200, baseline 0.000"
+    ]
+  },
+  {
+    "id": "repro_004",
+    "check": "monotonic_cumulative",
+    "result": "caught",
+    "localized": true,
+    "fault_line": 5,
+    "lines": [
+      5
+    ],
+    "messages": [
+      "cumulative column Vaccinated_1st decreased"
+    ]
+  },
+  {
+    "id": "repro_002",
+    "check": "row_conservation",
+    "result": "missed",
+    "localized": false,
+    "fault_line": 3,
+    "lines": [],
+    "messages": []
+  },
+  {
+    "id": "sf002_truncation",
+    "check": "row_conservation",
+    "result": "caught",
+    "localized": true,
+    "fault_line": 4,
+    "lines": [
+      4
+    ],
+    "messages": [
+      "rows 100 -> 60, baseline 100 -> 100"
+    ]
+  },
+  {
+    "id": "sf018_merge_drop",
+    "check": "row_conservation",
+    "result": "caught",
+    "localized": true,
+    "fault_line": 5,
+    "lines": [
+      5
+    ],
+    "messages": [
+      "rows 4 -> 2, baseline 4 -> 4"
+    ]
+  },
+  {
+    "id": "sf036_volume",
+    "check": "freshness_and_volume",
+    "result": "caught",
+    "localized": true,
+    "fault_line": 7,
+    "lines": [
+      7
+    ],
+    "messages": [
+      "source lab_b has 5 rows, baseline 100"
+    ]
+  },
+  {
+    "id": "sf024_dst",
+    "check": "unique_keys_timestamps",
+    "result": "missed",
+    "localized": false,
+    "fault_line": 5,
+    "lines": [],
+    "messages": []
+  }
+]
