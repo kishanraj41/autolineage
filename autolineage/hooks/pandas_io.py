@@ -71,6 +71,7 @@ class PandasIOHooks(BaseHookProvider):
                     rows_after=len(result), duration_ms=duration,
                     metadata={'filepath': abs_path},
                 )
+                rec._observed = result
                 provider._emit(rec)
             return result
         return hooked

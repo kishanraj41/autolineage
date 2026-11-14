@@ -122,6 +122,14 @@ class BaseHookProvider(ABC):
     def _emit(self, rec: TransformationRecord) -> None:
         """Send a record to the shared tracker. Auto-fills content_hash."""
         if self._tracker is not None:
+            observed = getattr(rec, "_observed", None)
+            if observed is not None:
+                from ..checks import annotate_output
+                annotate_output(rec, observed)
+                try:
+                    delattr(rec, "_observed")
+                except Exception:
+                    pass
             _stamp_source(rec)
             if not rec.content_hash and rec.child_id:
                 node = self._tracker.nodes.get(rec.child_id)

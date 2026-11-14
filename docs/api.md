@@ -1,6 +1,6 @@
 # API reference
 
-Public API of AutoLineage 0.7.x. Everything here is importable from `autolineage`, `autolineage.auto` or `autolineage.otel`. Anything else (names starting with `_`, provider internals under `autolineage.hooks.*`, `hooks_legacy`) may change between releases without notice.
+Public API of AutoLineage 0.8. Anything here is importable from `autolineage`, `autolineage.auto`, `autolineage.checks` or `autolineage.otel`. Anything else (names starting with `_`, provider internals under `autolineage.hooks.*`, `hooks_legacy`) may change between releases without notice.
 
 Docstrings are the source of truth, for example `help(autolineage.LineageAnalyzer.detect_anomalies)`.
 
@@ -86,6 +86,13 @@ Result types, each with `to_dict()`:
 ## Visualisation: `autolineage.visualize`, `to_dot`, `to_mermaid`
 
 Module-level equivalents of the tracker methods. Each takes the tracker as its first argument.
+
+## Checks: `autolineage check`
+
+`autolineage baseline <script.py> -o <file> [--contract <file>]` records a run.
+`autolineage check <script.py> --baseline <file> [--contract <file>]` compares that run with a new one. The process exits 1 when a check fails and 2 when the script or the baseline cannot be read.
+
+The checks are `row_conservation`, `null_rate_after_coerce`, `monotonic_cumulative`, `unique_keys_timestamps` and `freshness_and_volume`. Each result carries `incident_refs` and the caller's file and line. Declared columns (cumulative series, keys, a time index, a date, a source) go in the contract JSON. One page per check is in `docs/checks/`. The benchmark protocol is `benchmarks/checks/PROTOCOL.md`.
 
 ## OpenTelemetry: `autolineage.otel` (`pip install "autolineage[otel]"`)
 

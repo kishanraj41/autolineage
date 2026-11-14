@@ -87,6 +87,13 @@ This is what AutoLineage is for. Run `python examples/anomaly_demo.py` and watch
 
 The demo runs the same pipeline twice — once cleanly, once with a corrupted filter — and AutoLineage catches the row-count anomaly, the F1 collapse, and identifies the exact line that caused both. No manual instrumentation, no print statements.
 
+Five checks compare a run with a saved baseline and exit non-zero on a failure, so CI can run them. Each one is taken from a documented incident. The pages are under `docs/checks/`.
+
+```bash
+autolineage baseline pipeline.py -o baseline.json
+autolineage check pipeline.py --baseline baseline.json
+```
+
 ---
 
 ## Installation
@@ -194,7 +201,7 @@ Every tracked operation becomes a span (`pandas-transforms.merge`, `sklearn.f1_s
 
 ## What Gets Tracked
 
-**pandas (65 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
+**pandas (67 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `to_datetime`, `to_numeric`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
 
 **scikit-learn (235 hooks):** `train_test_split`, estimator `fit` / `predict` / `predict_proba` / `score` across 30+ classes (RandomForest, LogisticRegression, DecisionTree, SVC, KNN, GradientBoosting, etc.), 18 preprocessor classes, `CountVectorizer` and `TfidfVectorizer`, 15 metric functions, and the construction of each hooked class (its parameters and the line that built it).
 

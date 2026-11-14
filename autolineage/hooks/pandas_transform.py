@@ -128,6 +128,13 @@ class PandasTransformHooks(BaseHookProvider):
         pd.get_dummies = self._make_get_dummies_hook(pd.get_dummies)
         count += 1
 
+        for fn_name in ('to_datetime', 'to_numeric'):
+            if not hasattr(pd, fn_name):
+                continue
+            orig = self._save_original(pd, fn_name)
+            setattr(pd, fn_name, self._make_coerce_hook(fn_name, orig))
+            count += 1
+
         orig_gb = self._save_original(pd.DataFrame, 'groupby')
         setattr(pd.DataFrame, 'groupby', self._make_groupby_hook(orig_gb))
         count += 1
@@ -173,6 +180,8 @@ class PandasTransformHooks(BaseHookProvider):
             pd.concat = self._originals['pd.concat']
         if 'pd.get_dummies' in self._originals:
             pd.get_dummies = self._originals['pd.get_dummies']
+        for fn_name in ('to_datetime', 'to_numeric'):
+            self._restore_original(pd, fn_name)
         for agg_method in _GROUPBY_AGG_METHODS:
             for cls in [DataFrameGroupBy, SeriesGroupBy]:
                 key = f"{cls.__name__}.{agg_method}"
@@ -231,6 +240,43 @@ class PandasTransformHooks(BaseHookProvider):
                 rows_before=rows_before,
                 rows_after=len(target) if hasattr(target, '__len__') else None,
                 duration_ms=duration)
+            rec._observed = target
+            provider._emit(rec)
+            return result
+        return hooked
+
+    def _make_coerce_hook(self, fn_name, orig_fn):
+        provider = self
+
+        @wraps(orig_fn)
+        def hooked(arg, *args, **kwargs):
+            if provider._hook_depth >= 1:
+                return orig_fn(arg, *args, **kwargs)
+            provider._hook_depth += 1
+            try:
+                result, duration = provider._timed(orig_fn, arg, *args, **kwargs)
+            finally:
+                provider._hook_depth -= 1
+            import pandas as pd
+            if not isinstance(result, (pd.Series, pd.DataFrame)):
+                return result
+            parent_ids = []
+            rows_before = None
+            input_shape = None
+            if isinstance(arg, (pd.Series, pd.DataFrame)):
+                parent_ids.append(provider._get_or_assign(arg, source="untracked"))
+                rows_before = len(arg)
+                input_shape = tuple(arg.shape) if hasattr(arg, 'shape') else None
+            child_lid = provider._assign_new(result, source=fn_name)
+            rec = provider._make_record(
+                category="transform", operation=fn_name,
+                parent_ids=parent_ids, child_id=child_lid,
+                parameters=provider._safe_params({'errors': kwargs.get('errors')}),
+                input_shape=input_shape,
+                output_shape=tuple(result.shape) if hasattr(result, 'shape') else None,
+                rows_before=rows_before, rows_after=len(result),
+                duration_ms=duration)
+            rec._observed = result
             provider._emit(rec)
             return result
         return hooked
@@ -319,6 +365,7 @@ class PandasTransformHooks(BaseHookProvider):
                     columns_added=added, columns_removed=removed,
                     rows_before=len(left) if hasattr(left, '__len__') else None,
                     rows_after=len(result), duration_ms=duration)
+                rec._observed = result
                 provider._emit(rec)
             return result
         return hooked
@@ -436,6 +483,7 @@ class PandasTransformHooks(BaseHookProvider):
                     input_columns=provider._cols(self_df), output_columns=provider._cols(result),
                     columns_added=added, columns_removed=removed,
                     rows_before=len(self_df), rows_after=len(result))
+                rec._observed = result
                 provider._emit(rec)
             return result
         return hooked
@@ -469,6 +517,7 @@ class PandasTransformHooks(BaseHookProvider):
                 input_columns=cols_before, output_columns=provider._cols(self_df),
                 columns_added=added, columns_removed=removed,
                 rows_before=rows_before, rows_after=len(self_df))
+            rec._observed = self_df
             provider._emit(rec)
             return result
         return hooked
