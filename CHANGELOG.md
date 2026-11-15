@@ -2,6 +2,29 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
+## Unreleased
+
+### Fixed
+- `autolineage baseline` and `autolineage check` run the script as `__main__`. In 0.8.0 a script whose work sits under `if __name__ == "__main__":` ran nothing, recorded nothing and passed. A run or a baseline with no recorded call now exits 2.
+- A load that returns fewer rows than the baseline load fails `row_conservation` (more than 1% fewer). In 0.8.0 a truncated `read_csv` passed. A load that grows passes.
+- Steps are matched to the baseline by sequence alignment. In 0.8.0 they were matched by position, so one added step reported a violation at every later step that changed rows.
+- A contract with a `date_column` no longer adds `to_datetime` records to the run. Measurement calls pandas with recording switched off.
+- `pd.to_datetime` and `pd.to_numeric` on a list, an array or an index are recorded. `Series.astype` is recorded, so a cast that produces nulls reaches `null_rate_after_coerce`.
+- Calls made on threads are recorded. The nesting counters in the pandas and scikit-learn providers were shared by all threads, so one thread's call hid the others (81 of 640 calls recorded in a probe with 8 threads). The counters are per thread. Calls a library makes on its own worker threads stay unrecorded.
+- A baseline file stores source paths relative to the script's directory. 0.8.0 stored absolute paths.
+
+### Added
+- `metric_change`: `autolineage check` fails when a recorded metric drops more than 5% against the baseline.
+- `autolineage check script.py --baseline b.json -- <args>` passes the arguments after `--` to the script.
+- `autolineage.checks.align(current, baseline)`.
+- CI runs Python 3.13 and a Windows job. `multiprocess` is in the `dev` extra.
+
+### Removed
+- `autolineage/hooks_legacy.py`. Nothing in the package used it.
+
+### Benchmark
+- The eight frozen cases in `benchmarks/checks/` were scored again on this build with no edit to a case, a tolerance or a contract. The result is identical: 6 caught and localized, 2 missed.
+
 ## v0.8.0 (2026-11-14)
 
 ### Added

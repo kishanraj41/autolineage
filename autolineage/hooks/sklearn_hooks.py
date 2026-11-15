@@ -3,7 +3,7 @@
 import sys
 from functools import wraps
 from typing import Dict, Any, List, Optional
-from . import BaseHookProvider, _is_library_frame
+from . import BaseHookProvider, _ThreadState, _is_library_frame, _library_worker_thread
 
 _METRIC_FUNCTIONS = [
     'accuracy_score', 'balanced_accuracy_score',
@@ -76,17 +76,47 @@ class SklearnHooks(BaseHookProvider):
         # inside a metric) are not recorded. Composites (Pipeline,
         # ColumnTransformer) do not increment it, so their direct steps
         # are recorded. ``_suppress`` is set for the body of a search fit
-        # so cross-validation folds stay out of the graph.
-        self._hook_depth = 0
-        self._estimator_depth = 0
-        self._suppress = False
+        # so cross-validation folds stay out of the graph. All three are
+        # kept per thread: shared counters drop concurrent calls. A pool
+        # thread that scikit-learn starts has no user frame on its stack
+        # and is skipped by ``_library_worker_thread``.
+        self._state = _ThreadState()
+
+    @property
+    def _hook_depth(self) -> int:
+        return self._state.hook_depth
+
+    @_hook_depth.setter
+    def _hook_depth(self, value: int) -> None:
+        self._state.hook_depth = value
+
+    @property
+    def _estimator_depth(self) -> int:
+        return self._state.estimator_depth
+
+    @_estimator_depth.setter
+    def _estimator_depth(self, value: int) -> None:
+        self._state.estimator_depth = value
+
+    @property
+    def _suppress(self) -> bool:
+        return self._state.suppress
+
+    @_suppress.setter
+    def _suppress(self, value: bool) -> None:
+        self._state.suppress = value
+
+    def _internal(self) -> bool:
+        """True when this call is an internal of another recorded call."""
+        return (self._suppress or self._estimator_depth >= 1
+                or _library_worker_thread())
 
     def _enter(self, *, composite: bool = False) -> bool:
         """Return True when this call should be recorded.
 
         The caller must invoke ``_exit(composite=...)`` on the same path.
         """
-        if self._suppress or self._estimator_depth >= 1:
+        if self._internal():
             return False
         self._hook_depth += 1
         if not composite:
@@ -403,7 +433,7 @@ class SklearnHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(self_search, X, y=None, **kwargs):
-            if provider._suppress or provider._estimator_depth >= 1:
+            if provider._internal():
                 return orig_fn(self_search, X, y, **kwargs)
             provider._suppress = True
             try:
@@ -488,7 +518,7 @@ class SklearnHooks(BaseHookProvider):
             # super().__init__ would otherwise add a second record.
             if type(self_est).__name__ != class_name:
                 return None
-            if provider._suppress or provider._estimator_depth >= 1:
+            if provider._internal():
                 return None
             try:
                 caller = sys._getframe(1).f_code.co_filename

@@ -36,6 +36,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
 ]
 dependencies = [
@@ -60,6 +61,7 @@ dev = [
     "pytest-cov>=4.0.0",
     "twine>=4.0.0",
     "build>=1.0.0",
+    "multiprocess>=0.70.0",
     "scikit-learn>=1.0.0",
     "pyspark>=3.0.0",
     "ipython>=7.0.0",

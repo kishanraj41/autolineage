@@ -4,7 +4,10 @@ import linecache
 import sys
 from functools import wraps
 from typing import Dict, Any, Callable, Optional
-from . import BaseHookProvider, _is_library_frame, _source_stamp_enabled
+from . import (
+    BaseHookProvider, _ThreadState, _is_library_frame, _library_worker_thread,
+    _source_stamp_enabled,
+)
 
 
 def _direct_caller():
@@ -90,8 +93,21 @@ class PandasTransformHooks(BaseHookProvider):
     def __init__(self):
         super().__init__()
         # Depth counter to block nested pandas ops
-        # (e.g. drop_duplicates calls __getitem__ internally)
-        self._hook_depth = 0
+        # (e.g. drop_duplicates calls __getitem__ internally). It is kept
+        # per thread: one shared counter drops concurrent calls.
+        self._state = _ThreadState()
+
+    @property
+    def _hook_depth(self) -> int:
+        return self._state.hook_depth
+
+    @_hook_depth.setter
+    def _hook_depth(self, value: int) -> None:
+        self._state.hook_depth = value
+
+    def _nested(self) -> bool:
+        """True when this call is an internal of another recorded call."""
+        return self._state.hook_depth >= 1 or _library_worker_thread()
 
     def install(self, tracker) -> int:
         import pandas as pd
@@ -161,6 +177,10 @@ class PandasTransformHooks(BaseHookProvider):
         setattr(pd.Series, 'map', self._make_series_map_hook(orig_map))
         count += 1
 
+        orig_astype = self._save_original(pd.Series, 'astype')
+        setattr(pd.Series, 'astype', self._make_series_astype_hook(orig_astype))
+        count += 1
+
         return count
 
     def uninstall(self) -> None:
@@ -174,6 +194,7 @@ class PandasTransformHooks(BaseHookProvider):
         self._restore_original(pd.DataFrame, '__getitem__')
         self._restore_original(pd.DataFrame, '__setitem__')
         self._restore_original(pd.Series, 'map')
+        self._restore_original(pd.Series, 'astype')
         if 'pd.merge' in self._originals:
             pd.merge = self._originals['pd.merge']
         if 'pd.concat' in self._originals:
@@ -194,7 +215,7 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(self_df, *args, **kwargs):
-            if provider._hook_depth >= 1:
+            if provider._nested():
                 return orig_fn(self_df, *args, **kwargs)
             provider._hook_depth += 1
             rows_before = len(self_df) if hasattr(self_df, '__len__') else None
@@ -250,15 +271,22 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(arg, *args, **kwargs):
-            if provider._hook_depth >= 1:
+            if provider._nested():
                 return orig_fn(arg, *args, **kwargs)
             provider._hook_depth += 1
             try:
                 result, duration = provider._timed(orig_fn, arg, *args, **kwargs)
             finally:
                 provider._hook_depth -= 1
+            import numpy as np
             import pandas as pd
-            if not isinstance(result, (pd.Series, pd.DataFrame)):
+            framed = isinstance(result, (pd.Series, pd.DataFrame))
+            # A list, tuple, Index or array comes back as an Index or an
+            # array. It is recorded too, without a graph node: the values
+            # are what the null-rate check reads.
+            if not framed and not (
+                    isinstance(result, (pd.Index, np.ndarray))
+                    and getattr(result, 'ndim', 0) >= 1):
                 return result
             parent_ids = []
             rows_before = None
@@ -267,7 +295,9 @@ class PandasTransformHooks(BaseHookProvider):
                 parent_ids.append(provider._get_or_assign(arg, source="untracked"))
                 rows_before = len(arg)
                 input_shape = tuple(arg.shape) if hasattr(arg, 'shape') else None
-            child_lid = provider._assign_new(result, source=fn_name)
+            elif hasattr(arg, '__len__') and not isinstance(arg, (str, bytes)):
+                rows_before = len(arg)
+            child_lid = provider._assign_new(result, source=fn_name) if framed else ""
             rec = provider._make_record(
                 category="transform", operation=fn_name,
                 parent_ids=parent_ids, child_id=child_lid,
@@ -289,7 +319,7 @@ class PandasTransformHooks(BaseHookProvider):
             # Same reentrancy rule as the method hooks: get_dummies calls
             # concat / __getitem__ / drop internally, and those must not
             # become separate top-level records.
-            if provider._hook_depth >= 1:
+            if provider._nested():
                 return orig_fn(data, *args, **kwargs)
             provider._hook_depth += 1
             try:
@@ -335,7 +365,7 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(*args, **kwargs):
-            if provider._hook_depth >= 1:
+            if provider._nested():
                 return orig_fn(*args, **kwargs)
             provider._hook_depth += 1
             try:
@@ -375,7 +405,7 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(objs, *args, **kwargs):
-            if provider._hook_depth >= 1:
+            if provider._nested():
                 return orig_fn(objs, *args, **kwargs)
             provider._hook_depth += 1
             try:
@@ -450,7 +480,7 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(self_df, key):
-            if provider._hook_depth >= 1:
+            if provider._nested():
                 return orig_fn(self_df, key)
             provider._hook_depth += 1
             try:
@@ -493,7 +523,7 @@ class PandasTransformHooks(BaseHookProvider):
 
         @wraps(orig_fn)
         def hooked(self_df, key, value):
-            if provider._hook_depth >= 1 or not isinstance(key, str) or _called_from_library():
+            if provider._nested() or not isinstance(key, str) or _called_from_library():
                 return orig_fn(self_df, key, value)
             parent_lid = provider._get_or_assign(self_df, source="untracked")
             provider._hook_depth += 1
@@ -522,12 +552,47 @@ class PandasTransformHooks(BaseHookProvider):
             return result
         return hooked
 
+    def _make_series_astype_hook(self, orig_fn):
+        provider = self
+
+        @wraps(orig_fn)
+        def hooked(self_s, *args, **kwargs):
+            # pandas casts series internally all the time. Only a cast the
+            # user's own code issued is a step of the pipeline.
+            if provider._nested() or _called_from_library():
+                return orig_fn(self_s, *args, **kwargs)
+            provider._hook_depth += 1
+            try:
+                result, duration = provider._timed(orig_fn, self_s, *args, **kwargs)
+            finally:
+                provider._hook_depth -= 1
+            import pandas as pd
+            if not isinstance(result, pd.Series):
+                return result
+            parent_lid = provider._get_or_assign(self_s, source="untracked")
+            child_lid = provider._assign_new(result, source="astype")
+            dtype = args[0] if args else kwargs.get('dtype')
+            rec = provider._make_record(
+                category="transform", operation="astype",
+                parent_ids=[parent_lid], child_id=child_lid,
+                parameters=provider._safe_params({
+                    'dtype': str(dtype)[:200],
+                    'column': None if self_s.name is None else str(self_s.name),
+                }),
+                input_shape=(len(self_s),), output_shape=(len(result),),
+                rows_before=len(self_s), rows_after=len(result),
+                duration_ms=duration)
+            rec._observed = result
+            provider._emit(rec)
+            return result
+        return hooked
+
     def _make_series_map_hook(self, orig_fn):
         provider = self
 
         @wraps(orig_fn)
         def hooked(self_s, arg, *args, **kwargs):
-            if provider._hook_depth >= 1 or _called_from_library():
+            if provider._nested() or _called_from_library():
                 return orig_fn(self_s, arg, *args, **kwargs)
             provider._hook_depth += 1
             try:

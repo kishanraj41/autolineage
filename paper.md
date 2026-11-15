@@ -29,7 +29,9 @@ output shapes, the columns it touched, its timing, and the line of user code tha
 issued it. The records form a directed acyclic graph that can be queried as JSON or
 exported to Graphviz, Mermaid, an interactive HTML view, or OpenTelemetry spans. An
 analyzer compares a run with a saved baseline fingerprint, flags anomalies, and ranks
-the operations most likely to have changed a metric.
+the operations most likely to have changed a metric. A command-line check compares a
+run with a saved baseline against rules drawn from documented silent failures and
+exits non-zero when one fails.
 
 # Statement of need
 
@@ -76,7 +78,7 @@ code where silent bugs are common. A DataFrame subclass breaks as soon as a libr
 returns a plain pandas object. `AutoLineage` instead monkey-patches framework methods at
 import time. The trade-off is version sensitivity, and capture that stops at the
 machine boundary, in exchange for zero-configuration capture. Hooked methods call other hooked methods internally, so
-a depth counter maintained in a `finally` block records a node only for the outermost
+a per-thread depth counter maintained in a `finally` block records a node only for the outermost
 call. This reduces a 24-step pipeline from 152 raw records to the 24 operations the
 user wrote.
 
@@ -130,6 +132,14 @@ faults, hooked and unhooked wall time differed by less than the run-to-run varia
 (n = 1 per condition); recorded operation time was 1.5 s and 2.6 s. These counts are
 too small for an accuracy claim. The corpus and scorer are published so a larger
 study can reuse them.
+
+`benchmarks/checks/` scores the baseline checks on eight synthetic cases written by
+the author, each modelled on a documented incident. The protocol
+(`benchmarks/checks/PROTOCOL.md`) was committed before the run. The aimed check
+reported six of the eight faults and named the faulty line in all six. It missed a
+running total truncated outside pandas, which leaves no recorded call, and a
+daylight-saving shift that keeps timestamps unique. The cases are synthetic, so this
+shows what the checks cover, not how often they catch faults in practice.
 
 The RudriQ project integrates `AutoLineage` through its post-record and `assign_id`
 callbacks, and several changes in versions 0.6–0.7 were made for that integration.

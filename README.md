@@ -71,7 +71,7 @@ AutoLineage closes that gap.
 |---|---|---|---|---|---|
 | Zero code changes | **Yes** | No | No | No | No (wrapper) |
 | Operation-level | **Yes** | No | No | Job-level | Yes |
-| Cross-framework | **pandas + sklearn + PySpark** | — | — | Spark only | pandas only |
+| Cross-framework | **pandas + sklearn + PySpark** | — | — | Airflow, Spark, dbt, Flink (job-level) | pandas only |
 | End-to-end trace | **Yes** | No | No | No | No |
 | Anomaly detection | **Yes** | No | Drift only | No | No |
 | Root-cause localization (ranked heuristic) | **Yes** | No | No | No | No |
@@ -87,12 +87,14 @@ This is what AutoLineage is for. Run `python examples/anomaly_demo.py` and watch
 
 The demo runs the same pipeline twice — once cleanly, once with a corrupted filter — and AutoLineage catches the row-count anomaly, the F1 collapse, and identifies the exact line that caused both. No manual instrumentation, no print statements.
 
-Five checks compare a run with a saved baseline and exit non-zero on a failure, so CI can run them. Each one is taken from a documented incident. The pages are under `docs/checks/`.
+Five checks compare a run with a saved baseline and exit non-zero on a failure, so CI can run them. Each one is taken from a documented incident. The pages are under `docs/checks/`. A sixth rule fails the run when a recorded metric drops more than 5% against the baseline.
 
 ```bash
 autolineage baseline pipeline.py -o baseline.json
 autolineage check pipeline.py --baseline baseline.json
 ```
+
+Exit code 1 means a check failed. Exit code 2 means the script failed, the baseline could not be read, or the run recorded nothing to check.
 
 ---
 
@@ -201,7 +203,7 @@ Every tracked operation becomes a span (`pandas-transforms.merge`, `sklearn.f1_s
 
 ## What Gets Tracked
 
-**pandas (67 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `to_datetime`, `to_numeric`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
+**pandas (70 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `to_datetime`, `to_numeric`, `Series.astype`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
 
 **scikit-learn (235 hooks):** `train_test_split`, estimator `fit` / `predict` / `predict_proba` / `score` across 30+ classes (RandomForest, LogisticRegression, DecisionTree, SVC, KNN, GradientBoosting, etc.), 18 preprocessor classes, `CountVectorizer` and `TfidfVectorizer`, 15 metric functions, and the construction of each hooked class (its parameters and the line that built it).
 
@@ -276,6 +278,7 @@ At production data scales (≥10⁵ rows), end-to-end overhead becomes indisting
 ## Limitations
 
 - **One machine.** A child started with `multiprocessing` or `multiprocess` after tracking is on sends its records to the parent tracker when the child is joined. With `autolineage[otel]`, every process can export spans carrying lineage IDs to one backend; joining those into a cross-machine graph is still up to you.
+- **Threads.** Calls your code makes on its own threads are recorded. Calls a library makes on its own worker threads (the trees of a forest fitted with `n_jobs`) are treated as internal and are not recorded.
 - **Monkey-patching is version-sensitive.** Tested against pandas 2.x / 3.x, scikit-learn 1.x, PySpark 3.x / 4.x.
 - **Import order matters outside `__main__`.** A hooked function imported by name *before* the hooks are installed is rebound automatically in your script or notebook, but not inside other modules you import (a helper module that does `from sklearn.metrics import f1_score` first keeps the untracked reference). Put `import autolineage.auto` first to avoid both cases.
 - **C-extension code is invisible.** Operations that execute entirely in compiled code without re-entering Python (e.g., certain numpy reductions) are not captured.

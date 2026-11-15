@@ -10,10 +10,12 @@ from typing import Dict, Any, Optional, Tuple
 import json
 import os
 import sys
+import threading
 import time
 
 from ..core.tracker import UnifiedTracker
 from ..core import TransformationRecord
+from ..checks import annotate_output, measuring
 
 # Package directory, not the repo root: user scripts live next to the
 # repo and must still be stamped with their own file and line.
@@ -55,6 +57,31 @@ def _caller_source() -> Tuple[Optional[str], Optional[int]]:
             return os.path.abspath(filename), frame.f_lineno
         frame = frame.f_back
     return None, None
+
+
+class _ThreadState(threading.local):
+    """Reentrancy state for one thread.
+
+    A depth counter shared by every thread makes two concurrent calls look
+    nested, and the second one is dropped. Each thread counts its own.
+    """
+
+    hook_depth = 0
+    estimator_depth = 0
+    suppress = False
+
+
+def _library_worker_thread() -> bool:
+    """True on a non-main thread with no user code on its stack.
+
+    A pool thread started by a library (the trees of a forest predicting
+    in parallel) has only library frames. Its calls are internals of a call
+    the user made on another thread, so they are not recorded. A thread whose
+    target is a user function has that function on its stack and is recorded.
+    """
+    if threading.current_thread() is threading.main_thread():
+        return False
+    return _caller_source()[0] is None
 
 
 def _stamp_source(rec: TransformationRecord) -> None:
@@ -122,9 +149,12 @@ class BaseHookProvider(ABC):
     def _emit(self, rec: TransformationRecord) -> None:
         """Send a record to the shared tracker. Auto-fills content_hash."""
         if self._tracker is not None:
+            # A pandas call made while a check signal is being measured is
+            # the library's own, not a step of the user's pipeline.
+            if measuring():
+                return
             observed = getattr(rec, "_observed", None)
             if observed is not None:
-                from ..checks import annotate_output
                 annotate_output(rec, observed)
                 try:
                     delattr(rec, "_observed")
@@ -207,13 +237,3 @@ class BaseHookProvider(ABC):
             return [str(c) for c in cols]
         except Exception:
             return None
-
-
-# Backward compatibility
-try:
-    from ..hooks_legacy import enable_hooks, get_tracker
-except (ImportError, SyntaxError):
-    def enable_hooks(tracker=None):
-        pass
-    def get_tracker():
-        return None
