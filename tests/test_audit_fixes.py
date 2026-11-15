@@ -45,6 +45,9 @@ class TestPathAndInplace:
         assert "read_csv" in ops
         assert len(loaded) == 2
 
+    # Newer pandas deprecates ``inplace``. Scripts in the wild still pass it,
+    # so the call stays here and its warning is expected.
+    @pytest.mark.filterwarnings("ignore:The inplace keyword")
     def test_inplace_drop_and_dropna_are_recorded(self, hooked):
         frame = pd.DataFrame({
             "customerID": ["a", "b", "c"],
