@@ -2,7 +2,7 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
-## Unreleased
+## v0.8.1 (2026-11-15)
 
 ### Fixed
 - `autolineage baseline` and `autolineage check` run the script as `__main__`. In 0.8.0 a script whose work sits under `if __name__ == "__main__":` ran nothing, recorded nothing and passed. A run or a baseline with no recorded call now exits 2.
@@ -21,6 +21,7 @@ All notable changes to AutoLineage will be documented in this file.
 
 ### Removed
 - `autolineage/hooks_legacy.py`. Nothing in the package used it.
+- `benchmarks/benchmark_overhead.py`. It imported `autolineage.df_tracker` and `autolineage.transform_hooks`, both removed in 0.6. The overhead number in the README comes from `paper/microbenchmark_v2.py`.
 
 ### Benchmark
 - The eight frozen cases in `benchmarks/checks/` were scored again on this build with no edit to a case, a tolerance or a contract. The result is identical: 6 caught and localized, 2 missed.
