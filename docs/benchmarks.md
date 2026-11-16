@@ -17,6 +17,8 @@ Scored with `python benchmarks/checks/score.py`. Eight cases. A case is caught w
 
 6 caught, all 6 localized. 2 missed.
 
+The table is the run on 0.8.0. The same eight scripts and three contracts, unedited, were scored again on the build that runs scripts as `__main__`, matches steps by alignment, and adds the load rule. That run wrote an identical `results.json`.
+
 ## Misses
 
 **repro_002.** The running total is truncated with `int(x * 1000) / 1000`. There is no pandas call, so the trace has no row counts to compare. `row_conservation` has nothing to fail.

@@ -1,6 +1,6 @@
 # API reference
 
-Public API of AutoLineage 0.8. Anything here is importable from `autolineage`, `autolineage.auto`, `autolineage.checks` or `autolineage.otel`. Anything else (names starting with `_`, provider internals under `autolineage.hooks.*`, `hooks_legacy`) may change between releases without notice.
+Public API of AutoLineage 0.8. Anything here is importable from `autolineage`, `autolineage.auto`, `autolineage.checks` or `autolineage.otel`. Anything else (names starting with `_`, provider internals under `autolineage.hooks.*`) may change between releases without notice.
 
 Docstrings are the source of truth, for example `help(autolineage.LineageAnalyzer.detect_anomalies)`.
 
@@ -90,9 +90,27 @@ Module-level equivalents of the tracker methods. Each takes the tracker as its f
 ## Checks: `autolineage check`
 
 `autolineage baseline <script.py> -o <file> [--contract <file>]` records a run.
-`autolineage check <script.py> --baseline <file> [--contract <file>]` compares that run with a new one. The process exits 1 when a check fails and 2 when the script or the baseline cannot be read.
+`autolineage check <script.py> --baseline <file> [--contract <file>]` compares that run with a new one.
+
+The script runs as `__main__`, so code under `if __name__ == "__main__":` runs. Arguments after `--` are passed to the script: `autolineage check train.py --baseline base.json -- --epochs 3`.
+
+| Exit code | Meaning |
+|---|---|
+| 0 | Every check passed |
+| 1 | At least one check failed |
+| 2 | The script raised, the baseline or contract could not be read, or the run (or the baseline) recorded no pandas or scikit-learn call |
 
 The checks are `row_conservation`, `null_rate_after_coerce`, `monotonic_cumulative`, `unique_keys_timestamps` and `freshness_and_volume`. Each result carries `incident_refs` and the caller's file and line. Declared columns (cumulative series, keys, a time index, a date, a source) go in the contract JSON. One page per check is in `docs/checks/`. The benchmark protocol is `benchmarks/checks/PROTOCOL.md`.
+
+`metric_change` is a sixth rule with no incident reference. It fails when a recorded metric drops by more than `metric_drop_pct` (5%) against the same metric in the baseline. A rise passes.
+
+Steps are matched to the baseline by aligning the two operation sequences, first on operation and parameters, then on operation name. A step added to or removed from the script leaves the other steps matched to their own baseline step. `autolineage.checks.align(current, baseline)` returns the matched pairs.
+
+A baseline file stores source paths relative to the script's directory, so the same file works on another machine or in CI.
+
+A `multiprocessing` child the script starts is recorded when it is joined, the same as under `import autolineage.auto`.
+
+A baseline recorded with 0.8.0 stores absolute paths and still loads. Record it again to get relative paths.
 
 ## OpenTelemetry: `autolineage.otel` (`pip install "autolineage[otel]"`)
 
