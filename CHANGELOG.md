@@ -2,6 +2,16 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
+## Unreleased
+
+### Fixed
+- Restarting tracking rebinds a name that still points at a hook from the previous install. `f1_score` and `train_test_split` imported while tracking was on, then used again after `stop_tracking()` and `start_tracking()`, are recorded on the new tracker. Internal calls those functions make, such as `LabelEncoder` inside a metric, stay off the graph.
+- The README quickstart no longer reads a `data.csv` that the repository does not contain. The sample script is the Wisconsin breast cancer example in `examples/pipeline.py`.
+
+### Added
+- `docs/ONBOARDING.md` and GitHub issue forms for a bug, a silent failure, and a feature request.
+- `benchmarks/real/SELECTION_RULE.md` for any scoring run after the frozen study. The frozen protocol and its result files are unchanged.
+
 ## v0.8.1 (2026-11-15)
 
 ### Fixed
