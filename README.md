@@ -25,23 +25,27 @@ One import. Every pandas, scikit-learn and PySpark operation tracked, anomalies 
 import autolineage.auto        # that's the whole setup
 
 import pandas as pd
+from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score
 
-df = pd.read_csv("data.csv").dropna()
-X = df.drop(columns=['target'])
-y = df['target']
-X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2)
+df = load_breast_cancer(as_frame=True).frame.dropna()
+df = df[df["mean radius"] < 25]
+X = df.drop(columns=["target"])
+y = df["target"]
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=0)
 
-model = RandomForestClassifier().fit(X_tr, y_tr)
+model = RandomForestClassifier(n_estimators=100, random_state=0).fit(X_tr, y_tr)
 preds = model.predict(X_te)
 score = f1_score(y_te, preds)
 
 # AutoLineage has tracked every line above into one DAG.
 from autolineage.auto import get_tracker
-get_tracker().visualize()      # opens an interactive lineage graph
+get_tracker().visualize("trace.html", open_browser=False)
 ```
+
+The same script is [`examples/pipeline.py`](examples/pipeline.py). It uses the public Wisconsin breast cancer dataset shipped with scikit-learn, so it runs without a data file.
 
 **Try it in 30 seconds:** [open the quickstart in Colab](https://colab.research.google.com/github/kishanraj41/autolineage/blob/main/examples/quickstart.ipynb) (installs the package, tracks a pipeline, plants a bug, watches it get caught), or run the GIF above yourself:
 
@@ -101,7 +105,8 @@ Exit code 1 means a check failed. Exit code 2 means the script failed, the basel
 ## Installation
 
 ```bash
-# Base install (pandas tracking only)
+# Base install. pandas is installed with it. scikit-learn and PySpark
+# are tracked when those packages are already installed.
 pip install autolineage
 
 # Recommended: include sklearn support (most common ML stack)
@@ -127,10 +132,11 @@ import autolineage.auto         # MUST be the first autolineage line in your scr
 
 # Use pandas / sklearn / pyspark normally — every operation is tracked
 import pandas as pd
-df = pd.read_csv("data.csv").dropna().drop_duplicates()
+from sklearn.datasets import load_breast_cancer
+df = load_breast_cancer(as_frame=True).frame.dropna().drop_duplicates()
 
 from autolineage.auto import get_tracker
-get_tracker().visualize()       # opens HTML graph in your browser
+get_tracker().visualize("trace.html", open_browser=False)
 ```
 
 > **Why first?** `import autolineage.auto` patches framework methods at import time. If your script or notebook does `from sklearn.metrics import f1_score` (or `from pandas import merge`, etc.) *before* this line, AutoLineage rebinds that name in `__main__` to the tracked version and warns you that it did. Names imported early inside *other* modules can't be rebound and still bypass tracking, so putting `import autolineage.auto` at the top remains the clean fix. Set `AUTOLINEAGE_REBIND_EARLY_IMPORTS=0` to keep early imports untouched. Set `AUTOLINEAGE_SOURCE_STAMP=0` to keep the caller's file, line, and filter expression out of records and fingerprints.
@@ -271,7 +277,7 @@ Per-call cost of one hooked operation (`df.dropna()` on a 50-row DataFrame, medi
 
 These numbers come from one session on the machine named above. A later session of the same script measured a median overhead of 216 µs, and the uninstrumented baseline in that session was about twice as slow. The machine for that session is not recorded with the trials, so rerun `paper/microbenchmark_v2.py` on your own hardware. Evaluation on real third-party scripts is in [`benchmarks/real/`](benchmarks/real/) (small so far: 2 scorable faults on the held-out set).
 
-At production data scales (≥10⁵ rows), end-to-end overhead becomes indistinguishable from baseline variance because framework computation dominates wall-clock time. See `paper/scaling_results.csv` for the full scaling study.
+At large data scales (≥10⁵ rows), end-to-end overhead becomes indistinguishable from baseline variance because framework computation dominates wall-clock time. See `paper/scaling_results.csv` for the full scaling study.
 
 ---
 
