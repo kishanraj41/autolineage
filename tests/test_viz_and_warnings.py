@@ -304,7 +304,7 @@ class TestEarlyImportWarning:
 
             messages = [str(w.message) for w in captured
                         if issubclass(w.category, UserWarning)]
-            assert any("imported BEFORE install_all" in m for m in messages), (
+            assert any("rebound in __main__" in m and "f1_score" in m for m in messages), (
                 f"Expected early-import warning, got: {messages}"
             )
         finally:

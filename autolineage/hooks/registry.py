@@ -121,6 +121,28 @@ class HookRegistry:
                 found[id(orig)] = (orig, current, f"{owner_path}.{name}")
         return found
 
+    @staticmethod
+    def _binding_to_rebind(val, hooked):
+        """The hook entry a module binding should follow, or None.
+
+        ``val`` needs rebinding when it is the unhooked function, or a hook
+        left over from an earlier install. A hook this install just put in
+        place is left as it is. Class methods are looked up on the class at
+        call time, so only module-level functions reach this check.
+        """
+        if not callable(val):
+            return None
+        entry = hooked.get(id(val))
+        if entry is not None and val is entry[0]:
+            return entry
+        wrapped = getattr(val, "__wrapped__", None)
+        if wrapped is None:
+            return None
+        entry = hooked.get(id(wrapped))
+        if entry is None or wrapped is not entry[0] or val is entry[1]:
+            return None
+        return entry
+
     def rebind_module(self, module) -> List[Tuple[str, str]]:
         """Point a module's early ``from module import name`` bindings at the hooks.
 
@@ -140,8 +162,8 @@ class HookRegistry:
         for attr, val in items:
             if attr.startswith("_"):
                 continue
-            entry = hooked.get(id(val))
-            if entry is None or val is not entry[0]:
+            entry = self._binding_to_rebind(val, hooked)
+            if entry is None:
                 continue
             orig, replacement, public = entry
             leaked.append((attr, public))
@@ -169,18 +191,20 @@ class HookRegistry:
         names = ", ".join(f"{local} (= {public})" for local, public in sorted(leaked))
         if rebind:
             warnings.warn(
-                f"AutoLineage: {names} imported BEFORE install_all(); rebound in "
-                f"__main__ to the tracked versions, so these calls are now recorded. "
-                f"Put 'import autolineage.auto' first to avoid this, or set "
-                f"{REBIND_ENV_VAR}=0 to leave early imports untouched.",
+                f"AutoLineage: {names} rebound in __main__ to the tracked "
+                f"versions, so these calls are now recorded. The name was "
+                f"imported before the hooks were installed, or it still pointed "
+                f"at a hook from an earlier install. Put 'import autolineage.auto' "
+                f"first to avoid this, or set {REBIND_ENV_VAR}=0 to leave the "
+                f"name untouched.",
                 stacklevel=3,
             )
         else:
             warnings.warn(
-                f"AutoLineage: {names} imported BEFORE install_all() and will not "
-                f"be tracked ({REBIND_ENV_VAR}=0). Move the import after the "
-                f"autolineage hook installation, or put 'import autolineage.auto' "
-                f"at the very top of your script.",
+                f"AutoLineage: {names} will not be tracked "
+                f"({REBIND_ENV_VAR}=0). Move the import after the autolineage "
+                f"hook installation, or put 'import autolineage.auto' at the "
+                f"very top of your script.",
                 stacklevel=3,
             )
 

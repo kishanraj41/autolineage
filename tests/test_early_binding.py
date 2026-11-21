@@ -129,6 +129,31 @@ class TestUninstall:
         reg.uninstall_all()
         assert MAIN.f1_score is mine
 
+    def test_a_name_imported_during_tracking_is_rebound_on_restart(self, early):
+        o = _originals()
+        tracker, reg, _ = early()
+        import sklearn.metrics
+        MAIN.f1_score = sklearn.metrics.f1_score
+        stale = MAIN.f1_score
+        assert stale.__wrapped__ is o["f1"]
+        reg.uninstall_all()
+        HookRegistry._globally_installed.clear()
+        restarted = UnifiedTracker()
+        reg2 = HookRegistry()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            reg2.install_all(restarted)
+        try:
+            assert MAIN.f1_score is not stale
+            assert MAIN.f1_score.__wrapped__ is o["f1"]
+            MAIN.f1_score([0, 1, 1], [0, 1, 0])
+            ops = _ops(restarted)
+            assert "f1_score" in ops
+            assert "LabelEncoder.fit" not in ops
+        finally:
+            reg2.uninstall_all()
+            MAIN.__dict__.pop("f1_score", None)
+
     def test_reinstall_after_uninstall_rebinds_again(self, early):
         o = _originals()
         _, reg, _ = early(f1_score=o["f1"])
