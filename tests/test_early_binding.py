@@ -129,6 +129,31 @@ class TestUninstall:
         reg.uninstall_all()
         assert MAIN.f1_score is mine
 
+    def test_a_name_imported_during_tracking_is_rebound_on_restart(self, early):
+        o = _originals()
+        tracker, reg, _ = early()
+        import sklearn.metrics
+        MAIN.f1_score = sklearn.metrics.f1_score
+        stale = MAIN.f1_score
+        assert stale.__wrapped__ is o["f1"]
+        reg.uninstall_all()
+        HookRegistry._globally_installed.clear()
+        restarted = UnifiedTracker()
+        reg2 = HookRegistry()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            reg2.install_all(restarted)
+        try:
+            assert MAIN.f1_score is not stale
+            assert MAIN.f1_score.__wrapped__ is o["f1"]
+            MAIN.f1_score([0, 1, 1], [0, 1, 0])
+            ops = _ops(restarted)
+            assert "f1_score" in ops
+            assert "LabelEncoder.fit" not in ops
+        finally:
+            reg2.uninstall_all()
+            MAIN.__dict__.pop("f1_score", None)
+
     def test_reinstall_after_uninstall_rebinds_again(self, early):
         o = _originals()
         _, reg, _ = early(f1_score=o["f1"])
@@ -145,6 +170,34 @@ class TestUninstall:
         finally:
             reg2.uninstall_all()
         assert MAIN.f1_score is o["f1"]
+
+
+def test_user_wrapper_pointing_at_a_hook_survives_restart(monkeypatch):
+    """A function the user wrote, whose __wrapped__ is the installed hook,
+    stays that function across stop_tracking() and start_tracking()."""
+    monkeypatch.setenv("AUTOLINEAGE_QUIET", "1")
+    import autolineage.auto as auto
+
+    auto.stop_tracking()
+    HookRegistry._globally_installed.clear()
+    try:
+        auto.start_tracking()
+        import sklearn.metrics
+        hooked = sklearn.metrics.f1_score
+
+        def my_f1(y_true, y_pred, **kwargs):
+            return "user-value"
+
+        my_f1.__wrapped__ = hooked
+        MAIN.my_f1 = my_f1
+        auto.stop_tracking()
+        auto.start_tracking()
+        assert MAIN.my_f1 is my_f1
+        assert MAIN.my_f1([0, 1, 1], [0, 1, 0]) == "user-value"
+    finally:
+        auto.stop_tracking()
+        HookRegistry._globally_installed.clear()
+        MAIN.__dict__.pop("my_f1", None)
 
 
 class TestOptOutAndNoFalsePositives:

@@ -97,12 +97,6 @@ inserted. Operations are scored by a fixed weighted blend: row-change-rate devia
 column-count change is inherited by every later operation. The weights are a
 heuristic, not a learned model.
 
-Per-call overhead depends on the machine and session. For a small `dropna`, the
-committed run of `paper/microbenchmark_v2.py` measured a median of 84.7 µs per
-hooked call (95% CI [78, 91]). A later session of the same script measured a
-median of 216 µs, and the uninstrumented baseline in that session was about
-twice as slow. The machine for the later session is not recorded with the trials.
-
 # Research impact statement
 
 `AutoLineage` is at an early stage of research use; this section states only what
@@ -127,19 +121,9 @@ inside `hrf_conference.py`, and 1 is a harness limit: the unmutated hooked run
 exceeded the 600 s limit on the re-score; cause not captured. That mutation is line
 71, `loss[loss < 1] = 0`. AutoLineage flagged both scorable faults and ranked the
 mutated line first for 1 of the 2. Neither unmutated rerun raised a warning or a
-critical anomaly. Mean coverage of pipeline-call lines was 0.29. On the two scored
-faults, hooked and unhooked wall time differed by less than the run-to-run variance
-(n = 1 per condition); recorded operation time was 1.5 s and 2.6 s. These counts are
+critical anomaly. Mean coverage of pipeline-call lines was 0.29. These counts are
 too small for an accuracy claim. The corpus and scorer are published so a larger
 study can reuse them.
-
-`benchmarks/checks/` scores the baseline checks on eight synthetic cases written by
-the author, each modelled on a documented incident. The protocol
-(`benchmarks/checks/PROTOCOL.md`) was committed before the run. The aimed check
-reported six of the eight faults and named the faulty line in all six. It missed a
-running total truncated outside pandas, which leaves no recorded call, and a
-daylight-saving shift that keeps timestamps unique. The cases are synthetic, so this
-shows what the checks cover, not how often they catch faults in practice.
 
 The RudriQ project integrates `AutoLineage` through its post-record and `assign_id`
 callbacks, and several changes in versions 0.6–0.7 were made for that integration.

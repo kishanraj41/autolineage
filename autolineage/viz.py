@@ -711,5 +711,7 @@ def to_jupyter(tracker):
     try:
         from IPython.display import HTML  # noqa
     except ImportError:
-        raise RuntimeError("IPython is not installed; install autolineage[jupyter]")
+        raise RuntimeError(
+            'IPython is not installed. Run: pip install "autolineage[jupyter]"'
+        )
     return HTML(_build_html(tracker))

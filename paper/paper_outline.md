@@ -38,7 +38,7 @@ import autolineage.auto
 
 ### Four Contributions
 1. A **plugin architecture** (BaseHookProvider) extensible to any Python ML library
-2. **288 hooks** across pandas, scikit-learn, and PySpark with <10% overhead
+2. Hooks across pandas, scikit-learn, and PySpark. The live counts are in the README.
 3. **End-to-end trace** connecting raw data through metrics in one DAG
 4. **Lineage-based anomaly detection and root-cause localization** (novel)
 
@@ -75,7 +75,7 @@ None provide automatic, operation-level trace from read_csv to f1_score.
 - R1: **Zero code changes** — no decorators, no config
 - R2: **Operation-level granularity** — every dropna, merge, fit, predict
 - R3: **Cross-framework** — pandas, sklearn, PySpark, extensible
-- R4: **Low overhead** — <10% pipeline time
+- R4: **Low overhead** — measured per machine, not claimed here
 - R5: **End-to-end trace** — unified DAG from data through metrics
 - R6: **Actionable insights** — not just recording, but anomaly detection and
   root-cause analysis
@@ -135,7 +135,7 @@ Single in-memory DAG across libraries. Query API:
 - Handling `*args/**kwargs` for path resolution in write methods
 - `__getitem__` hook distinguishes select vs filter
 
-### 4.2 sklearn provider (175 hooks)
+### 4.2 sklearn provider (235 hooks)
 - train_test_split with ratio/size capture
 - 30+ estimator classes x {fit, predict, predict_proba, score}
 - 18 preprocessor classes x {fit, transform, fit_transform}
@@ -149,10 +149,10 @@ Single in-memory DAG across libraries. Query API:
 
 ### 4.4 Extensibility
 Table: hooks, lines of code, and effort per provider
-- pandas I/O: 10 hooks, ~100 LoC, 1 hour
-- pandas transforms: 54 hooks, ~280 LoC, 3 hours
-- sklearn: 175 hooks, ~500 LoC, 4 hours
-- PySpark: 49 hooks, ~450 LoC, 4 hours
+- pandas I/O: 10 hooks
+- pandas transforms: 60 hooks
+- sklearn: 235 hooks
+- PySpark: 49 hooks
 
 Adding XGBoost or LightGBM would follow the sklearn pattern; ~200 LoC each.
 
@@ -169,12 +169,9 @@ Adding XGBoost or LightGBM would follow the sklearn pattern; ~200 LoC each.
 ### 5.2 Pipeline 1: Credit Card Fraud Detection (pandas + sklearn)
 - Dataset: 284,807 transactions, 31 columns, fraud rate 0.173%
 - Operations tracked: [from output]
-- Results:
-  - RandomForest: Acc=0.9995, F1=0.83, AUC=0.987
-  - LogisticRegression (baseline): Acc=0.974, F1=0.11
-  - **Cross-library DAG**: pandas transforms feed into sklearn split, scaler,
-    fit, predict, and metrics — all in one trace
-- Table 3: operation-by-operation breakdown
+- No metric from this pipeline is published here. The script is `paper/credit_card_pipeline.py` and needs the Kaggle file.
+- **Cross-library DAG**: pandas transforms feed into sklearn split, scaler,
+  fit, predict, and metrics — all in one trace
 
 ### 5.3 Pipeline 2: PySpark Retail Analytics
 - Dataset: 541,909 transactions (UCI Online Retail)
@@ -189,19 +186,10 @@ participant and an AutoLineage participant. Those timings are not
 written.
 
 ### 5.5 Overhead benchmark
-- Standardized pipeline (50K rows, 37 operations)
-- WITHOUT AutoLineage: 0.050s +- 0.005s
-- WITH AutoLineage: 0.054s +- 0.007s
-- Overhead: 6.1% (0.08ms per operation)
-- Table 5: full benchmark numbers
-- Compared to typical MLflow logging overhead (~5-15% reported in literature)
+No overhead figure is published. A number stays only when `paper/microbenchmark_v2.py` is run on a named machine and the output is kept with that run.
 
 ### 5.6 Anomaly detection validation
-- Planted-bug pipeline triggers anomaly:
-  - `critical: filter removed 99.9% of rows`
-  - `critical: f1_score = 0.0 (model may not be learning)`
-- Root cause localization impact score: 0.99 (filter operation)
-- Demonstrates the analyzer catches what the raw trace makes visible
+The planted-bug pipeline is a regression test under `tests/regression/planted_bugs/`. It is not a result.
 
 ---
 
@@ -213,7 +201,7 @@ Follow comparison_2026.md. Key claims:
 - Arize, Langsmith: LLM observability, not traditional ML
 - DVC: file versioning, not in-memory operations
 - OpenLineage: job-level, not operation-level
-- DataLineagePy: wrapper-class approach, pandas-only
+- DataLineagePy: wrapper-class approach, limited to pandas
 - Spline: Spark-only, execution-plan level
 
 AutoLineage uniquely satisfies zero-code + operation-level + cross-framework +
@@ -252,7 +240,7 @@ Table 2 from comparison_2026.md goes here.
 - AutoLineage fills a real gap: zero-code, operation-level, end-to-end ML
   lineage
 - Plugin architecture extensible to any Python ML library
-- Published on PyPI, MIT license, tested and production-ready for
+- Published on PyPI, MIT license. Research-stage. Tested for
   single-process workflows
 - Novel contribution: lineage-based anomaly detection and root-cause
   localization
