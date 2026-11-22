@@ -2,15 +2,21 @@
 
 All notable changes to AutoLineage will be documented in this file.
 
-## Unreleased
+## v0.8.2 (2026-11-21)
 
 ### Fixed
 - Restarting tracking rebinds a name that still points at a hook from the previous install. `f1_score` and `train_test_split` imported while tracking was on, then used again after `stop_tracking()` and `start_tracking()`, are recorded on the new tracker. Internal calls those functions make, such as `LabelEncoder` inside a metric, stay off the graph.
-- The README quickstart no longer reads a `data.csv` that the repository does not contain. The sample script is the Wisconsin breast cancer example in `examples/pipeline.py`.
+- The README quickstart no longer reads a `data.csv` that the repository does not contain. The sample script uses the Wisconsin breast cancer dataset shipped with scikit-learn.
+- `to_jupyter` tells you the exact install command when IPython is missing: `pip install "autolineage[jupyter]"`. The notebook's install cell requests that extra. IPython stays out of the base install.
+
+### Removed
+- Overhead figures that this release does not reproduce, including the microbenchmark table in the README, the release notes, and `paper.md`.
+- The synthetic check-suite score table. It is not a result. The notes moved to `tests/regression/check_suite_notes.md`. `docs/benchmarks.md` no longer reports it. The planted-bug pipeline stays a regression test under `tests/regression/planted_bugs/`.
 
 ### Added
 - `docs/ONBOARDING.md` and GitHub issue forms for a bug, a silent failure, and a feature request.
 - `benchmarks/real/SELECTION_RULE.md` for any scoring run after the frozen study. The frozen protocol and its result files are unchanged.
+- Published hook counts match a live `install_all`: pandas-io 10, pandas-transforms 60, scikit-learn 235, PySpark 49 (PySpark 4.3.0).
 
 ## v0.8.1 (2026-11-15)
 
@@ -34,7 +40,7 @@ All notable changes to AutoLineage will be documented in this file.
 - `benchmarks/benchmark_overhead.py`. It imported `autolineage.df_tracker` and `autolineage.transform_hooks`, both removed in 0.6. The overhead number in the README comes from `paper/microbenchmark_v2.py`.
 
 ### Benchmark
-- The eight frozen cases in `benchmarks/checks/` were scored again on this build with no edit to a case, a tolerance or a contract. The result is identical: 6 caught and localized, 2 missed.
+- The eight frozen cases in `benchmarks/checks/` were scored again on this build with no edit to a case, a tolerance, or a contract. The result file was unchanged. That score is not a published result.
 
 ## v0.8.0 (2026-11-14)
 
@@ -83,7 +89,7 @@ Highlights: OpenTelemetry export (`autolineage[otel]`); column-set membership in
 - `pd.merge` and `pd.concat` hooks now honour the same reentrancy depth guard as the DataFrame method hooks. Previously a `concat` issued internally by another pandas call (e.g. inside `get_dummies`) was recorded as a top-level operation; it is not any more, so the `concat:N` keys of a fingerprint recorded with 0.6.3 may not line up with one recorded now for the same script.
 - The synthetic pipeline's harness is fixed for pandas 3.0, where string columns are `str` dtype rather than `object` and the old `dtype == object` filter crashed `StandardScaler`.
 - `docs/quickstart.md` rewritten for the current API.
-- README, RELEASE_NOTES and the JOSS paper described the 84.7 µs overhead figure as coming from a 37-operation pipeline. It comes from `paper/microbenchmark_v2.py`, which times one hooked call (`df.dropna()` on a 50-row DataFrame); the description now says so. The figure itself is unchanged.
+- README, RELEASE_NOTES and the JOSS paper described an overhead figure as coming from a 37-operation pipeline. It came from `paper/microbenchmark_v2.py`, which times one hooked call (`df.dropna()` on a 50-row DataFrame). That figure is no longer published.
 - Release workflow: runs in a `pypi` environment for PyPI trusted publishing, refuses to publish when the tag, `pyproject.toml` and `__version__` disagree, and runs `twine check --strict` before upload.
 
 ### Removed

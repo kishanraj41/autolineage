@@ -19,7 +19,7 @@ One import. Every pandas, scikit-learn and PySpark operation tracked, anomalies 
 
 <p align="center"><img src="https://raw.githubusercontent.com/kishanraj41/autolineage/main/docs/screenshots/autolineage-hero.gif" alt="AutoLineage catching an F1 collapse and localizing the cause to a single filter operation" width="760"></p>
 
-> **Your model's F1 dropped from 0.97 to 0.00 and nothing crashed.** No exception, no error, just a silently broken pipeline. AutoLineage records the complete path from `read_csv` to `f1_score`, then ranks the operations most likely to have caused the regression. No decorators, no config.
+> **A pipeline can finish with no exception and still be wrong.** AutoLineage records the path from the load to the metric, then ranks the operations most likely to have caused the change. No decorators, no config.
 
 ```python
 import autolineage.auto        # that's the whole setup
@@ -65,7 +65,7 @@ The script in the recording is [`examples/pipeline.py`](https://github.com/kisha
 
 ## Why AutoLineage?
 
-ML pipelines fail silently. A model whose F1 drops from 0.97 to 0.00 invites hours of `print(df.shape)` debugging. Experiment trackers need explicit logging (MLflow), data-version tools track files (DVC), and drift monitors cover one stage (Evidently, Arize). Research tools such as [mlinspect](https://github.com/stefan-grafberger/mlinspect) also patch pandas and scikit-learn, but inspect a single run against declared checks. AutoLineage's focus is the cross-run question: **between a good run and a bad one, which operation changed the data and the metric?**
+ML pipelines fail silently. A metric can collapse while the script exits 0, and the usual next step is `print(df.shape)`. Experiment trackers need explicit logging (MLflow), data-version tools track files (DVC), and drift monitors cover one stage (Evidently, Arize). Research tools such as [mlinspect](https://github.com/stefan-grafberger/mlinspect) also patch pandas and scikit-learn, but inspect a single run against declared checks. AutoLineage's focus is the cross-run question: **between a good run and a bad one, which operation changed the data and the metric?**
 
 AutoLineage closes that gap.
 
@@ -209,42 +209,15 @@ Every tracked operation becomes a span (`pandas-transforms.merge`, `sklearn.f1_s
 
 ## What Gets Tracked
 
-**pandas (70 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `to_datetime`, `to_numeric`, `Series.astype`, `groupby` + aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, plus 40+ more.
+**pandas-io (10 hooks):** `read_csv`, `to_csv`, `read_parquet`, `to_parquet`, and the other readers and writers.
 
-**scikit-learn (235 hooks):** `train_test_split`, estimator `fit` / `predict` / `predict_proba` / `score` across 30+ classes (RandomForest, LogisticRegression, DecisionTree, SVC, KNN, GradientBoosting, etc.), 18 preprocessor classes, `CountVectorizer` and `TfidfVectorizer`, 15 metric functions, and the construction of each hooked class (its parameters and the line that built it).
+**pandas-transforms (60 hooks):** `dropna`, `fillna`, `merge`, `concat`, `get_dummies`, `to_datetime`, `to_numeric`, `Series.astype`, `groupby` aggregations, `drop_duplicates`, boolean filtering, `assign`, `sort_values`, `pivot_table`, `melt`, and the other frame methods in `autolineage/hooks/pandas_transform.py`.
 
-**PySpark (49 hooks):** DataFrame transforms, `groupBy` + aggregations, join variants, reader / writer methods, actions.
+**scikit-learn (235 hooks):** `train_test_split`, estimator `fit` / `predict` / `predict_proba` / `score`, preprocessor methods, `CountVectorizer` and `TfidfVectorizer`, metric functions, and construction of each hooked class.
+
+**PySpark (49 hooks):** DataFrame transforms, `groupBy` aggregations, join variants, reader and writer methods, and actions. Counted with PySpark 4.3.0 installed.
 
 See [`autolineage/hooks/`](autolineage/hooks/) for the full list.
-
----
-
-## Example Output
-
-On a 284K-row credit card fraud detection pipeline (`paper/credit_card_pipeline.py`):
-
-```
- 1. [io        ] read_csv -> (284807, 31)                    [1280ms]
- 2. [transform ] drop_duplicates (-1,081 rows)                [827ms]
- 3. [transform ] filter (-284 rows)
- 4. [transform ] assign -> 36 cols                              [1ms]
- 5. [transform ] select -> 34 cols
- 6. [split     ] train_test_split (80/20)                     [218ms]
- 7. [preprocess] StandardScaler.fit_transform                 [201ms]
- 8. [preprocess] StandardScaler.transform                      [17ms]
- 9. [train     ] RandomForestClassifier.fit                 [88637ms]
-10. [train     ] LogisticRegression.fit                      [1138ms]
-11. [predict   ] RandomForestClassifier.predict               [332ms]
-12. [predict   ] LogisticRegression.predict                     [4ms]
-13. [predict   ] RandomForestClassifier.predict_proba         [311ms]
-14. [evaluate  ] accuracy_score    = 0.9995
-15. [evaluate  ] precision_score   = 0.8824
-16. [evaluate  ] recall_score      = 0.7895
-17. [evaluate  ] f1_score          = 0.8333
-18. [evaluate  ] roc_auc_score     = 0.9871
-```
-
-24 clean records. Zero noise. End-to-end trace from CSV to metrics.
 
 ---
 
@@ -265,19 +238,9 @@ Plugin-based. Each library is a single file implementing `BaseHookProvider`. Add
 
 ---
 
-## Performance
+## Real pipelines
 
-Per-call cost of one hooked operation (`df.dropna()` on a 50-row DataFrame, median of 10 x 10,000 calls per trial, 15 interleaved subprocess trials per condition, `paper/microbenchmark_v2.py`; Intel i7-12700H, Python 3.12, pandas 3.0):
-
-| Condition | Mean time per call | 95% CI |
-|---|---|---|
-| Baseline (no instrumentation) | 263.5 µs | ± 8.8 µs |
-| With AutoLineage | 348.2 µs | ± 9.0 µs |
-| **Overhead** | **84.7 µs / op** | **[78, 91]** |
-
-These numbers come from one session on the machine named above. A later session of the same script measured a median overhead of 216 µs, and the uninstrumented baseline in that session was about twice as slow. The machine for that session is not recorded with the trials, so rerun `paper/microbenchmark_v2.py` on your own hardware. Evaluation on real third-party scripts is in [`benchmarks/real/`](benchmarks/real/) (small so far: 2 scorable faults on the held-out set).
-
-At large data scales (≥10⁵ rows), end-to-end overhead becomes indistinguishable from baseline variance because framework computation dominates wall-clock time. See `paper/scaling_results.csv` for the full scaling study.
+The held-out study of third-party scripts is in [`benchmarks/real/`](benchmarks/real/). Its protocol was frozen before scoring. Two faults were scoreable. Coverage of pipeline-call lines on that re-score was 0.29.
 
 ---
 

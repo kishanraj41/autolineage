@@ -126,7 +126,7 @@ Sign up 👇
 **Tweet 2:**
 AutoLineage automatically tracks every pandas, sklearn, and PySpark operation across your pipeline with zero code changes.
 
-One `import`. 288 hooks. 6.1% overhead.
+One `import`. Pandas, scikit-learn, and PySpark.
 
 But I need real data on whether it actually helps debugging. That's where you come in.
 

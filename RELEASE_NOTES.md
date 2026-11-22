@@ -104,27 +104,13 @@ The most common AutoLineage user mistake is writing `from sklearn.metrics import
 
 The v4 manuscript was removed from the repository. It reported superseded figures, including a 100% recall claim. The held-out numbers are in `paper.md`. What that draft contained:
 
-- Hook counts synced to released code (64 / 175 / 49) throughout
+- Hook counts in that draft were already behind the released code
 - New §5.6 documenting the early-import failure mode and its mitigation
 - New §6 (six subsections) on Automated Diagnosis on Lineage Graphs, with run fingerprinting, anomaly detection algorithm, root-cause localization algorithm, and a complete planted-bug experiment
 - §6.2 reconciles the 37 listed steps with 24 captured operations via a new explanatory table
 - §7 (Threats to Validity) expanded from 3 to 4 fragility points; adds GC discussion and mechanized-proof gap
 - Real reproducibility commands with pinned versions (§6.5)
-- All performance numbers backed by raw CSV data committed to the repo (`paper/microbench_v2_results.csv`, `paper/scaling_results.csv`)
-
----
-
-## Performance
-
-Per-call cost of one hooked operation (`df.dropna()` on a 50-row DataFrame, median of 10 x 10,000 calls per trial, 15 interleaved subprocess trials per condition, `paper/microbenchmark_v2.py`; Intel i7-12700H, Python 3.12, pandas 3.0):
-
-| Condition | Mean per call | 95% CI |
-|---|---|---|
-| Baseline | 263.5 µs | ± 8.8 µs |
-| With AutoLineage | 348.2 µs | ± 9.0 µs |
-| **Overhead** | **84.7 µs / op** | **[78, 91]** |
-
-At production data scales (≥10⁵ rows), end-to-end overhead becomes indistinguishable from baseline variance because framework computation dominates wall-clock time. Full scaling study from 10³ to 10⁶ rows in `paper/scaling_results.csv`.
+- Performance tables in that draft were not carried forward
 
 ---
 

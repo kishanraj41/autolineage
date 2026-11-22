@@ -87,3 +87,56 @@ ASSUMED that a fresh scoring run would still produce those figures. `run_heldout
 1. Polars eager support. I did not start it. Say if you want it as the next version (0.8.2 or 0.9.0), and name the real pipeline it has to run on. I will not invent a benchmark number for it.
 2. The 84.7 µs table and the synthetic check-suite pages are still in the README and docs. Say if they should come out. I left the frozen held-out files and `PROTOCOL.md` untouched.
 3. Whether to release the fixes on this branch. I will not tag or publish unless you say so.
+
+## Round 2
+
+Still on `review/2026-11-21`. Not merged, not tagged, not published. No comment and no email.
+
+### Task A. Retired claims
+
+**What I did.** Removed overhead figures I did not reproduce in this session, and moved the synthetic check-suite score table out of the docs.
+
+**VERIFIED** by reading the files after the edit: the README, `paper.md`, and `RELEASE_NOTES.md` no longer contain the 84.7 µs table, the 216 µs figure, or the 263.5 / 348.2 µs rows. `docs/benchmarks.md` no longer states a score. The old page is now `tests/regression/check_suite_notes.md`.
+
+**ASSUMED:** no other overhead figure remains in a public page. I searched `*.md` for `84.7`, `µs`, and `6.1%`. The remaining hit for a score is the historical note that moved into `tests/regression/check_suite_notes.md`, plus this report.
+
+Files changed for this task:
+
+- `README.md` (overhead table, scaling claim, credit-card timing block, and the 0.97-to-0.00 sentences)
+- `paper.md` (microbenchmark paragraph, wall-time sentence, synthetic check-suite paragraph)
+- `RELEASE_NOTES.md` (performance table and the "production data scales" sentence)
+- `paper/paper_outline.md` (overhead percentages and planted-bug metric lines)
+- `paper/recruitment.md` (the 6.1% line)
+- `docs/benchmarks.md` (replaced the score page)
+- `tests/regression/check_suite_notes.md` (the moved notes)
+- `CHANGELOG.md` (the old entry no longer repeats the overhead figure or the check-suite score as a result)
+
+The held-out line in the README stays: two scoreable faults and coverage 0.29. **VERIFIED** that those figures are what `benchmarks/real/heldout_results/summary.json` already stores (`n_scored` 2, `mean_coverage` 0.29166666666666663). **ASSUMED** that a new scoring run would match. I did not run one, and I did not edit `PROTOCOL.md` or the result files.
+
+`paper.md` is 1,219 words after the cuts. **VERIFIED** by counting tokens in the body.
+
+### Task B. Hook counts
+
+**VERIFIED** in the project venv, Python 3.12: `install_all` returned pandas-io 10, pandas-transforms 60, scikit-learn 235.
+
+**VERIFIED** in a new venv at `%TEMP%\al_pyspark_count` with PySpark 4.3.0 and Python 3.12.4: `PySparkHooks.install` returned 49.
+
+The README, `paper/paper_outline.md`, and the changelog now use those four numbers. `tests/test_hook_counts.py` locks the pandas and scikit-learn counts. The PySpark assertion runs only when PySpark is installed. In the project venv that test is skipped. **VERIFIED** the skip: the focused run was `18 passed, 1 skipped`.
+
+### Task C. First-run failures
+
+The README hero uses `load_breast_cancer`, which is bundled with scikit-learn, so a clean directory needs no data file. **VERIFIED:** `tests/test_readme_hero.py` copies that block into a temp directory and runs it. It is included in the full suite below.
+
+`to_jupyter` raises `RuntimeError` with the text `pip install "autolineage[jupyter]"`. IPython stays out of the base install so a tracking install does not pull notebook packages. The notebook install cell already requests the `jupyter` extra, which is what Colab and a local run of that cell both execute. **VERIFIED** by reading `autolineage/viz.py` and the notebook source. I did not re-run the notebook in this round.
+
+### Task D. v0.8.2, not published
+
+**VERIFIED:** `pyproject.toml` and `autolineage/__init__.py` both say `0.8.2`. The changelog section is `v0.8.2 (2026-11-21)`.
+
+**VERIFIED:** full suite in the project venv: `183 passed, 1 skipped in 82.88s (0:01:22)`. The skip is `test_pyspark_hook_count`, because this venv has no PySpark. The count of 49 is from the throwaway venv above.
+
+No tag and no GitHub release.
+
+### Task E. Not started
+
+Waiting until you say the `v0.8.2` tag is on PyPI. Python 3.11 is still not installed on this machine.
