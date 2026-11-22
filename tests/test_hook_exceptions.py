@@ -30,9 +30,12 @@ def test_a_failing_pandas_call_does_not_hide_the_next(tracker):
 def test_dropna_returns_the_same_rows_as_the_unhooked_method(tracker):
     frame = pd.DataFrame({"a": [1.0, None, 3.0]})
     hooked = frame.dropna()
+    # Read the records before the raw call. Some pandas builds implement
+    # dropna in a way that then calls Series.astype with no pandas frame
+    # on the stack, and that cast is recorded on its own.
+    assert [rec.operation for rec in tracker.records] == ["dropna"]
     plain = pd.DataFrame.dropna.__wrapped__(pd.DataFrame({"a": [1.0, None, 3.0]}))
     pd.testing.assert_frame_equal(hooked, plain)
-    assert [rec.operation for rec in tracker.records] == ["dropna"]
 
 
 def test_a_failing_fit_does_not_hide_the_next(tracker):
