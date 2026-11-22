@@ -20,7 +20,7 @@ The base install always brings pandas. The `sklearn` extra also installs scikit-
 python examples/pipeline.py
 ```
 
-One run of that script with AutoLineage 0.8.1, Python 3.12, on 21 November 2026 printed:
+One run of `examples/pipeline.py` on this branch (0.8.2), Python 3.12.4, on 21 November 2026 printed:
 
 ```
 AutoLineage: 305 hooks installed across 3 frameworks (pandas-io, pandas-transforms, sklearn)
@@ -50,7 +50,7 @@ A second run of the same dataset with the filter `mean radius < 10` instead of `
 [critical] filter row change: -522 (baseline: -5, 10340% deviation)
 ```
 
-The recorded F1 rose on that run (0.9693 to 1.0000), so `localize_root_cause("f1_score")` returned no cause. Localization names an operation when a recorded metric falls. The explanation names the operation and the step, for example a filter whose row change is the one tied to the metric drop.
+The recorded F1 rose on that run (0.9693 to 1.0), so `localize_root_cause("f1_score")` returned no cause. Localization names an operation when a recorded metric falls. The explanation names the operation and the step, for example a filter whose row change is the one tied to the metric drop.
 
 ## Report a silent failure
 

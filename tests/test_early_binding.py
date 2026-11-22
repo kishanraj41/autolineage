@@ -172,6 +172,34 @@ class TestUninstall:
         assert MAIN.f1_score is o["f1"]
 
 
+def test_user_wrapper_pointing_at_a_hook_survives_restart(monkeypatch):
+    """A function the user wrote, whose __wrapped__ is the installed hook,
+    stays that function across stop_tracking() and start_tracking()."""
+    monkeypatch.setenv("AUTOLINEAGE_QUIET", "1")
+    import autolineage.auto as auto
+
+    auto.stop_tracking()
+    HookRegistry._globally_installed.clear()
+    try:
+        auto.start_tracking()
+        import sklearn.metrics
+        hooked = sklearn.metrics.f1_score
+
+        def my_f1(y_true, y_pred, **kwargs):
+            return "user-value"
+
+        my_f1.__wrapped__ = hooked
+        MAIN.my_f1 = my_f1
+        auto.stop_tracking()
+        auto.start_tracking()
+        assert MAIN.my_f1 is my_f1
+        assert MAIN.my_f1([0, 1, 1], [0, 1, 0]) == "user-value"
+    finally:
+        auto.stop_tracking()
+        HookRegistry._globally_installed.clear()
+        MAIN.__dict__.pop("my_f1", None)
+
+
 class TestOptOutAndNoFalsePositives:
     def test_env_var_disables_rebinding(self, early, monkeypatch):
         monkeypatch.setenv(REBIND_ENV_VAR, "0")

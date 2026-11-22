@@ -201,7 +201,7 @@ Follow comparison_2026.md. Key claims:
 - Arize, Langsmith: LLM observability, not traditional ML
 - DVC: file versioning, not in-memory operations
 - OpenLineage: job-level, not operation-level
-- DataLineagePy: wrapper-class approach, pandas-only
+- DataLineagePy: wrapper-class approach, limited to pandas
 - Spline: Spark-only, execution-plan level
 
 AutoLineage uniquely satisfies zero-code + operation-level + cross-framework +
@@ -240,7 +240,7 @@ Table 2 from comparison_2026.md goes here.
 - AutoLineage fills a real gap: zero-code, operation-level, end-to-end ML
   lineage
 - Plugin architecture extensible to any Python ML library
-- Published on PyPI, MIT license, tested and production-ready for
+- Published on PyPI, MIT license. Research-stage. Tested for
   single-process workflows
 - Novel contribution: lineage-based anomaly detection and root-cause
   localization
